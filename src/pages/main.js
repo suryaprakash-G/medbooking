@@ -27,10 +27,16 @@ class Main extends React.Component{
         else{this.hidebox();}
         console.log("s "+this.state.show);;
     }
+    //show and hide popup variants
     showlg(){this.setState({show:'login'});}
     showsgp(){this.setState({show:'signup'});}
     hidebox(){this.setState({show:'false'});}
-    
+    //change textbox values
+    c_mail(){}
+    c_pass(){}
+    c_pass2(){}
+    c_phone(){}
+
     render(){
         return(
         <div className="main-page">
@@ -39,27 +45,30 @@ class Main extends React.Component{
             <div id="myModal" className="modal">
                 <div className="modal-content">
                     <span className="close" onClick={this.hidebox}>&times;</span>
-                    <row>
-                        <button  onClick={this.showlg}>login</button>
-                        <button  onClick={this.showsgp}>signup</button>
+                        
+                    <row className="container">
+                        <button  onClick={this.showlg} className="buttons">
+                            <div className={(this.state.show=="login")?"selected container":""}>Login</div></button>
+                        <button  onClick={this.showsgp} className="buttons">
+                            <div className={(this.state.show=="signup")?"selected container":""}>Signup</div></button>
                     </row>
                     {(this.state.show==='login')?
-                    <form className='flex-container'>login
-                        <label className="mail" >Email:</label>
-                            <input value={this.state.mail} className="mail" />
-                        <label className="pass" >Password:</label>
-                            <input value={this.state.pass} type="password" className="pass" />
-                    </form>:
-                    <form className='flex-container'>signup
-                        <label className="mail" >Email:</label>
-                            <input value={this.state.mail} className="mail" />
-                        <label className="pass" >Password:</label>
-                            <input value={this.state.pass} type="password" className="pass" />
-                        <label className="pass" >retype Password:</label>
-                            <input value={this.state.pass2} type="password" className="pass" />
-                        <label className="phno" >phone number:</label>
-                            <input value={this.state.phno} className="phno" />
-                    </form>
+                    <form className='flex-container'>
+                            <input  className="mail inputbox" placeholder="Email" />
+                                <div/>
+                            <input  type="password" className="pass inputbox" placeholder="Password" />
+                            <button className="submit">Login</button>
+                            </form>:
+                    <form className='flex-container'>
+                            <input  className="mail inputbox" placeholder="Email" />
+                                <div/>
+                            <input  className="pass inputbox" type="password" placeholder="Password" />
+                                <div/>
+                            <input  className="pass2 inputbox" type="password" placeholder="Retype Password" />
+                                <div/>
+                            <input  className="phno inputbox" placeholder="Phone Number" />
+                            <button className="submit">Signup</button>
+                            </form>
                 }
                 </div>
             </div>

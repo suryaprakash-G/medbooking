@@ -2,8 +2,9 @@
     display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    left: 0;
     top: 0;
+    align-self: center;
+    align-content: center;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
@@ -12,16 +13,46 @@
   }
   /* Modal Content/Box */
   .modal-content {
+    transition-delay: 500ms;
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    margin-left: 10;
-    margin-right: 10;
-    padding: 20px;
+    margin: 160px auto; /* 15% from the top and centered */
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 30px;
     border: 1px solid #888;
     width: 650px; 
     /* Could be more or less, depending on screen size */
   }
-  
+  .inputbox{
+      margin: 20px;
+      margin-top: 20px;
+      padding: 10px;
+      border-width: 3px;
+      border-style: solid;
+      border-color: #f570ae;
+  }
+  .submit:focus{
+      outline: #f570ae;
+      scale: 150%;
+      
+  }
+  .buttons:focus,.submit:focus {
+    outline: none;
+  }
+  .submit:hover{
+    background-color: #ff62ab;
+    transition-duration: 10ms;
+  }
+  .buttons{
+      padding-left: 70px;
+      padding-right: 70px;
+      font-size: 30px;
+      color: #555;
+      width: 50%;;
+      background: transparent;
+      border: #f570ae;
+      outline: none;
+  }
   /* The Close Button */
   .close {
     color: #aaa;
@@ -43,4 +74,17 @@
   .flex-container {
     display: flex;
     flex-direction: column;
+  }
+  .submit{
+    font-size: 30px;
+      align-self: center;
+      background: #f570ae;
+      color: #fff;
+      border: none;
+      border-radius: 20px 20px;
+      width: 30%;
+      height: 45px;
+  }
+  .selected{
+      border-bottom: 10px solid #f570ae;
   }

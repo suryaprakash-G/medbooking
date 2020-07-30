@@ -14,5 +14,5 @@ ReactDOM.render(
         <Route path="/book" component={Appointment} exact={true}/>
         </Switch>
       </Router>,
-  document.getElementById('root')
+  document.getElementById('rootc')
 );
