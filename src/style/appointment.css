@@ -1,0 +1,21 @@
+
+.appointment{
+    height: 100%;
+}
+.sidepan{
+    height: 100%;
+    background-color: #ff62ab;
+}
+.main{
+
+    height: 100%;
+}
+.header{
+    font-size: 40px;
+    color: #ff62ab;
+    padding-left: 10%;
+}
+hr.solid{
+    border-top: 2px solid #fff;
+    border-radius: 2px;
+}
