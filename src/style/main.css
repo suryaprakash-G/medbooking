@@ -97,3 +97,8 @@
     color: #333;
       border-bottom: 10px solid #f570ae;
   }
+  .icons{
+    height: 40px;
+    width: 40px;
+    margin: 3%;
+  }

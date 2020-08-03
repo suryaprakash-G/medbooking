@@ -1,5 +1,7 @@
 import React from 'react';
 import '../style/main.css';
+import gl from '../img/google.png';
+import fb from '../img/facebook.png';
 
 class Main extends React.Component{
     constructor(props){
@@ -72,12 +74,20 @@ class Main extends React.Component{
                     </div>
                     {(this.state.show==='login')?
                     <form className='flex-container'>
+                            <row>
+                                <img src={gl} className="icons"/>
+                                <img src={fb} className="icons"/>
+                            </row>
                             <input value={this.state.mail} onChange={this.c_mail} className="mail inputbox" placeholder="Email" />
                                 <div/>
                             <input  type="password" className="pass inputbox" placeholder="Password" />
                             <button className="submit" onClick={this.login}>Login</button>
                             </form>:
                     <form className='flex-container'>
+                            <row>
+                                <img src={gl} className="icons"/>
+                                <img src={fb} className="icons"/>
+                            </row>
                             <input  className="mail inputbox" placeholder="Email" />
                                 <div/>
                             <input  className="pass inputbox" type="password" placeholder="Password" />
