@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import '../style/main.css';
 import gl from '../img/google.png';
 import fb from '../img/facebook.png';
@@ -40,7 +41,15 @@ class Main extends React.Component{
         e.preventDefault();
     }
     login(e){
+        const user = {
+            mail: this.state.mail
+          };
         console.log("mail : "+this.state.mail);
+        axios.post(`http://127.0.0.1:3002/login`,{ crossDomain: true }, { user })
+        .then(res => {
+          console.log(res);
+  //        console.log(res.data);
+        })
         e.preventDefault();
     }
     signup(e){
