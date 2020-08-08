@@ -42,17 +42,24 @@ class Main extends React.Component{
     }
     login(e){
         const user = {
-            mail: this.state.mail
+            mail: this.state.mail,
+            pass: this.state.pass
           };
-        console.log("mail : "+this.state.mail);
-        axios.post(`http://127.0.0.1:3002/login`,{ crossDomain: true }, { user })
+          //alert("maapi");//192.168.29.58
+        axios.post(`http://localhost:3002/login`, { user })
         .then(res => {
-          console.log(res);
-  //        console.log(res.data);
+          console.log(res.data);
+//          alert(res);
         })
         e.preventDefault();
     }
     signup(e){
+        axios.options(`http://localhost:3002/login/op`,{ crossDomain: true })
+        .then(res => {
+          console.log(res);
+          alert(res);
+  //        console.log(res.data);
+        })
         e.preventDefault();
     }
     
