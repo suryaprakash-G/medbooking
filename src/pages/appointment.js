@@ -8,8 +8,12 @@ class Appointment extends React.Component{
             <div className="sidepan col-3">
                 <Back/>
                 <hr class="solid"></hr>
-                <div>
-                    
+                <div className="calander">
+                    <table>
+                        <row>
+                            
+                        </row>
+                    </table>
                 </div>
             </div>
             <div className="main col-9">
