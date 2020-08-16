@@ -12,6 +12,8 @@ class Main extends React.Component{
         pass:'',
         pass2:'',
         phno:'',
+        addr:'',
+        gen:'',
         passlen:'6',
         show:'false'
         }
@@ -26,6 +28,8 @@ class Main extends React.Component{
         this.c_pass = this.c_pass.bind(this)
         this.c_pass2 = this.c_pass2.bind(this)
         this.c_phone = this.c_phone.bind(this)
+        this.c_gen = this.c_gen.bind(this)
+        this.c_addr = this.c_addr.bind(this)
       }
       componentWillMount(){
           document.addEventListener('mousedown',this.cick)
@@ -46,7 +50,7 @@ class Main extends React.Component{
             pass: this.state.pass
           };
           //alert("maapi");//192.168.29.58
-        axios.post(`http://localhost:3002/login`, { user })
+        axios.post(`http://localhost:3002/login/op`, { user })
         .then(res => {
           console.log(res.data);
 //          alert(res);
@@ -54,11 +58,23 @@ class Main extends React.Component{
         e.preventDefault();
     }
     signup(e){
-        axios.options(`http://localhost:3002/login/op`,{ crossDomain: true })
+        const user = {
+            mail: this.state.mail,
+            pass: this.state.pass,
+            phno: this.state.phno,
+            addr: this.state.addr,
+            gen: this.state.gen,
+          };
+          /*
+          axios.options(`http://localhost:3002/login/op`,{ crossDomain: true })
         .then(res => {
           console.log(res);
-          alert(res);
-  //        console.log(res.data);
+          console.log(res.data);
+        })*/
+        axios.get(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{ user })
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
         })
         e.preventDefault();
     }
@@ -72,7 +88,8 @@ class Main extends React.Component{
     c_pass(e){this.setState({ pass: e.currentTarget.value});}
     c_pass2(e){this.setState({ pass2: e.currentTarget.value});}
     c_phone(e){this.setState({ phno: e.currentTarget.value});}
-
+    c_addr(e){this.setState({addr:e.currentTarget.value});}
+    c_gen(e){this.setState({gen:e.currentTarget.value});}
     render(){
         return(
         <div className="main-page container-fluid">
@@ -111,6 +128,12 @@ class Main extends React.Component{
                             <input  className="pass2 inputbox" type="password" placeholder="Retype Password" />
                                 <div/>
                             <input  className="phno inputbox" placeholder="Phone Number" />
+                            <input  className="addr inputbox" placeholder="Address" />
+                            <select ClassName="Gen"  value={this.state.gen} onChange={this.c_gen}>
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Other">Other</option>
+                            </select>
                             <button className="submit" onClick={this.signup}>Signup</button>
                             </form>
                 }

@@ -10,9 +10,15 @@ class Appointment extends React.Component{
                 <hr class="solid"></hr>
                 <div className="calander">
                     <table>
-                        <row>
-                            
-                        </row>
+                        <tr>
+                            <th>sun</th>
+                            <th>mon</th> 
+                            <th>tue</th>
+                            <th>wed</th>
+                            <th>thu</th>
+                            <th>fri</th>
+                            <th>sat</th>
+                  </tr>
                     </table>
                 </div>
             </div>
