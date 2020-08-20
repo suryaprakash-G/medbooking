@@ -58,27 +58,23 @@ class Main extends React.Component{
         e.preventDefault();
     }
     signup(e){
-        const user = {
+        var user = {
             mail: this.state.mail,
             pass: this.state.pass,
             phno: this.state.phno,
             addr: this.state.addr,
             gen: this.state.gen,
           };
-          /*
-          axios.options(`http://localhost:3002/login/op`,{ crossDomain: true })
-        .then(res => {
-          console.log(res);
-          console.log(res.data);
-        })*/
-        axios.get(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{ user })
+        axios.get(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{params: {
+            product: "aapu"
+          }})
         .then(res => {
           console.log(res);
           console.log(res.data);
         })
         e.preventDefault();
     }
-    
+
     //show and hide popup variants
     showlg(){this.setState({show:'login'});}
     showsgp(){this.setState({show:'signup'});}
@@ -108,8 +104,8 @@ class Main extends React.Component{
                     {(this.state.show==='login')?
                     <form className='flex-container'>
                             <row>
-                                <img src={gl} className="icons"/>
-                                <img src={fb} className="icons"/>
+                                <img src={gl} className="icons" alt="google"/>
+                                <img src={fb} className="icons" alt="facebook"/>
                             </row>
                             <input value={this.state.mail} onChange={this.c_mail} className="mail inputbox" placeholder="Email" />
                                 <div/>
@@ -118,8 +114,8 @@ class Main extends React.Component{
                             </form>:
                     <form className='flex-container'>
                             <row>
-                                <img src={gl} className="icons"/>
-                                <img src={fb} className="icons"/>
+                                <img src={gl} className="icons" alt="google"/>
+                                <img src={fb} className="icons" alt="facebook"/>
                             </row>
                             <input  className="mail inputbox" placeholder="Email" />
                                 <div/>
