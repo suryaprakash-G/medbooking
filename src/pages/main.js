@@ -13,7 +13,7 @@ class Main extends React.Component{
         pass2:'',
         phno:'',
         addr:'',
-        gen:'',
+        gen:'Female',
         passlen:'6',
         show:'false'
         }
@@ -65,13 +65,11 @@ class Main extends React.Component{
             addr: this.state.addr,
             gen: this.state.gen,
           };
-        axios.get(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{params: {
-            product: "aapu"
-          }})
+        axios.post(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{user})
         .then(res => {
           console.log(res);
-          console.log(res.data);
         })
+        console.log(this.state);
         e.preventDefault();
     }
 
@@ -109,7 +107,7 @@ class Main extends React.Component{
                             </row>
                             <input value={this.state.mail} onChange={this.c_mail} className="mail inputbox" placeholder="Email" />
                                 <div/>
-                            <input  type="password" className="pass inputbox" placeholder="Password" />
+                            <input value={this.state.pass} onChange={this.c_pass} type="password" className="pass inputbox" placeholder="Password" />
                             <button className="submit" onClick={this.login}>Login</button>
                             </form>:
                     <form className='flex-container'>
@@ -117,14 +115,14 @@ class Main extends React.Component{
                                 <img src={gl} className="icons" alt="google"/>
                                 <img src={fb} className="icons" alt="facebook"/>
                             </row>
-                            <input  className="mail inputbox" placeholder="Email" />
+                            <input value={this.state.mail} onChange={this.c_mail}  className="mail inputbox" placeholder="Email" />
                                 <div/>
-                            <input  className="pass inputbox" type="password" placeholder="Password" />
+                            <input value={this.state.pass} onChange={this.c_pass}  className="pass inputbox" type="password" placeholder="Password" />
                                 <div/>
-                            <input  className="pass2 inputbox" type="password" placeholder="Retype Password" />
+                            <input value={this.state.pass2} onChange={this.c_pass2}  className="pass2 inputbox" type="password" placeholder="Retype Password" />
                                 <div/>
-                            <input  className="phno inputbox" placeholder="Phone Number" />
-                            <input  className="addr inputbox" placeholder="Address" />
+                            <input value={this.state.phno} onChange={this.c_phone} className="phno inputbox" placeholder="Phone Number" />
+                            <input value={this.state.addr} onChange={this.c_addr} className="addr inputbox" placeholder="Address" />
                             <select ClassName="Gen"  value={this.state.gen} onChange={this.c_gen}>
                                     <option value="Female">Female</option>
                                     <option value="Male">Male</option>
