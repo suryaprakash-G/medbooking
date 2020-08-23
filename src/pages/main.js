@@ -50,7 +50,7 @@ class Main extends React.Component{
             pass: this.state.pass
           };
           //alert("maapi");//192.168.29.58
-        axios.post(`http://localhost:3002/login/op`, { user })
+        axios.post(`https://9k1attlbyd.execute-api.ap-south-1.amazonaws.com/test`, { user })
         .then(res => {
           console.log(res.data);
 //          alert(res);
