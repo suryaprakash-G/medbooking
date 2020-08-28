@@ -50,7 +50,7 @@ class Main extends React.Component{
             pass: this.state.pass
           };
           //alert("maapi");//192.168.29.58
-        axios.post(`https://9k1attlbyd.execute-api.ap-south-1.amazonaws.com/test`, { user })
+        axios.post(`https://9k1attlbyd.execute-api.ap-south-1.amazonaws.com/test`,  user )
         .then(res => {
           console.log(res.data);
 //          alert(res);
@@ -65,7 +65,13 @@ class Main extends React.Component{
             addr: this.state.addr,
             gen: this.state.gen,
           };
-        axios.post(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{user})
+        axios.post(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{
+            mail: this.state.mail,
+            pass: this.state.pass,
+            phno: this.state.phno,
+            addr: this.state.addr,
+            gen: this.state.gen,
+          })
         .then(res => {
           console.log(res);
         })
