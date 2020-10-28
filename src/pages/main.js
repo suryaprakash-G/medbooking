@@ -52,9 +52,9 @@ class Main extends React.Component{
           //alert("maapi");//192.168.29.58
         axios.post(`https://9k1attlbyd.execute-api.ap-south-1.amazonaws.com/test`,  user )
         .then(res => {
-          console.log(res.data.body);
-          var ath=res.data.body;
-          if(ath=="logged in"){
+            console.log(res.data.body);
+          if(res.data.body==="loged in"){
+            console.log(res.data.body);
             this.props.history.push('/book');
           }
         })
