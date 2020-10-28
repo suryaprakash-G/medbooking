@@ -52,8 +52,11 @@ class Main extends React.Component{
           //alert("maapi");//192.168.29.58
         axios.post(`https://9k1attlbyd.execute-api.ap-south-1.amazonaws.com/test`,  user )
         .then(res => {
-          console.log(res.data);
-//          alert(res);
+          console.log(res.data.body);
+          var ath=res.data.body;
+          if(ath=="logged in"){
+            this.props.history.push('/book');
+          }
         })
         e.preventDefault();
     }
@@ -73,9 +76,12 @@ class Main extends React.Component{
             gen: this.state.gen,
           })
         .then(res => {
-          console.log(res);
+          //console.log(res.data["result"]);
+          if(res.data["result"]=="signed up"){
+              alert("signed up check mail to verify account");
+          }
         })
-        console.log(this.state);
+        
         e.preventDefault();
     }
 
