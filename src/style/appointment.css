@@ -10,8 +10,23 @@
 .main{
     height: 100%;
 }
+.doc{
+    color: white;
+    font-size: 30px;
+    padding: 30px;
+}
+.dp{
+    background-color: skyblue;
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+}
+td{
+    width: 200px;
+}
 .calander{
-    
+    width: 100%;
+    border: 1px solid black;
 }
 .header{
     font-size: 40px;

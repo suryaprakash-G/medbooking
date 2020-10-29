@@ -7,7 +7,16 @@ class Appointment extends React.Component{
         <div className="appointment container-fluid row">
             <div className="sidepan col-3">
                 <Back/>
-                <hr class="solid"></hr>
+                <hr className="solid"></hr>
+                <row className="row">
+                    <div className="dp"></div>
+                    <div className="doc">surya</div>
+                </row>
+            </div>
+            <div className="main col-9">
+                <div className="header">
+                Appointment
+                </div>
                 <div className="calander">
                     <table>
                         <tr>
@@ -18,13 +27,17 @@ class Appointment extends React.Component{
                             <th>thu</th>
                             <th>fri</th>
                             <th>sat</th>
-                  </tr>
+                        </tr>
+                        <tr>
+                                <td>9:00 am</td>
+                                <td>9:00 am</td>
+                                <td>9:00 am</td>
+                                <td>9:00 am</td>
+                                <td>9:00 am</td>
+                                <td>9:00 am</td>
+                                <td>9:00 am</td>
+                        </tr>
                     </table>
-                </div>
-            </div>
-            <div className="main col-9">
-                <div className="header">
-                Appointment
                 </div>
             </div>
         </div>
