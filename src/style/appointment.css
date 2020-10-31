@@ -13,14 +13,41 @@
 .doc{
     color: white;
     font-size: 30px;
-    padding: 30px;
+    padding: 15px;
+    align-self: center;
 }
 .dp{
     background-color: skyblue;
     height: 110px;
     width: 110px;
+    margin: 5px;
     border-radius: 50%;
 }
+.description{
+    color: white;
+    padding: 20px;
+}
+.t1{
+    text-align: center;
+    font-weight: bold;
+    align-items: center;
+}
+.t2{
+    text-align: center;
+    font-weight: bold;
+    font-size: 110%;
+    border-color: whitesmoke;
+    border-bottom: black;
+    border-width: 1px;
+    border-style: solid;
+    color: #ff62ab;
+}
+.ta{
+    text-align: center;
+    
+}
+.appt-a{background-color: rgb(111, 250, 111);border-radius: 10px;padding: 5px;}
+.appt-b{background-color: rgb(255, 255, 115);border-radius: 10px;padding: 5px;}
 td{
     width: 200px;
 }
