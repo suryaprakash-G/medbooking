@@ -51,7 +51,22 @@
 td{
     width: 200px;
 }
-.calander{
+.flexbox{
+    display:flex;
+    justify-content: flex-end;
+}
+.datepiktxt{
+    color: #ff62ab;
+    padding: 10px;
+
+}
+.datepikbtn{
+    border-radius: 25px;
+    height: 35px;
+    color: whitesmoke;
+    background-color: #ff62ab;
+}
+.calender{
     width: 100%;
     border: 1px solid black;
 }

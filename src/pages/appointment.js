@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react';
+import SimpleReactCalendar from 'simple-react-calendar'
 import '../style/appointment.css';
 import Back from '../components/back_btn'
+  var curdate="1-2-2020";
   var time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];
   var data =  [
     ["01-02-2020","02-02-2020","03-02-2020","04-02-2020","05-02-2020","06-02-2020","07-02-2020"],
@@ -77,7 +79,11 @@ class Appointment extends React.Component{
                 <div className="header">
                 Appointment
                 </div>
-                <div className="calander">
+                <div className="flexbox">
+                    <div className="datepiktxt">{curdate}</div>
+                    <button className="datepikbtn">change date</button>
+                </div>
+                <div className="calender">
                     <table>
                     {this.renderTable()}
                     </table>
