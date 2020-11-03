@@ -100,6 +100,7 @@ class Main extends React.Component{
         return(
         <div className="main-page container-fluid">
             surya<br/> 
+            
            {(this.state.show!=='false')?
             <div id="myModal" className="modal" onClick={console.log("clicked mod")}>
                 <div className="modal-content">

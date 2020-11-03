@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react';
-import SimpleReactCalendar from 'simple-react-calendar'
+import React,{ useState } from 'react';
+import Calendar from 'react-calendar';
 import '../style/appointment.css';
 import Back from '../components/back_btn'
-  var curdate="1-2-2020";
+  var curdate=new Date;
   var time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];
   var data =  [
     ["01-02-2020","02-02-2020","03-02-2020","04-02-2020","05-02-2020","06-02-2020","07-02-2020"],
@@ -18,9 +18,17 @@ import Back from '../components/back_btn'
     [1,0,1,0,1,0,1],
     [0,1,0,1,0,1,0]
   ];
+  var date=new Date;
+  var datpop=false;
   var doc=["surya","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh."];
-class Appointment extends React.Component{
-    
+
+  class Appointment extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+          pop: false
+        };
+      }
     renderTable() {
         return data.map((dat, index) => {
             var td="ta";
@@ -63,7 +71,25 @@ class Appointment extends React.Component{
            return ret
         })
      }
+     togglePop = () => {
+         this.setState({pop:datpop});
+        datpop=!datpop;
+       };
+
+    onChange = (date) => {
+       this.setState({seldate:date});
+       console.log(date.getDate()+'-'+date.getMonth());
+       var lpdate=new Date;;
+       lpdate.setDate(date.getDate()-3);
+       curdate=date;
+       console.log("lp= "+lpdate);
+       for(var i=0;i<=6;i++){
+           data[0][i]=lpdate.getDate()+'-'+lpdate.getMonth()+'-'+lpdate.getFullYear();
+           lpdate.setDate(lpdate.getDate()+1);
+        }
+      };
     render(){
+        
         return(
         <div className="appointment container-fluid row">
             <div className="sidepan col-3">
@@ -80,10 +106,11 @@ class Appointment extends React.Component{
                 Appointment
                 </div>
                 <div className="flexbox">
-                    <div className="datepiktxt">{curdate}</div>
-                    <button className="datepikbtn">change date</button>
+                    <div className="datepiktxt">{curdate.getDate()+'-'+curdate.getMonth()+'-'+curdate.getFullYear()}</div>
+                    <button className="datepikbtn" onClick={this.togglePop}>change date</button>
                 </div>
-                <div className="calender">
+               {datpop? <Calendar onChange={this.onChange} value={date} />:null}
+                <div className="appointments">
                     <table>
                     {this.renderTable()}
                     </table>
