@@ -1,12 +1,15 @@
 import React,{ useState } from 'react';
+import axios from 'axios';
 import Calendar from 'react-calendar';
 import '../style/appointment.css';
 import Back from '../components/back_btn'
+import Docsel from '../components/doc_select'
   var curdate=new Date;
   var time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];
+  const day=["sun","mon","tue","wed","thu","fri","sat"];
   var data =  [
     ["01-02-2020","02-02-2020","03-02-2020","04-02-2020","05-02-2020","06-02-2020","07-02-2020"],
-    ["sun","mon","tue","wed","thu","fri","sat"],
+    ["mon","tue","wed","thu","fri","sat","sun"],
     [1,0,1,0,1,0,1],
     [0,1,0,1,0,1,0],
     [1,0,1,0,1,0,1],
@@ -18,17 +21,50 @@ import Back from '../components/back_btn'
     [1,0,1,0,1,0,1],
     [0,1,0,1,0,1,0]
   ];
+  var doclist=Array();
+  doclist=[{
+    "n": " ",
+    "id": " ",
+    "des": " ",
+    "dep": " "
+}];
   var date=new Date;
   var datpop=false;
-  var doc=["surya","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh."];
-
+  var doc=[" ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh."];
   class Appointment extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          pop: false
+          pop: false,
+          docselect:0,
+          docname:" "
         };
+        this.get_doc = this.get_doc.bind(this);
+        this.selectcallback= this.selectcallback.bind(this);
+        this.get_doc();
       }
+    get_doc(e){
+        axios.get(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{}).then(res => {
+          
+          if(res.data["statusCode"]==200){
+              doclist=res.data["body"];
+              doc[0]=doclist[0]['n'];
+              this.setState({docselect:doclist[0]['id']});
+              this.setState({docname:doclist[0]['n']});
+              console.log(doclist);
+          }
+        })
+        
+       // e.preventDefault();
+    }
+    selectcallback = (childData) => {
+        console.log("childdata: "+childData);
+        this.setState({docselect:parseInt(childData)});
+        this.setState({docname:doclist[childData]})
+        doc[0]=doclist[parseInt(childData)]['n'];
+        console.log("selected doctor: "+doclist[childData]['id']);
+
+    }
     renderTable() {
         return data.map((dat, index) => {
             var td="ta";
@@ -85,15 +121,20 @@ import Back from '../components/back_btn'
        console.log("lp= "+lpdate);
        for(var i=0;i<=6;i++){
            data[0][i]=lpdate.getDate()+'-'+lpdate.getMonth()+'-'+lpdate.getFullYear();
+           data[1][i]=day[lpdate.getDay()];
            lpdate.setDate(lpdate.getDate()+1);
         }
       };
+      
     render(){
         
         return(
         <div className="appointment container-fluid row">
             <div className="sidepan col-3">
-                <Back/>
+                <div className="row">
+                    <Back/>                  
+                    <Docsel parentCallback = {this.selectcallback} doc={doclist}/>
+                </div>
                 <hr className="solid"></hr>
                 <row className="row">
                     <div className="dp"></div>
@@ -109,7 +150,10 @@ import Back from '../components/back_btn'
                     <div className="datepiktxt">{curdate.getDate()+'-'+curdate.getMonth()+'-'+curdate.getFullYear()}</div>
                     <button className="datepikbtn" onClick={this.togglePop}>change date</button>
                 </div>
-               {datpop? <Calendar onChange={this.onChange} value={date} />:null}
+                <div className="flexbox">
+                    {datpop?<div> <button onClick={this.togglePop}>x</button>
+                    <Calendar onChange={this.onChange} value={date} /></div>:null}
+                </div>
                 <div className="appointments">
                     <table>
                     {this.renderTable()}
