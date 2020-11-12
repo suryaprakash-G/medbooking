@@ -40,9 +40,20 @@ import Docsel from '../components/doc_select'
           docname:" "
         };
         this.get_doc = this.get_doc.bind(this);
+        this.get_desc = this.get_desc.bind(this);
         this.selectcallback= this.selectcallback.bind(this);
+
         this.get_doc();
       }
+    get_desc(e){
+        axios.get(`apiurl`,{}).then(res => {
+          
+          if(res.data["statusCode"]==200){
+                desc=res.data["body"];
+                doc[1]=desc;
+            }
+    })
+}
     get_doc(e){
         axios.get(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{}).then(res => {
           
@@ -51,6 +62,7 @@ import Docsel from '../components/doc_select'
               doc[0]=doclist[0]['n'];
               this.setState({docselect:doclist[0]['id']});
               this.setState({docname:doclist[0]['n']});
+              this.get_desc(docname:doclist[0]['id']);
               console.log(doclist);
           }
         })
