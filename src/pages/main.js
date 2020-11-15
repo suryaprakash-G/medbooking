@@ -49,12 +49,9 @@ class Main extends React.Component{
             mail: this.state.mail,
             pass: this.state.pass
           };
-          //alert("maapi");//192.168.29.58
         axios.post(`https://9k1attlbyd.execute-api.ap-south-1.amazonaws.com/test`,  user )
         .then(res => {
-            console.log(res.data.body);
-          if(res.data.body==="loged in"){
-            console.log(res.data.body);
+          if(res.data==="loged in"){
             this.props.history.push('/book');
           }
         })

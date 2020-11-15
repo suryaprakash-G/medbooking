@@ -4,7 +4,6 @@ import React, { Component } from 'react';
   
     changedoc = (e) => {
         this.props.parentCallback(e.target.value);
-        console.log("e target:  "+e.target.value);
       }
        render(){return (
         <div>

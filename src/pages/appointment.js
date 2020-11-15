@@ -46,23 +46,22 @@ import Docsel from '../components/doc_select'
         this.get_doc();
       }
     get_desc(e){
-        axios.get(`apiurl`,{}).then(res => {
-          
-          if(res.data["statusCode"]==200){
-                desc=res.data["body"];
-                doc[1]=desc;
+        console.log("e is : "+e);
+        axios.post(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{id:e}).then(res => { 
+            if(res.data["message"]!="Internal server error"){
+            doc[1]=res.data;
             }
     })
 }
     get_doc(e){
         axios.get(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{}).then(res => {
-          
-          if(res.data["statusCode"]==200){
-              doclist=res.data["body"];
+            console.log(res.data);
+          if(res.data["message"]!="Internal server error"){
+              doclist=res.data;
               doc[0]=doclist[0]['n'];
               this.setState({docselect:doclist[0]['id']});
               this.setState({docname:doclist[0]['n']});
-              this.get_desc(docname:doclist[0]['id']);
+              this.get_desc(doclist[0]['id']);
               console.log(doclist);
           }
         })
@@ -75,6 +74,7 @@ import Docsel from '../components/doc_select'
         this.setState({docname:doclist[childData]})
         doc[0]=doclist[parseInt(childData)]['n'];
         console.log("selected doctor: "+doclist[childData]['id']);
+        this.get_desc(doclist[childData]['id']);
 
     }
     renderTable() {
