@@ -4,7 +4,6 @@ import Calendar from 'react-calendar';
 import '../style/appointment.css';
 import Back from '../components/back_btn'
 import Docsel from '../components/doc_select'
-  var curdate=new Date;
   var time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];
   const day=["sun","mon","tue","wed","thu","fri","sat"];
   var data =  [
@@ -46,27 +45,39 @@ import Docsel from '../components/doc_select'
         this.get_doc();
       }
     get_desc(e){
-        console.log("e is : "+e);
         axios.post(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{id:e}).then(res => { 
             if(res.data["message"]!="Internal server error"){
             doc[1]=res.data;
+            this.setState({docselect:e});
             }
     })
-}
+    }
+    get_date(lpdate){
+        var ret={};
+        //post values
+        var month=lpdate.getMonth()+1
+        var date=lpdate.getDate()+'-'+month;
+        var dateyear=String(lpdate.getFullYear());
+        var doc=this.state.docselect;
+            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdate`,{date:date,year:dateyear,doc:doc}).then(res => { 
+                console.log(lpdate+"  "+res.data);    
+                if(res.data["message"]!="Internal server error"){
+                    ret=res.data;
+                }
+                })
+        return ret;
+    }
     get_doc(e){
         axios.get(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{}).then(res => {
             console.log(res.data);
           if(res.data["message"]!="Internal server error"){
               doclist=res.data;
               doc[0]=doclist[0]['n'];
+              this.get_desc(doclist[0]['id']);
               this.setState({docselect:doclist[0]['id']});
               this.setState({docname:doclist[0]['n']});
-              this.get_desc(doclist[0]['id']);
-              console.log(doclist);
           }
         })
-        
-       // e.preventDefault();
     }
     selectcallback = (childData) => {
         console.log("childdata: "+childData);
@@ -125,21 +136,28 @@ import Docsel from '../components/doc_select'
        };
 
     onChange = (date) => {
-       this.setState({seldate:date});
-       console.log(date.getDate()+'-'+date.getMonth());
-       var lpdate=new Date;;
+       var lpdate=new Date;
+       lpdate=date;
        lpdate.setDate(date.getDate()-3);
-       curdate=date;
-       console.log("lp= "+lpdate);
+       
        for(var i=0;i<=6;i++){
-           data[0][i]=lpdate.getDate()+'-'+lpdate.getMonth()+'-'+lpdate.getFullYear();
+           data[0][i]=lpdate.getDate()+'-'+(lpdate.getMonth()+1)+'-'+lpdate.getFullYear();
            data[1][i]=day[lpdate.getDay()];
+           //get timings per day
+            var slots=this.get_date(date);
+            console.log("slots is "+JSON.stringify(slots));
+            for (i in slots) {
+            //if(slots)
+            }
+
+            console.log("loop "+lpdate);
            lpdate.setDate(lpdate.getDate()+1);
+           
         }
+       this.setState({seldate:date});
       };
       
     render(){
-        
         return(
         <div className="appointment container-fluid row">
             <div className="sidepan col-3">
@@ -159,12 +177,13 @@ import Docsel from '../components/doc_select'
                 Appointment
                 </div>
                 <div className="flexbox">
-                    <div className="datepiktxt">{curdate.getDate()+'-'+curdate.getMonth()+'-'+curdate.getFullYear()}</div>
+                    <div className="datepiktxt">{data[0][3]}</div>
                     <button className="datepikbtn" onClick={this.togglePop}>change date</button>
                 </div>
                 <div className="flexbox">
                     {datpop?<div> <button onClick={this.togglePop}>x</button>
-                    <Calendar onChange={this.onChange} value={date} /></div>:null}
+                    <Calendar onChange={this.onChange} value={date} />
+                    </div>:null}
                 </div>
                 <div className="appointments">
                     <table>
