@@ -6,20 +6,6 @@ import Back from '../components/back_btn'
 import Docsel from '../components/doc_select'
   var time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
   const day=["sun","mon","tue","wed","thu","fri","sat"];
-  /*var data =  [
-    ["01-02-2020","02-02-2020","03-02-2020","04-02-2020","05-02-2020","06-02-2020","07-02-2020"],
-    ["mon","tue","wed","thu","fri","sat","sun"],
-    [1,0,1,0,1,0,1],
-    [0,1,0,1,0,1,0],
-    [1,0,1,0,1,0,1],
-    [0,1,0,1,0,1,0],
-    [1,0,1,0,1,0,1],
-    [0,1,0,1,0,1,0],
-    [1,0,1,0,1,0,1],
-    [0,1,0,1,0,1,0],
-    [1,0,1,0,1,0,1],
-    [0,1,0,1,0,1,0]
-  ];*/
   var data =  [
     ["01-02-2020","02-02-2020","03-02-2020","04-02-2020","05-02-2020","06-02-2020","07-02-2020"],
     ["mon","tue","wed","thu","fri","sat","sun"],
@@ -56,7 +42,6 @@ import Docsel from '../components/doc_select'
         this.get_doc = this.get_doc.bind(this);
         this.get_desc = this.get_desc.bind(this);
         this.selectcallback= this.selectcallback.bind(this);
-
         this.get_doc();
       }
     get_desc(e){
@@ -86,12 +71,16 @@ import Docsel from '../components/doc_select'
                         if(String(timings[y]) in slot){
                             console.log(String(timings[y])+" oclock is "+ slot[timings[y]]);
                             console.log("y value"+y);   
-                            //[ a- available ]      [ b- booked ]       [ c- cancelled(holiday/doc leave) ]
+                            //[ a- available ]  [ b- booked ]   [ c- cancelled ] [ h- holiday/doc leave]
                             if(slot[timings[y]]=='a'){
-                                data[parseInt(y)+2][i]=1;
+                                data[parseInt(y)+2][i]=0;
                                 //console.log("data["+(parseInt(y)+2)+"]["+i+"]");
                             }else if(slot[timings[y]]=='b'){
-                                data[parseInt(y)+2][i]=1    ;
+                                data[parseInt(y)+2][i]=1;
+                            }else if(slot[timings[y]]=='c'){
+                                data[parseInt(y)+2][i]=2;
+                            }else if(slot[timings[y]]=='h'){
+                                data[parseInt(y)+2][i]=3;
                             }
                         }
 
@@ -124,13 +113,13 @@ import Docsel from '../components/doc_select'
     slotcolor(ind){
         var ret="appt-c";
         switch(ind){
-            case 1:
+            case 0:
                ret="appt-a";
                break;
-           case 2:
+           case 1:
                ret="appt-b";
                break;
-           case 3:
+           case 2:
                ret="appt-c";
                break;
         }
@@ -163,17 +152,33 @@ import Docsel from '../components/doc_select'
                 </tr>;
             }
             else if(index>1){//rest of time slot in table
-                
+                var cln=Array();
+                for(var i=0;i<=6;i++){
+                    switch(dat[i]){
+                        case 0:
+                            cln.push("appt-a");
+                            break;
+                        case 1:
+                            cln.push("appt-b");
+                            break;
+                        case 2:
+                            cln.push("appt-c");
+                            break;
+                        case 3:
+                            cln.push("appt-h");
+                            break;
+                    }
+                }
                 ret=<tr key={index} className={td}>
-                        <td className={dat[0]?"appt-a":"appt-b"}>{time[index-2]}</td>
-                        <td className={dat[1]?"appt-a":"appt-b"}>{time[index-2]}</td>
-                        <td className={dat[2]?"appt-a":"appt-b"}>{time[index-2]}</td>
-                        <td className={dat[3]?"appt-a":"appt-b"}>{time[index-2]}</td>
-                        <td className={dat[4]?"appt-a":"appt-b"}>{time[index-2]}</td>
-                        <td className={dat[5]?"appt-a":"appt-b"}>{time[index-2]}</td>
-                        <td className={dat[6]?"appt-a":"appt-b"}>{time[index-2]}</td>
-                        
+                        <td><div className={cln[0]}>{time[index-2]}</div></td>
+                        <td><div className={cln[1]}>{time[index-2]}</div></td>
+                        <td><div className={cln[2]}>{time[index-2]}</div></td>
+                        <td><div className={cln[3]}>{time[index-2]}</div></td>
+                        <td><div className={cln[4]}>{time[index-2]}</div></td>
+                        <td><div className={cln[5]}>{time[index-2]}</div></td>
+                        <td><div className={cln[6]}>{time[index-2]}</div></td>
                     </tr>;
+                   
             }
            return ret
         })
