@@ -58,13 +58,6 @@ class Main extends React.Component{
         e.preventDefault();
     }
     signup(e){
-        var user = {
-            mail: this.state.mail,
-            pass: this.state.pass,
-            phno: this.state.phno,
-            addr: this.state.addr,
-            gen: this.state.gen,
-          };
         axios.post(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{
             mail: this.state.mail,
             pass: this.state.pass,
@@ -74,7 +67,7 @@ class Main extends React.Component{
           })
         .then(res => {
           //console.log(res.data["result"]);
-          if(res.data["result"]=="signed up"){
+          if(res.data["result"]==="signed up"){
               alert("signed up check mail to verify account");
           }
         })

@@ -1,14 +1,19 @@
 
 .appointment{
     height: 100%;
+    width: 100%;
 }
 .sidepan{
-    height: 100%;
     background-color: #ff62ab;
-    min-width: 144px;
+    height: 100%;
 }
 .main{
     height: 100%;
+}
+.appointments{
+    overflow:auto;
+    height: 80%;
+    width: 100%;
 }
 .doc{
     color: white;
@@ -26,6 +31,12 @@
 .description{
     color: white;
     padding: 20px;
+    overflow-y: scroll;
+    position: absolute;
+    height: 50%;
+}
+.description::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 .t1{
     text-align: center;
@@ -59,7 +70,7 @@
     border-radius: 10px;padding: 5px;
     margin: 7px;}
 td{
-    width: 200px;
+    word-wrap: break-word;min-width: 160px;max-width: 160px;
 }
 .flexbox{
     display:flex;
@@ -76,34 +87,19 @@ td{
     color: whitesmoke;
     background-color: #ff62ab;
 }
-.react-calendar {
-    border-radius: 4px;
-    width: 350px;
-    max-width: 100%;
-    background: white;
-    font: inherit;
-    line-height: 1.125em;
-    border: 0;
-    overflow: hidden;
-}
-.react-calendar button {
-    margin: 0;
-    border: 0;
-    outline: none;
-    font: inherit;
-    font-size: 0.8em;
-}
-.react-calendar__month-view__weekdays {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 0.75em;
-}
-.react-calendar__navigation {
-    height: 44px;
-    margin-bottom: 10px;
-}
+.modal {
+    position: fixed;
+    top: 150px;
+    left: 150px;
+    width: 100%;
+    height: 100%;
+    background: greenyellow;
+  }
+  .close-btn{
+      border-radius: 50px;
+  }
 .appointment{
+    height: 100%;
     width: 100%;
     border: 1px solid black;
 }
