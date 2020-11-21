@@ -158,33 +158,42 @@ import Docsel from '../components/doc_select'
                 </tr>;
             }
             else if(index>1){//rest of time slot in table
-                var cln=[];
+                var cln=[],txt=[];
                 for(var i=0;i<=6;i++){
                     switch(dat[i]){
                         case 0:
                             cln.push("appt-a");
+                            txt.push(time[index-2]);
                             break;
                         case 1:
-                            cln.push("appt-b");
+                            cln.push("appt-t");
+                            txt.push(time[index-2]+"\n( taken )");
                             break;
                         case 2:
                             cln.push("appt-c");
+                            txt.push(time[index-2]+"\n( cancelled )");
                             break;
                         case 3:
                             cln.push("appt-h");
+                            txt.push("leave");
+                            break;
+                        case 3:
+                            cln.push("appt-b");
+                            txt.push(time[index-2]+"\n( your appt )");
                             break;
                         default:
                             cln.push("appt-a");
+                            txt.push(time[index-2]);
                     }
                 }
                 ret=<tr key={index} className={td}>
-                        <td><div className={cln[0]}>{time[index-2]}</div></td>
-                        <td><div className={cln[1]}>{time[index-2]}</div></td>
-                        <td><div className={cln[2]}>{time[index-2]}</div></td>
-                        <td><div className={cln[3]}>{time[index-2]}</div></td>
-                        <td><div className={cln[4]}>{time[index-2]}</div></td>
-                        <td><div className={cln[5]}>{time[index-2]}</div></td>
-                        <td><div className={cln[6]}>{time[index-2]}</div></td>
+                        <td><div className={cln[0]}>{txt[0]}</div></td>
+                        <td><div className={cln[1]}>{txt[1]}</div></td>
+                        <td><div className={cln[2]}>{txt[2]}</div></td>
+                        <td><div className={cln[3]}>{txt[3]}</div></td>
+                        <td><div className={cln[4]}>{txt[4]}</div></td>
+                        <td><div className={cln[5]}>{txt[5]}</div></td>
+                        <td><div className={cln[6]}>{txt[6]}</div></td>
                     </tr>;
                    
             }
@@ -232,7 +241,7 @@ import Docsel from '../components/doc_select'
       
     render(){
         return(
-        <div className="appointment container-fluid row">
+        <div className="appointment row">
             <div className="sidepan col-lg-3">
                 <div className="row">
                     <Back/>                  
@@ -245,23 +254,20 @@ import Docsel from '../components/doc_select'
                 </row>
                 <div className="description">{doc[1]}</div>
             </div>
-            <div className="main col-md-9">
+            <div className="main col-lg-9">
                 <div className="header">
                 Appointment
                 </div>
                 <div className="flexbox">
                     <div className="datepiktxt">{data[0][3]}</div>
                     <button className="datepikbtn" onClick={this.handleClick}>change date</button>
-                </div>
-                <div ref={node => {this.node = node;}}>
+                    <div ref={node => {this.node = node;}}>
                     {this.state.showModal && (
-                    <div className="modal">
-                        <Calendar onChange={this.onChange} value={date} />
-                        <button className="flexbox close-btn" onClick={() => this.handleClick()}>X</button>
-
-                    </div>
+                        <Calendar className="modal" onChange={this.onChange} value={date} />
                     )}
                 </div>
+                </div>
+                
                 <div className="appointments">
                         <table className="table">
                             {this.renderTable()}

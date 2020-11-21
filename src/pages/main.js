@@ -52,6 +52,7 @@ class Main extends React.Component{
         axios.post(`https://9k1attlbyd.execute-api.ap-south-1.amazonaws.com/test`,  user )
         .then(res => {
           if(res.data==="loged in"){
+            localStorage.setItem('user', user);
             this.props.history.push('/book');
           }
         })
