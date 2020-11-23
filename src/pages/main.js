@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../style/main.css';
 import gl from '../img/google.png';
 import fb from '../img/facebook.png';
+import axiosRetry from 'axios-retry';
 
 class Main extends React.Component{
     constructor(props){
@@ -15,7 +16,10 @@ class Main extends React.Component{
         addr:'',
         gen:'Female',
         passlen:'6',
-        show:'false'
+        show:'false',
+        lg_loading:false,
+        sg_loading:false,
+        invalid:""
         }
         //cant even autobind itself lazy crap
         this.loginchk = this.loginchk.bind(this)
@@ -30,35 +34,49 @@ class Main extends React.Component{
         this.c_phone = this.c_phone.bind(this)
         this.c_gen = this.c_gen.bind(this)
         this.c_addr = this.c_addr.bind(this)
+        axiosRetry(axios, { retries: 3 });
       }
       componentWillMount(){
           document.addEventListener('mousedown',this.cick)
       }
     //check if logged in
     loginchk(e){ 
-        //history.push('/book');
-        //e.preDefault();
         if(this.state.show==='false')
-        {this.showlg()}
+        {
+            const loggedin = localStorage.getItem("user");
+            if (loggedin!=null) {
+                this.setState({user:loggedin});
+                this.props.history.push('/book');
+            }else{
+                this.showlg();}
+        }
         else{this.hidebox();}
-        console.log(this.state.mail);
         e.preventDefault();
     }
     login(e){
+        this.setState({lg_loading:true});
         const user = {
             mail: this.state.mail,
             pass: this.state.pass
-          };
-        axios.post(`https://9k1attlbyd.execute-api.ap-south-1.amazonaws.com/test`,  user )
+          };try{
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/login`,  user )
         .then(res => {
+            this.setState({lg_loading:false});
           if(res.data==="loged in"){
-            localStorage.setItem('user', user);
+            localStorage.setItem('user',JSON.stringify(user));
             this.props.history.push('/book');
+          }else{
+              this.setState({invalid:"invalid credentials"});
           }
         })
+    }catch(e){
+        console.log("login screwup "+e);
+        this.setState({lg_loading:false});
+    }
         e.preventDefault();
     }
     signup(e){
+        this.setState({sg_loading:true});
         axios.post(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{
             mail: this.state.mail,
             pass: this.state.pass,
@@ -67,6 +85,7 @@ class Main extends React.Component{
             gen: this.state.gen,
           })
         .then(res => {
+            this.setState({sg_loading:false});
           //console.log(res.data["result"]);
           if(res.data["result"]==="signed up"){
               alert("signed up check mail to verify account");
@@ -81,19 +100,19 @@ class Main extends React.Component{
     showsgp(){this.setState({show:'signup'});}
     hidebox(){this.setState({show:'false'});}
     //change textbox values
-    c_mail(e){this.setState({ mail: e.currentTarget.value});}
-    c_pass(e){this.setState({ pass: e.currentTarget.value});}
-    c_pass2(e){this.setState({ pass2: e.currentTarget.value});}
-    c_phone(e){this.setState({ phno: e.currentTarget.value});}
-    c_addr(e){this.setState({addr:e.currentTarget.value});}
-    c_gen(e){this.setState({gen:e.currentTarget.value});}
+    c_mail(e){this.setState({ mail: e.currentTarget.value});this.setState({invalid:""});}
+    c_pass(e){this.setState({ pass: e.currentTarget.value});this.setState({invalid:""});}
+    c_pass2(e){this.setState({ pass2: e.currentTarget.value});this.setState({invalid:""});}
+    c_phone(e){this.setState({ phno: e.currentTarget.value});this.setState({invalid:""});}
+    c_addr(e){this.setState({addr:e.currentTarget.value});this.setState({invalid:""});}
+    c_gen(e){this.setState({gen:e.currentTarget.value});this.setState({invalid:""});}
     render(){
         return(
         <div className="main-page container-fluid">
             surya<br/> 
             
            {(this.state.show!=='false')?
-            <div id="myModal" className="modal" onClick={console.log("clicked mod")}>
+            <div id="myModal" className="modal modal-login">
                 <div className="modal-content">
                     <span className="close" onClick={this.hidebox}>&times;</span>
                         
@@ -112,7 +131,11 @@ class Main extends React.Component{
                             <input value={this.state.mail} onChange={this.c_mail} className="mail inputbox" placeholder="Email" />
                                 <div/>
                             <input value={this.state.pass} onChange={this.c_pass} type="password" className="pass inputbox" placeholder="Password" />
-                            <button className="submit" onClick={this.login}>Login</button>
+                            <div className="invalidtxt">{this.state.invalid}</div>
+                            {this.state.lg_loading?<button className="submit" onClick={this.login} disabled>
+                                                    <span className="spinner-border"></span></button>
+                                                :<button className="submit" onClick={this.login}>Login</button>
+                            }
                             </form>:
                     <form className='flex-container'>
                             <row>
@@ -132,7 +155,9 @@ class Main extends React.Component{
                                     <option value="Male">Male</option>
                                     <option value="Other">Other</option>
                             </select>
-                            <button className="submit" onClick={this.signup}>Signup</button>
+                            {this.state.sg_loading?<button className="submit" onClick={this.login} disabled>
+                            <span className="spinner-border"></span></button>
+                            :<button className="submit" onClick={this.signup}>Signup</button>}
                             </form>
                 }
                 </div>

@@ -1,4 +1,4 @@
-.modal {
+.modal-login{
     display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -91,6 +91,7 @@
       height: 45px;
       min-width: 120px;
   }
+  .invalidtxt{color:  rgb(209, 70, 70);}
   .selected{
     color: #333;
       border-bottom: 10px solid #f570ae;

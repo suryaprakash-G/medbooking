@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import Calendar from 'react-calendar';
 import '../style/appointment.css';
 import '../style/react_calendar.css';
@@ -22,37 +23,55 @@ import Docsel from '../components/doc_select'
     [0,0,0,0,0,0,0]
   ];
   var timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
-  var doclist=[];
-  doclist=[{
-    "n": " ",
-    "id": " ",
-    "des": " ",
-    "dep": " "
-}];
+  var doclist=[];//doctor json list with name and id and possible mor in future
   var date=new Date();//current/selected date throughout this file
   //var datpop=false;
-  var doc=[" ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh."];
+  var doc=["loading . . .   ",""];
   class Appointment extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
           loading: true,
           docselect:0,
-          docname:" ",
-          showModal: false
+          docname:" ",//doctor name
+          sysdate:date,//system date
+          showModal: false,//datepicker toggle
+          desc_load:true,//description loading flag
+          dclist_load:true,//doc list loading flag
+          calen_load:true//appointment calendar loading flag
         };
+        this.check_login =this.check_login.bind(this);
+        this.check_login();
         this.get_doc = this.get_doc.bind(this);
         this.get_desc = this.get_desc.bind(this);
         this.get_date = this.get_date.bind(this);
+        this.logout=this.logout.bind(this);
         this.onChange = this.onChange.bind(this);
+        axiosRetry(axios, { retries: 3 });
         this.selectcallback= this.selectcallback.bind(this);
         this.get_doc();
+      }
+      check_login(){
+        const loggedin = localStorage.getItem("user");
+        if (loggedin!=null) {
+            this.setState({user:loggedin});
+        console.log(" app pg logged in as :"+loggedin);
+        }
+        else{
+            alert("please login first");
+            this.props.history.push('/');
+        }
+      }
+    logout(){
+        this.setState({user:{}});
+        localStorage.clear();
+        this.props.history.push('/book');
       }
     get_desc(e){
         axios.post(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{id:e}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
             doc[1]=res.data;
-            this.setState({docselect:e});
+            this.setState({desc_load:false});
             }
     })
     }
@@ -102,6 +121,7 @@ import Docsel from '../components/doc_select'
               this.setState({docselect:doclist[0]['id']});
               this.setState({docname:doclist[0]['n']});
               this.onChange(date);
+              this.setState({dclist_load:false});
           }
         })
     }
@@ -130,6 +150,13 @@ import Docsel from '../components/doc_select'
                 ret="appt-a";
         }
         return ret;
+    }
+
+    book(timesl,dayind){//params =   time slot index value ,  day index (sratr week day is 0)
+       /* var bookdate=new Date();
+        bookdate=date;
+        bookdate.setDate(date.getDate()-(3+parseInt(dayind)));
+        console.log("book for "+timings[timesl]+" on "+bookdate)*/
     }
     renderTable() {
         return data.map((dat, index) => {
@@ -162,24 +189,24 @@ import Docsel from '../components/doc_select'
                 for(var i=0;i<=6;i++){
                     switch(dat[i]){
                         case 0:
-                            cln.push("appt-a");
+                            cln.push("appt-a");//available
                             txt.push(time[index-2]);
                             break;
                         case 1:
                             cln.push("appt-t");
-                            txt.push(time[index-2]+"\n( taken )");
+                            txt.push(time[index-2]+"\n taken ");//already booked
                             break;
                         case 2:
                             cln.push("appt-c");
-                            txt.push(time[index-2]+"\n( cancelled )");
+                            txt.push(time[index-2]+"\n cancelled ");// ur booked appointment cancelled
                             break;
                         case 3:
-                            cln.push("appt-h");
+                            cln.push("appt-h");//holiday
                             txt.push("leave");
                             break;
-                        case 3:
+                        case 4:
                             cln.push("appt-b");
-                            txt.push(time[index-2]+"\n( your appt )");
+                            txt.push(time[index-2]+"\n your appt ");//your upcomming appointment
                             break;
                         default:
                             cln.push("appt-a");
@@ -187,13 +214,13 @@ import Docsel from '../components/doc_select'
                     }
                 }
                 ret=<tr key={index} className={td}>
-                        <td><div className={cln[0]}>{txt[0]}</div></td>
-                        <td><div className={cln[1]}>{txt[1]}</div></td>
-                        <td><div className={cln[2]}>{txt[2]}</div></td>
-                        <td><div className={cln[3]}>{txt[3]}</div></td>
-                        <td><div className={cln[4]}>{txt[4]}</div></td>
-                        <td><div className={cln[5]}>{txt[5]}</div></td>
-                        <td><div className={cln[6]}>{txt[6]}</div></td>
+                        <td><div className={cln[0]} onClick={this.book(index-2,0)}>{txt[0]}</div></td>
+                        <td><div className={cln[1]} onClick={this.book(index-2,1)}>{txt[1]}</div></td>
+                        <td><div className={cln[2]} onClick={this.book(index-2,2)}>{txt[2]}</div></td>
+                        <td><div className={cln[3]} onClick={this.book(index-2,3)}>{txt[3]}</div></td>
+                        <td><div className={cln[4]} onClick={this.book(index-2,4)}>{txt[4]}</div></td>
+                        <td><div className={cln[5]} onClick={this.book(index-2,5)}>{txt[5]}</div></td>
+                        <td><div className={cln[6]} onClick={this.book(index-2,6)}>{txt[6]}</div></td>
                     </tr>;
                    
             }
@@ -218,6 +245,7 @@ import Docsel from '../components/doc_select'
       };
 
     onChange = (date) => {
+        this.setState({calen_load:true});
        //resetting table
        for(var iks=1;iks<=11;iks++)
        for(var jks=0;jks<=6;jks++)
@@ -235,6 +263,7 @@ import Docsel from '../components/doc_select'
            lpdate.setDate(lpdate.getDate()+1);
            //datpop=false;
         }
+        this.setState({calen_load:false});
        this.setState({seldate:date});
       }
     
@@ -243,16 +272,23 @@ import Docsel from '../components/doc_select'
         return(
         <div className="appointment row">
             <div className="sidepan col-lg-3">
-                <div className="row">
-                    <Back/>                  
-                    <Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/>
+                <div>
+                    <Back/>
+                    {this.state.dclist_load?
+                        <span className="spinner-border"></span>
+                        :<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/>
+                    }
                 </div>
                 <hr className="solid"></hr>
                 <row className="row">
                     <div className="dp"></div>
                     <div className="doc">{doc[0]}</div>
-                </row>
-                <div className="description">{doc[1]}</div>
+                </row>{
+                this.state.desc_load? <span className="spinner-border"></span>:
+                    <div className="description">{doc[1]}</div>
+                }
+                <div className="container-fluid"></div>
+                <button className="logout-btn" onClick={this.logout}>Logout</button>
             </div>
             <div className="main col-lg-9">
                 <div className="header">
@@ -263,15 +299,17 @@ import Docsel from '../components/doc_select'
                     <button className="datepikbtn" onClick={this.handleClick}>change date</button>
                     <div ref={node => {this.node = node;}}>
                     {this.state.showModal && (
-                        <Calendar className="modal" onChange={this.onChange} value={date} />
+                        <Calendar className="modal-calendar" onChange={this.onChange} value={date} />
                     )}
                 </div>
                 </div>
                 
                 <div className="appointments">
+                        <div className= {this.state.calen_load?"blur":null}>
                         <table className="table">
                             {this.renderTable()}
                         </table>
+                        </div>
                     </div>
             </div>
         </div>

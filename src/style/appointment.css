@@ -94,7 +94,7 @@ td{
     color: whitesmoke;
     background-color: #ff62ab;
 }
-.modal {
+.modal-calendar{
     margin-top: 10%;
     left:20%;
     position: absolute;
@@ -102,9 +102,20 @@ td{
     height: 30%;
     padding: 0;
   }
-  .close-btn{
-      border-radius: 50px;
-  }
+.logout-btn{color: white;
+    margin-bottom: 0%;
+    background-color: rgb(209, 70, 70);
+    border-color:rgb(209, 70, 70);
+    border-width: 3px;
+    border-radius: 20px;
+    margin: 20px;
+    min-width: 94px;
+    min-height: 10px;
+    position: absolute;
+    bottom: 0;
+}
+
+
 .appointment{
     height: 100%;
     width: 100%;
@@ -118,4 +129,17 @@ td{
 hr.solid{
     border-top: 2px solid #fff;
     border-radius: 2px;
+}
+.spinner-border{
+    color: whitesmoke;
+}
+.buttoninv{
+    display: none;
+}
+.blur{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
 }
