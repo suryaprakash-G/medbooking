@@ -46,6 +46,7 @@ import Docsel from '../components/doc_select'
         this.get_desc = this.get_desc.bind(this);
         this.get_date = this.get_date.bind(this);
         this.logout=this.logout.bind(this);
+        this.bookapt=this.bookapt.bind(this)
         this.onChange = this.onChange.bind(this);
         axiosRetry(axios, { retries: 3 });
         this.selectcallback= this.selectcallback.bind(this);
@@ -54,7 +55,7 @@ import Docsel from '../components/doc_select'
       check_login(){
         const loggedin = localStorage.getItem("user");
         if (loggedin!=null) {
-            this.setState({user:loggedin});
+            this.setState({user:JSON.parse(loggedin)});
         console.log(" app pg logged in as :"+loggedin);
         }
         else{
@@ -65,7 +66,7 @@ import Docsel from '../components/doc_select'
     logout(){
         this.setState({user:{}});
         localStorage.clear();
-        this.props.history.push('/book');
+        this.props.history.push('/');
       }
     get_desc(e){
         axios.post(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{id:e}).then(res => { 
@@ -75,14 +76,17 @@ import Docsel from '../components/doc_select'
             }
     })
     }
+    //get vertical timimngs per day and put on the matrix in a given column in data matrix
     get_date(lpdate,i){
         //post values
         var month=lpdate.getMonth()+1
         var getdate=lpdate.getDate()+'-'+month;
         var dateyear=String(lpdate.getFullYear());
         var doc=this.state.docselect;
+        const loggedin = localStorage.getItem("user");
+        var mymail=JSON.parse(loggedin)["mail"];
         //console.log("------"+doc+" "+dateyear+" "+getdate);
-            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdate`,{date:getdate,year:dateyear,doc:doc}).then(res => {   
+            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdate`,{date:getdate,year:dateyear,doc:doc,mail:mymail}).then(res => {   
                 if(res.data["message"]!=="Internal server error"){
                     console.log("response: "+i+"  "+JSON.stringify(res.data));
                     for(var x in res.data) {
@@ -95,19 +99,20 @@ import Docsel from '../components/doc_select'
                                 //[ a- available ]  [ b- booked ]   [ c- cancelled ] [ h- holiday/doc leave]
                                 if(slot[timings[y]]==='a'){
                                     data[parseInt(y)+2][i]=0;
-                                    //console.log("data["+(parseInt(y)+2)+"]["+i+"]");
-                                }else if(slot[timings[y]]==='b'){
+                                }else if(slot[timings[y]]==='t'){//taken
                                     data[parseInt(y)+2][i]=1;
-                                }else if(slot[timings[y]]==='c'){
+                                }else if(slot[timings[y]]==='c'){//cancelled
                                     data[parseInt(y)+2][i]=2;
-                                }else if(slot[timings[y]]==='h'){
+                                }else if(slot[timings[y]]==='h'){//holiday
                                     data[parseInt(y)+2][i]=3;
+                                }else if(slot[timings[y]]==='b'){//my booked
+                                    data[parseInt(y)+2][i]=4;
                                 }
                             }
                         }
 
                     }
-                    this.setState({loading:false});
+                    this.setState({calen_load:false});
                 }
                 })
     }
@@ -134,30 +139,7 @@ import Docsel from '../components/doc_select'
         this.get_desc(doclist[childData]['id']);
 
     }
-    slotcolor(ind){
-        var ret="appt-c";
-        switch(ind){
-            case 0:
-               ret="appt-a";
-               break;
-           case 1:
-               ret="appt-b";
-               break;
-           case 2:
-               ret="appt-c";
-               break;
-            default:
-                ret="appt-a";
-        }
-        return ret;
-    }
 
-    book(timesl,dayind){//params =   time slot index value ,  day index (sratr week day is 0)
-       /* var bookdate=new Date();
-        bookdate=date;
-        bookdate.setDate(date.getDate()-(3+parseInt(dayind)));
-        console.log("book for "+timings[timesl]+" on "+bookdate)*/
-    }
     renderTable() {
         return data.map((dat, index) => {
             var td="ta";
@@ -185,49 +167,63 @@ import Docsel from '../components/doc_select'
                 </tr>;
             }
             else if(index>1){//rest of time slot in table
-                var cln=[],txt=[];
+                var cln=[],txt=[],dis=[];// arrays of -  classname , display text , button disable flag
                 for(var i=0;i<=6;i++){
                     switch(dat[i]){
                         case 0:
                             cln.push("appt-a");//available
                             txt.push(time[index-2]);
+                            dis.push(0);
                             break;
                         case 1:
                             cln.push("appt-t");
-                            txt.push(time[index-2]+"\n taken ");//already booked
+                            txt.push(time[index-2]+"\n taken ");//already booked taken
+                            dis.push(1);
                             break;
                         case 2:
                             cln.push("appt-c");
                             txt.push(time[index-2]+"\n cancelled ");// ur booked appointment cancelled
+                            dis.push(1);
                             break;
                         case 3:
                             cln.push("appt-h");//holiday
                             txt.push("leave");
+                            dis.push(1);
                             break;
                         case 4:
                             cln.push("appt-b");
-                            txt.push(time[index-2]+"\n your appt ");//your upcomming appointment
+                            txt.push(time[index-2]+"\n your appointment ");//your upcomming appointment
+                            dis.push(0);
                             break;
                         default:
                             cln.push("appt-a");
                             txt.push(time[index-2]);
+                            dis.push(1);
                     }
                 }
                 ret=<tr key={index} className={td}>
-                        <td><div className={cln[0]} onClick={this.book(index-2,0)}>{txt[0]}</div></td>
-                        <td><div className={cln[1]} onClick={this.book(index-2,1)}>{txt[1]}</div></td>
-                        <td><div className={cln[2]} onClick={this.book(index-2,2)}>{txt[2]}</div></td>
-                        <td><div className={cln[3]} onClick={this.book(index-2,3)}>{txt[3]}</div></td>
-                        <td><div className={cln[4]} onClick={this.book(index-2,4)}>{txt[4]}</div></td>
-                        <td><div className={cln[5]} onClick={this.book(index-2,5)}>{txt[5]}</div></td>
-                        <td><div className={cln[6]} onClick={this.book(index-2,6)}>{txt[6]}</div></td>
+                        <td><button disabled={dis[0]} className={cln[0]} onClick={this.bookapt} value={[index-2,0,cln[0]]}>{txt[0]}</button></td>
+                        <td><button disabled={dis[1]} className={cln[1]} onClick={this.bookapt} value={[index-2,1,cln[1]]}>{txt[1]}</button></td>
+                        <td><button disabled={dis[2]} className={cln[2]} onClick={this.bookapt} value={[index-2,2,cln[2]]}>{txt[2]}</button></td>
+                        <td><button disabled={dis[3]} className={cln[3]} onClick={this.bookapt} value={[index-2,3,cln[3]]}>{txt[3]}</button></td>
+                        <td><button disabled={dis[4]} className={cln[4]} onClick={this.bookapt} value={[index-2,4,cln[4]]}>{txt[4]}</button></td>
+                        <td><button disabled={dis[5]} className={cln[5]} onClick={this.bookapt} value={[index-2,5,cln[5]]}>{txt[5]}</button></td>
+                        <td><button disabled={dis[6]} className={cln[6]} onClick={this.bookapt} value={[index-2,6,cln[6]]}>{txt[6]}</button></td>
                     </tr>;
                    
             }
            return ret
         })
      }
-
+     //book or check booked appointment
+     bookapt(e){//params =   time slot index value ,  day index (sratr week day is 0)
+        /* var bookdate=new Date();
+         bookdate=date;
+         bookdate.setDate(date.getDate()-(3+parseInt(dayind)));
+         console.log("book for "+timings[timesl]+" on "+bookdate)*/
+         console.log("book for "+e.currentTarget.value);
+         console.log(this.state.user['mail']);
+     }
      handleClick = () => {
         if (!this.state.showModal) {
           document.addEventListener("click", this.handleOutsideClick, false);
@@ -243,30 +239,29 @@ import Docsel from '../components/doc_select'
       handleOutsideClick = e => {
         if (!this.node.contains(e.target)) this.handleClick();
       };
-
+//date picker clicked calendar dates change function
     onChange = (date) => {
         this.setState({calen_load:true});
        //resetting table
        for(var iks=1;iks<=11;iks++)
        for(var jks=0;jks<=6;jks++)
         data[iks][jks]=0;
+        //setting week firstday
        var lpdate=new Date();
        lpdate=date;
        lpdate.setDate(date.getDate()-3);
-        
+        //vertical date fetching and parsing on data variable matrix
        for(var i=0;i<=6;i++){
-           data[0][i]=lpdate.getDate()+'-'+(lpdate.getMonth()+1)+'-'+lpdate.getFullYear();
-           data[1][i]=day[lpdate.getDay()];
+           data[0][i]=lpdate.getDate()+'-'+(lpdate.getMonth()+1)+'-'+lpdate.getFullYear();//first row date
+           data[1][i]=day[lpdate.getDay()];//second row day
            //get timings per day
-            this.get_date(lpdate,i);
+            this.get_date(lpdate,i);//rest of all vertical time per day getting and parsing on data matrix
             //loop adding date
            lpdate.setDate(lpdate.getDate()+1);
-           //datpop=false;
         }
-        this.setState({calen_load:false});
+        this.setState({showModal:false})
        this.setState({seldate:date});
       }
-    
       
     render(){
         return(
