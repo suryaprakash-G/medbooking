@@ -34,7 +34,7 @@ import Docsel from '../components/doc_select'
           loading: true,
           docselect:0,
           docname:" ",//doctor name
-          sysdate:date,//system date
+          curdate:date,//system date
           showModal: false,//datepicker toggle
           desc_load:true,//description loading flag
           dclist_load:true,//doc list loading flag
@@ -182,7 +182,7 @@ import Docsel from '../components/doc_select'
                             break;
                         case 2:
                             cln.push("appt-c");
-                            txt.push(time[index-2]+"\n cancelled ");// ur booked appointment cancelled
+                            txt.push(time[index-2]+"\n appointment cancelled ");// ur booked appointment cancelled
                             dis.push(1);
                             break;
                         case 3:
@@ -202,13 +202,13 @@ import Docsel from '../components/doc_select'
                     }
                 }
                 ret=<tr key={index} className={td}>
-                        <td><button disabled={dis[0]} className={cln[0]} onClick={this.bookapt} value={[index-2,0,cln[0]]}>{txt[0]}</button></td>
-                        <td><button disabled={dis[1]} className={cln[1]} onClick={this.bookapt} value={[index-2,1,cln[1]]}>{txt[1]}</button></td>
-                        <td><button disabled={dis[2]} className={cln[2]} onClick={this.bookapt} value={[index-2,2,cln[2]]}>{txt[2]}</button></td>
-                        <td><button disabled={dis[3]} className={cln[3]} onClick={this.bookapt} value={[index-2,3,cln[3]]}>{txt[3]}</button></td>
-                        <td><button disabled={dis[4]} className={cln[4]} onClick={this.bookapt} value={[index-2,4,cln[4]]}>{txt[4]}</button></td>
-                        <td><button disabled={dis[5]} className={cln[5]} onClick={this.bookapt} value={[index-2,5,cln[5]]}>{txt[5]}</button></td>
-                        <td><button disabled={dis[6]} className={cln[6]} onClick={this.bookapt} value={[index-2,6,cln[6]]}>{txt[6]}</button></td>
+                        <td><button disabled={dis[0]} className={cln[0]} onClick={this.bookapt} value={[index-2,0]}>{txt[0]}</button></td>
+                        <td><button disabled={dis[1]} className={cln[1]} onClick={this.bookapt} value={[index-2,1]}>{txt[1]}</button></td>
+                        <td><button disabled={dis[2]} className={cln[2]} onClick={this.bookapt} value={[index-2,2]}>{txt[2]}</button></td>
+                        <td><button disabled={dis[3]} className={cln[3]} onClick={this.bookapt} value={[index-2,3]}>{txt[3]}</button></td>
+                        <td><button disabled={dis[4]} className={cln[4]} onClick={this.bookapt} value={[index-2,4]}>{txt[4]}</button></td>
+                        <td><button disabled={dis[5]} className={cln[5]} onClick={this.bookapt} value={[index-2,5]}>{txt[5]}</button></td>
+                        <td><button disabled={dis[6]} className={cln[6]} onClick={this.bookapt} value={[index-2,6]}>{txt[6]}</button></td>
                     </tr>;
                    
             }
@@ -217,12 +217,21 @@ import Docsel from '../components/doc_select'
      }
      //book or check booked appointment
      bookapt(e){//params =   time slot index value ,  day index (sratr week day is 0)
-        /* var bookdate=new Date();
-         bookdate=date;
-         bookdate.setDate(date.getDate()-(3+parseInt(dayind)));
-         console.log("book for "+timings[timesl]+" on "+bookdate)*/
-         console.log("book for "+e.currentTarget.value);
-         console.log(this.state.user['mail']);
+        var bkval=e.currentTarget.value;
+         var bookdate=new Date();
+         bookdate.setDate(date.getDate()-(3));
+         bookdate.setDate(bookdate.getDate()+parseInt(bkval[2]));
+         switch(data[parseInt(bkval[0])+2][parseInt(bkval[2])]){
+             case 0:
+                 //new booking function
+                 break;
+            case 4:
+                //already booked details 
+                break;
+            default:
+                break;
+         }
+         //console.log("book for "+timings[bkval[0]]+" on "+bookdate+" bkval:--"+data[parseInt(bkval[0])+2][parseInt(bkval[2])]);
      }
      handleClick = () => {
         if (!this.state.showModal) {
@@ -240,7 +249,9 @@ import Docsel from '../components/doc_select'
         if (!this.node.contains(e.target)) this.handleClick();
       };
 //date picker clicked calendar dates change function
-    onChange = (date) => {
+    onChange = (datec) => {
+        date=datec;
+        this.setState({curdate:date});
         this.setState({calen_load:true});
        //resetting table
        for(var iks=1;iks<=11;iks++)
@@ -248,8 +259,7 @@ import Docsel from '../components/doc_select'
         data[iks][jks]=0;
         //setting week firstday
        var lpdate=new Date();
-       lpdate=date;
-       lpdate.setDate(date.getDate()-3);
+       lpdate.setDate(datec.getDate()-3);
         //vertical date fetching and parsing on data variable matrix
        for(var i=0;i<=6;i++){
            data[0][i]=lpdate.getDate()+'-'+(lpdate.getMonth()+1)+'-'+lpdate.getFullYear();//first row date
@@ -260,7 +270,7 @@ import Docsel from '../components/doc_select'
            lpdate.setDate(lpdate.getDate()+1);
         }
         this.setState({showModal:false})
-       this.setState({seldate:date});
+       this.setState({curdate:date});
       }
       
     render(){
