@@ -69,7 +69,7 @@ import Docsel from '../components/doc_select'
         this.props.history.push('/');
       }
     get_desc(e){
-        axios.post(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{id:e}).then(res => { 
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{id:e}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
             doc[1]=res.data;
             this.setState({desc_load:false});
@@ -117,7 +117,7 @@ import Docsel from '../components/doc_select'
                 })
     }
     get_doc(e){
-        axios.get(`https://u69ys2399d.execute-api.ap-south-1.amazonaws.com/test`,{}).then(res => {
+        axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{}).then(res => {
             //console.log(res.data);
           if(res.data["message"]!=="Internal server error"){
               doclist=res.data;
@@ -224,6 +224,7 @@ import Docsel from '../components/doc_select'
          switch(data[parseInt(bkval[0])+2][parseInt(bkval[2])]){
              case 0:
                  //new booking function
+                this.props.history.push('/form');
                  break;
             case 4:
                 //already booked details 

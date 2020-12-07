@@ -5,6 +5,7 @@ import history from './components/history';
 import { Router, Switch, Route } from 'react-router-dom';
 import Main from './pages/main';
 import Appointment from './pages/appointment';
+import Patient_Form from './pages/patient_form';
 //import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -12,6 +13,7 @@ ReactDOM.render(
       <Switch>
         <Route path="/" component={Main} exact={true} />
         <Route path="/book" component={Appointment} exact={true}/>
+        <Route path="/form" component={Patient_Form} exact={true}/>
         </Switch>
       </Router>,
   document.getElementById('rootc')

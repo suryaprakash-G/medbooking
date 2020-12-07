@@ -1,17 +1,25 @@
 import React from 'react';
 import axios from 'axios';
-import axiosRetry from 'axios-retry';
-class Appointment extends React.Component{
+import Calendar from 'react-calendar';
+class View_Appointment extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        };
+      }
     render(){
+        return(
         <div className="viewappt">
-            <input value={this.state.} onChange={this.c_}  className="" placeholder="" />
-            <input value={this.state.} onChange={this.c_}  className="" placeholder="" />
-            <input value={this.state.} onChange={this.c_}  className="" placeholder="" />
-            <input value={this.state.} onChange={this.c_}  className="" placeholder="" />
-            <input value={this.state.} onChange={this.c_}  className="" placeholder="" />
-            <input value={this.state.} onChange={this.c_}  className="" placeholder="" />
-            <input value={this.state.} onChange={this.c_}  className="" placeholder="" />
-            <button></button>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
+        )
     }
 }
+
+export default View_Appointment;
