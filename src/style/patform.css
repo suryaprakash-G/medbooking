@@ -1,0 +1,56 @@
+
+.fname{
+    min-width: 150px;
+    width: 100%;
+    padding: 2%;
+    margin-bottom: 5%;}
+.lname{
+    min-width: 150px;
+    width: 100%;
+    padding: 2%;
+    margin-bottom: 5%;}
+.gen{
+    margin: 0%;
+    width: 100%;
+    margin-bottom: 5%;}
+.desc{
+    min-width: 150px;
+    width: 100%;
+    padding: 2%;
+    height: 200px;
+    margin-bottom: 5%;}
+.submit{
+    margin-left: 30%;
+    margin-bottom: 5%;}
+.modal-calendar{
+    margin-top: 10%;
+    left:20%;
+    position: absolute;
+    width: 50%;
+    height: 30%;
+    padding: 0;
+    }
+.header{
+    margin: 0%;
+    padding: 1%;
+    font-size: 40px;
+    color: whitesmoke;
+    background-color: #ff62ab;
+    text-align: center;
+}
+form{
+    margin: auto;
+    max-width: 800px;
+    padding: 10px;
+    padding-top: 5%;
+    min-width: 150px;
+}
+@media only screen and (min-width: 800px) {
+    form{
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        padding-top: 5%;
+        min-width: 150px;
+    }
+  }
