@@ -3,27 +3,27 @@
     min-width: 150px;
     width: 100%;
     padding: 2%;
-    margin-bottom: 5%;}
+    margin-top: 5%;}
 .lname{
     min-width: 150px;
     width: 100%;
     padding: 2%;
-    margin-bottom: 5%;}
+    margin-top: 5%;}
 .gen{
     margin: 0%;
     width: 100%;
-    margin-bottom: 5%;}
+    margin-top: 5%;}
 .desc{
     min-width: 150px;
     width: 100%;
     padding: 2%;
     height: 200px;
-    margin-bottom: 5%;}
+    margin-top: 5%;}
 .submit{
     margin-left: 30%;
-    margin-bottom: 5%;}
+    margin-top: 5%;}
 .modal-calendar{
-    margin-top: 10%;
+    margin: 0px;
     left:20%;
     position: absolute;
     width: 50%;
@@ -38,11 +38,27 @@
     background-color: #ff62ab;
     text-align: center;
 }
+.row{
+    min-width: 150px;
+    width: 100%;
+    padding: 2%;
+    margin-top: 2%;
+}
+.bookfor{
+    padding: 2%;
+    text-align: center;
+    color:  #ff62ab;
+    font-size: 20px;
+}
+.hint{
+    padding: 1%;
+    text-align: left;
+    color: gray;
+}
 .form{
     margin: auto;
     max-width: 800px;
     padding: 10px;
-    padding-top: 5%;
     min-width: 150px;
 }
 @media only screen and (min-width: 800px) {

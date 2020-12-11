@@ -6,7 +6,7 @@ import '../style/appointment.css';
 import '../style/react_calendar.css';
 import Back from '../components/back_btn'
 import Docsel from '../components/doc_select'
-  var time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
+  const time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
   const day=["sun","mon","tue","wed","thu","fri","sat"];
   var data =  [
     ["01-02-2020","02-02-2020","03-02-2020","04-02-2020","05-02-2020","06-02-2020","07-02-2020"],
@@ -22,7 +22,7 @@ import Docsel from '../components/doc_select'
     [0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0]
   ];
-  var timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
+  const timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
   var doclist=[];//doctor json list with name and id and possible mor in future
   var date=new Date();//current/selected date throughout this file
   //var datpop=false;
@@ -56,7 +56,6 @@ import Docsel from '../components/doc_select'
         const loggedin = localStorage.getItem("user");
         if (loggedin!=null) {
             this.setState({user:JSON.parse(loggedin)});
-        console.log(" app pg logged in as :"+loggedin);
         }
         else{
             alert("please login first");
@@ -224,7 +223,8 @@ import Docsel from '../components/doc_select'
          switch(data[parseInt(bkval[0])+2][parseInt(bkval[2])]){
              case 0:
                  //new booking function
-                this.props.history.push('/form');
+                this.props.history.push({pathname:'/form',
+                state: {bookdate:bookdate,booktime:bkval[0],doc:this.state.docselect,docname:this.state.docname}});
                  break;
             case 4:
                 //already booked details 
