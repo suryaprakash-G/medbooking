@@ -51,8 +51,10 @@ class Patient_Form extends React.Component{
       dob=e;
       this.setState({dob:dtxt});
       this.setState({dobfl:""});
+      this.setState({showModal:false});
     }
     c_gen(e){this.setState({gen:e.currentTarget.value});}
+   
     handleClick = () => {
       if (!this.state.showModal) {
         document.addEventListener("click", this.handleOutsideClick, false);
@@ -63,10 +65,6 @@ class Patient_Form extends React.Component{
       this.setState(prevState => ({
         showModal: !prevState.showModal
       }));
-    };
-  
-    handleOutsideClick = e => {
-      if (!this.node.contains(e.target)) this.handleClick();
     };
     //from verification
     verify(){
@@ -100,18 +98,20 @@ class Patient_Form extends React.Component{
         desc:this.state.desc,
         umail: JSON.parse(loggedin)["mail"],
         upass: JSON.parse(loggedin)["pass"],
-        gen:this.state.gen
       };
       console.log(info);
-      /*
         axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/book`,{info}).then(res => {
            if(res.data["message"]!=="Internal server error"){
                     console.log("response: "+JSON.stringify(res.data));
+                    if(res.data==="booked"){
+                      alert("appointment booked");
+                      this.props.push("/");
+                    }
                   }
               else{
                 alert("something went wrnog retry please");
               }
-        })*/
+        })
     }
 
     render(){
@@ -132,8 +132,12 @@ class Patient_Form extends React.Component{
                     <button className="datepikbtn" onClick={this.handleClick}>change date</button>
                     <div ref={node => {this.node = node;}}>
                       {this.state.showModal && (
-                          <Calendar className="modal-calendar" onChange={this.c_dob} value={dob} />
+                          <Calendar
+                            className="cal"
+                            value={dob}
+                            onChange={this.c_dob}/>
                       )}</div>
+                      
                       <div className="hint">(hint : click calendar title twice to change year)</div>
                 </div>
                 <div className="invalidtxt">{this.state.dobfl}</div>
