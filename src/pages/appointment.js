@@ -50,8 +50,11 @@ import Docsel from '../components/doc_select'
         this.onChange = this.onChange.bind(this);
         axiosRetry(axios, { retries: 3 });
         this.selectcallback= this.selectcallback.bind(this);
-        this.get_doc();
+        
       }
+      componentDidMount() {
+        this.get_doc();
+    }
       check_login(){
         const loggedin = localStorage.getItem("user");
         if (loggedin!=null) {
@@ -84,7 +87,7 @@ import Docsel from '../components/doc_select'
         var doc=this.state.docselect;
         const loggedin = localStorage.getItem("user");
         var mymail=JSON.parse(loggedin)["mail"];
-        //console.log("------"+doc+" "+dateyear+" "+getdate);
+        console.log("------"+doc+" "+dateyear+" "+getdate);
             axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdate`,{date:getdate,year:dateyear,doc:doc,mail:mymail}).then(res => {   
                 if(res.data["message"]!=="Internal server error"){
                     console.log("response: "+i+"  "+JSON.stringify(res.data));
@@ -130,12 +133,15 @@ import Docsel from '../components/doc_select'
         })
     }
     selectcallback = (childData) => {
-        //console.log("childdata: "+childData);
-        this.setState({docselect:parseInt(childData)});
+        this.setState({desc_load:true});
+        console.log("select dat :"+childData);
+        console.log("sel doc"+doclist[parseInt(childData)]['id']);
+        this.setState({docselect:doclist[parseInt(childData)]['id']});
         this.setState({docname:doclist[childData]})
         doc[0]=doclist[parseInt(childData)]['n'];
-        //console.log("selected doctor: "this.get_doc();+doclist[childData]['id']);
         this.get_desc(doclist[childData]['id']);
+        this.setState({calen_load:true});
+        this.onChange(date);
 
     }
 
@@ -234,11 +240,11 @@ import Docsel from '../components/doc_select'
          }
          //console.log("book for "+timings[bkval[0]]+" on "+bookdate+" bkval:--"+data[parseInt(bkval[0])+2][parseInt(bkval[2])]);
      }
-     handleClick = () => {
+     handleClickbook = () => {
         if (!this.state.showModal) {
-          document.addEventListener("click", this.handleOutsideClick, false);
+          document.addEventListener("click", this.handleOutsideClickbook, false);
         } else {
-          document.removeEventListener("click", this.handleOutsideClick, false);
+          document.removeEventListener("click", this.handleOutsideClickbook, false);
         }
     
         this.setState(prevState => ({
@@ -246,8 +252,8 @@ import Docsel from '../components/doc_select'
         }));
       };
     
-      handleOutsideClick = e => {
-        if (!this.node.contains(e.target)) this.handleClick();
+      handleOutsideClickbook = e => {
+        if (!this.nodebook.contains(e.target)) this.handleClickbook();
       };
 //date picker clicked calendar dates change function
     onChange = (datec) => {
@@ -286,10 +292,10 @@ import Docsel from '../components/doc_select'
                     }
                 </div>
                 <hr className="solid"></hr>
-                <row className="row">
+                <div className="row">
                     <div className="dp"></div>
                     <div className="doc">{doc[0]}</div>
-                </row>{
+                </div>{
                 this.state.desc_load? <span className="spinner-border"></span>:
                     <div className="description">{doc[1]}</div>
                 }
@@ -302,8 +308,8 @@ import Docsel from '../components/doc_select'
                 </div>
                 <div className="flexbox">
                     <div className="datepiktxt">{data[0][3]}</div>
-                    <button className="datepikbtn" onClick={this.handleClick}>change date</button>
-                    <div ref={node => {this.node = node;}}>
+                    <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
+                    <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
                         <Calendar className="modal-calendar" onChange={this.onChange} value={date} />
                     )}
@@ -313,7 +319,9 @@ import Docsel from '../components/doc_select'
                 <div className="appointments">
                         <div className= {this.state.calen_load?"blur":null}>
                         <table className="table">
-                            {this.renderTable()}
+                            <tbody>
+                                {this.renderTable()}
+                            </tbody>
                         </table>
                         </div>
                     </div>

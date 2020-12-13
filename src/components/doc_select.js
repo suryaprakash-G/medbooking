@@ -10,7 +10,7 @@ import React from 'react';
             <select onChange={this.changedoc} name="doctors" id="doclist">  
             {
                 this.props.doc.map((dat, index)  => {
-                    return <option value={index}>{dat['n']}</option>
+                    return <option key={index} value={index}>{dat['n']}</option>
                 })
             }
             </select>

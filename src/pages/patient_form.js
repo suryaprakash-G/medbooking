@@ -100,7 +100,7 @@ class Patient_Form extends React.Component{
         upass: JSON.parse(loggedin)["pass"],
       };
       console.log(info);
-        axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/book`,{info}).then(res => {
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/book`,{info}).then(res => {
            if(res.data["message"]!=="Internal server error"){
                     console.log("response: "+JSON.stringify(res.data));
                     if(res.data==="booked"){
