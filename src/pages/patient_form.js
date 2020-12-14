@@ -3,6 +3,7 @@ import Calendar from 'react-calendar';
 import axios from 'axios';
 import '../style/patform.css';
 var dob=new Date();//date of birth
+const date=new Date();//current date
 var timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
 const time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
 class Patient_Form extends React.Component{
@@ -88,7 +89,7 @@ class Patient_Form extends React.Component{
       const info = {
         btime:timings[this.props.location.state.booktime],
         day:this.state.bookdate.getDate(),
-        month:this.state.bookdate.getMonth(),
+        month:this.state.bookdate.getMonth()+1,
         year:this.state.bookdate.getFullYear(),
         doc:this.props.location.state.doc,
         first_name:this.state.fname,
@@ -100,12 +101,12 @@ class Patient_Form extends React.Component{
         upass: JSON.parse(loggedin)["pass"],
       };
       console.log(info);
-        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/book`,{info}).then(res => {
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/book`,info).then(res => {
            if(res.data["message"]!=="Internal server error"){
                     console.log("response: "+JSON.stringify(res.data));
                     if(res.data==="booked"){
                       alert("appointment booked");
-                      this.props.push("/");
+                      this.props.history.push("/book");
                     }
                   }
               else{
@@ -135,7 +136,7 @@ class Patient_Form extends React.Component{
                           <Calendar
                             className="cal"
                             value={dob}
-                            maxDate={dob}
+                            maxDate={date}
                             onChange={this.c_dob}/>
                       )}</div>
                       
