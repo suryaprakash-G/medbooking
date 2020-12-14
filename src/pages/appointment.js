@@ -85,6 +85,7 @@ import Docsel from '../components/doc_select'
         var getdate=lpdate.getDate()+'-'+month;
         var dateyear=String(lpdate.getFullYear());
         var doc=this.state.docselect;
+        console.log("getdate ds : "+this.state.docselect);
         const loggedin = localStorage.getItem("user");
         var mymail=JSON.parse(loggedin)["mail"];
         console.log("------"+doc+" "+dateyear+" "+getdate);
@@ -134,15 +135,14 @@ import Docsel from '../components/doc_select'
     }
     selectcallback = (childData) => {
         this.setState({desc_load:true});
-        console.log("select dat :"+childData);
-        console.log("sel doc"+doclist[parseInt(childData)]['id']);
-        this.setState({docselect:doclist[parseInt(childData)]['id']});
+        this.setState({docselect:doclist[parseInt(childData)]['id']},()=>{
+            this.onChange(date);
+            this.setState({calen_load:true});});
         this.setState({docname:doclist[childData]})
+
+        this.setState({docname:doclist[parseInt(childData)]['n']});
         doc[0]=doclist[parseInt(childData)]['n'];
         this.get_desc(doclist[childData]['id']);
-        this.setState({calen_load:true});
-        this.onChange(date);
-
     }
 
     renderTable() {
@@ -311,7 +311,7 @@ import Docsel from '../components/doc_select'
                     <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
-                        <Calendar className="modal-calendar" onChange={this.onChange} value={date} />
+                        <Calendar className="modal-calendar" minDate={date} onChange={this.onChange} value={date} />
                     )}
                 </div>
                 </div>

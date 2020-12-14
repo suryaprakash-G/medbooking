@@ -117,8 +117,8 @@ class Patient_Form extends React.Component{
     render(){
         return(
         <div>
-            <div className="header">
-                Patient form
+            <div className="header row">
+              Patient form
             </div>
             <div className="bookfor">{"booking for "+this.state.bookdate.getDate()+'-'+(this.state.bookdate.getMonth()+1)+'-'+this.state.bookdate.getFullYear()
               +"   ("+time[parseInt(this.state.booktime)]+") for doctor "+this.props.location.state.docname}</div>
@@ -135,6 +135,7 @@ class Patient_Form extends React.Component{
                           <Calendar
                             className="cal"
                             value={dob}
+                            maxDate={dob}
                             onChange={this.c_dob}/>
                       )}</div>
                       
