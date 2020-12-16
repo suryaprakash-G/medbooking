@@ -55,7 +55,7 @@ import Docsel from '../components/doc_select'
       componentDidMount() {
         this.get_doc();
     }
-      check_login(){
+    check_login(){
         const loggedin = localStorage.getItem("user");
         if (loggedin!=null) {
             this.setState({user:JSON.parse(loggedin)});
@@ -64,7 +64,7 @@ import Docsel from '../components/doc_select'
             alert("please login first");
             this.props.history.push('/');
         }
-      }
+    }
     logout(){
         this.setState({user:{}});
         localStorage.clear();
@@ -258,7 +258,6 @@ import Docsel from '../components/doc_select'
 //date picker clicked calendar dates change function
     onChange = (datec) => {
         date=datec;
-        this.setState({curdate:date});
         this.setState({calen_load:true});
        //resetting table
        for(var iks=1;iks<=11;iks++)
@@ -277,7 +276,6 @@ import Docsel from '../components/doc_select'
            lpdate.setDate(lpdate.getDate()+1);
         }
         this.setState({showModal:false})
-       this.setState({curdate:date});
       }
       
     render(){
@@ -311,7 +309,7 @@ import Docsel from '../components/doc_select'
                     <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
-                        <Calendar className="modal-calendar" minDate={date} onChange={this.onChange} value={date} />
+                        <Calendar className="modal-calendar" minDate={this.state.curdate} onChange={this.onChange} value={date} />
                     )}
                 </div>
                 </div>
