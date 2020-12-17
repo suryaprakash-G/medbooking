@@ -6,6 +6,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 import Main from './pages/main';
 import Appointment from './pages/appointment';
 import Patient_Form from './pages/patient_form';
+import View_Appointment from './pages/view_appointment';
 //import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -14,6 +15,7 @@ ReactDOM.render(
         <Route path="/" component={Main} exact={true} />
         <Route path="/book" component={Appointment} exact={true}/>
         <Route path="/form" component={Patient_Form} exact={true}/>
+        <Route path="/appointment" component={View_Appointment} exact={true}/>
         </Switch>
       </Router>,
   document.getElementById('rootc')

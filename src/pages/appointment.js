@@ -221,7 +221,7 @@ import Docsel from '../components/doc_select'
         })
      }
      //book or check booked appointment
-     bookapt(e){//params =   time slot index value ,  day index (sratr week day is 0)
+     bookapt(e){//params =  [0 -time slot index value ,  2 -day index (sratr week day is 0) ]
         var bkval=e.currentTarget.value;
          var bookdate=new Date();
          bookdate.setDate(date.getDate()-(3));
@@ -230,10 +230,24 @@ import Docsel from '../components/doc_select'
              case 0:
                  //new booking function
                 this.props.history.push({pathname:'/form',
-                state: {bookdate:bookdate,booktime:bkval[0],doc:this.state.docselect,docname:this.state.docname}});
+                state: {bookdate:bookdate,
+                    booktime:bkval[0],
+                    doc:this.state.docselect,
+                    docname:this.state.docname}});
                  break;
             case 4:
                 //already booked details 
+                this.props.history.push({pathname:'/appointment',
+                state: {
+                    bookdate:bookdate.getDate()+"-"+bookdate.getMonth(),
+                    booktime:time[bkval[0]],
+                    year:bookdate.getFullYear(),
+                    doc:this.state.docselect,
+                    docname:this.state.docname,
+                    timed:timings[bkval[0]],
+
+                }});
+                console.log("year : "+bookdate.getFullYear());
                 break;
             default:
                 break;

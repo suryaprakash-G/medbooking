@@ -1,13 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import Calendar from 'react-calendar';
 class View_Appointment extends React.Component{
     constructor(props) {
         super(props);
         this.check_login();
         this.state = {
-            date:this.props.location.state.date,
-            time:this.props.location.state.time,//24hr format for api sending
+            date:this.props.location.state.bookdate,
+            time:this.props.location.state.booktime,//24hr format for api sending
             year:this.props.location.state.year,
             doc:this.props.location.state.doc,//doctor id
             docname:this.props.location.state.docname,//doctor name
@@ -18,15 +17,18 @@ class View_Appointment extends React.Component{
             fname:"",
             lname:"",
             dob:"",
-            mail:"",
-            pass:"",
             load:true
         };
+        console.log("recerived: "+this.state.year);
+    }
+
+    componentDidMount() {
+        this.getappt();
     }
     check_login(){
         const loggedin = localStorage.getItem("user");
-        this.setState({mail:JSON.parse(loggedin)["mail"]});
         this.setState({pass:JSON.parse(loggedin)["pass"]});
+        console.log(toString("mail: "+JSON.parse(loggedin)["mail"]));
         if (loggedin!=null) {
             this.setState({user:JSON.parse(loggedin)});
         }
@@ -36,17 +38,18 @@ class View_Appointment extends React.Component{
         }
     }
     getappt(){
+        const loggedin = localStorage.getItem("user");
         const info = {
             date:this.state.date,
-            time:this.state.time,
-            year:this.date.year,
+            time:this.state.timed,
+            year:this.state.year,
             doc:this.state.doc,
-            mail:this.state.doc,
-            pass:this.state.pass
+            mail:JSON.parse(loggedin)["mail"],
+            pass:JSON.parse(loggedin)["pass"]
         };
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getappt`,{info}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
-            doc[1]=res.data;/*
+            /*
             this.setState({:res.data.});
             this.setState({:res.data.});
             this.setState({:res.data.});
@@ -56,6 +59,7 @@ class View_Appointment extends React.Component{
             this.setState({load:false});
             }
         })
+        console.log(info);
     }
     render(){
         return(
