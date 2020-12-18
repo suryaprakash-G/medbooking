@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import '../style/view_appointment.css';
 class View_Appointment extends React.Component{
     constructor(props) {
         super(props);
@@ -28,7 +29,6 @@ class View_Appointment extends React.Component{
     check_login(){
         const loggedin = localStorage.getItem("user");
         this.setState({pass:JSON.parse(loggedin)["pass"]});
-        console.log(toString("mail: "+JSON.parse(loggedin)["mail"]));
         if (loggedin!=null) {
             this.setState({user:JSON.parse(loggedin)});
         }
@@ -39,40 +39,41 @@ class View_Appointment extends React.Component{
     }
     getappt(){
         const loggedin = localStorage.getItem("user");
-        const info = {
+        
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getappt`, {
             date:this.state.date,
             time:this.state.timed,
-            year:this.state.year,
+            year:String(this.state.year),
             doc:this.state.doc,
             mail:JSON.parse(loggedin)["mail"],
             pass:JSON.parse(loggedin)["pass"]
-        };
-        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getappt`,{info}).then(res => { 
+        }).then(res => {
             if(res.data["message"]!=="Internal server error"){
-            /*
-            this.setState({:res.data.});
-            this.setState({:res.data.});
-            this.setState({:res.data.});
-            this.setState({:res.data.});
-            this.setState({:res.data.});*/
+            console.log(res.data);
+            
+            this.setState({desc:res.data.desc.S});
+            this.setState({dob:res.data.dob.S});
+            this.setState({fname:res.data["first name"].S});
+            this.setState({lname:res.data["last name"].S});
+            this.setState({gen:res.data.gen.S});
             console.log(res.data);
             this.setState({load:false});
             }
         })
-        console.log(info);
     }
     render(){
         return(
         <div className="viewappt">
+        <div className="header">Appointment</div>
         {this.state.load?<span className="spinner-border"></span>:
-            <div>
-                <div>date: {this.state.date+"-"+this.state.year}</div>
-                <div>time: {this.state.timed}</div>
-                <div>doctor:{this.state.docname}</div>
-                <div>patient name{this.state.fname+" "+this.state.lname}</div>
-                <div>gender{this.state.gen}</div>
-                <div>patient d.o.b{this.state.dob}</div>
-                <div>description{this.state.desc}</div>
+            <div className="textbox">
+                <div className="x">date: </div><div className="y">{this.state.date+"-"+this.state.year}</div>
+                <div className="x">time: </div><div className="y">{this.state.timed}</div>
+                <div className="x">doctor: </div><div className="y">{this.state.docname}</div>
+                <div className="x">patient name: </div><div className="y">{this.state.fname+" "+this.state.lname}</div>
+                <div className="x">gender: </div><div className="y">{this.state.gen}</div>
+                <div className="x">patient d.o.b: </div><div className="y">{this.state.dob}</div>
+                <div className="x">description: </div><div className="y">{this.state.desc}</div>
             </div>
         }
         </div>

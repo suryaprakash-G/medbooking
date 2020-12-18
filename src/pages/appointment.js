@@ -239,7 +239,7 @@ import Docsel from '../components/doc_select'
                 //already booked details 
                 this.props.history.push({pathname:'/appointment',
                 state: {
-                    bookdate:bookdate.getDate()+"-"+bookdate.getMonth(),
+                    bookdate:bookdate.getDate()+"-"+(bookdate.getMonth()+1),
                     booktime:time[bkval[0]],
                     year:bookdate.getFullYear(),
                     doc:this.state.docselect,

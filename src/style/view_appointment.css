@@ -1,0 +1,26 @@
+.viewappt{
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.textbox{
+    height: 100%;
+    width: 100%;
+    padding: 4%;
+    padding-left: 20%;
+}
+.spinner-border{
+    margin-top: 10%;
+    margin-left: 50%;
+    padding: 3%;
+    color: #ff62ab;
+}
+.x{
+    font-size: 20px;
+}
+.y{  
+    color: #ff62ab ;
+    padding: 2%;
+    font-size: 25px;
+}
