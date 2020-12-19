@@ -49,15 +49,19 @@ class View_Appointment extends React.Component{
             pass:JSON.parse(loggedin)["pass"]
         }).then(res => {
             if(res.data["message"]!=="Internal server error"){
-            console.log(res.data);
-            
-            this.setState({desc:res.data.desc.S});
-            this.setState({dob:res.data.dob.S});
-            this.setState({fname:res.data["first name"].S});
-            this.setState({lname:res.data["last name"].S});
-            this.setState({gen:res.data.gen.S});
-            console.log(res.data);
-            this.setState({load:false});
+                if(res.data==="no app"){
+                    alert("error on loading appointment");
+                }
+                else{
+                    console.log(res.data);
+                    this.setState({desc:res.data.desc.S});
+                    this.setState({dob:res.data.dob.S});
+                    this.setState({fname:res.data["first name"].S});
+                    this.setState({lname:res.data["last name"].S});
+                    this.setState({gen:res.data.gen.S});
+                    console.log(res.data);
+                    this.setState({load:false});
+                }
             }
         })
     }

@@ -2,8 +2,8 @@
 .appointment{
     height: 100%;
     width: 100%;
-    padding: 0;
-    margin: 0;
+    padding: 0% !important;
+    margin: 0 !important;
 }
 .sidepan{
     background-color: #ff62ab;
@@ -13,6 +13,7 @@
 .main{
     height: 100%;
     width: 100%;
+    padding: 0% !important;
 }
 .appointments{
     overflow:auto;
@@ -37,7 +38,7 @@
     padding: 20px;
     overflow-y: scroll;
     position: absolute;
-    height: 50%;
+    height: 45%;
 }
 .description::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
@@ -76,6 +77,9 @@
 .appt-h{color:rgb(209, 70, 70);
     border-radius: 10px;padding: 5px;
     margin: 6px;border: 0;}
+.appt-l{color:rgb(151, 148, 148);
+    border-radius: 10px;padding: 5px;
+    margin: 6px;border: 0;}
 td{
     word-wrap: break-word;min-width: 160px;
 }
@@ -83,6 +87,10 @@ td{
     display:flex;
     justify-content: flex-end;
 }
+.row{
+    padding: 0% !important;
+}
+.col
 .datepiktxt{
     color: #ff62ab;
     padding: 10px;
@@ -102,19 +110,30 @@ td{
     height: 30%;
     padding: 0;
   }
-.logout-btn{color: white;
+.logout-btn{
+    color: white;
     margin-bottom: 0%;
     background-color: rgb(209, 70, 70);
     border-color:rgb(209, 70, 70);
     border-width: 3px;
     border-radius: 20px;
-    margin: 20px;
+    margin: 15px;
+    margin-left: 0;
     min-width: 94px;
     min-height: 10px;
     position: absolute;
     bottom: 0;
 }
-
+.mailid{
+    background-color: #ff62ab;
+    margin-bottom: 0%;
+    margin: 20px;
+    margin-left: 100px;
+    min-width: 94px;
+    min-height: 10px;
+    position: absolute;
+    bottom: 0;
+}
 
 .appointment{
     height: 100%;
@@ -124,7 +143,7 @@ td{
 .header{
     font-size: 40px;
     color: #ff62ab;
-    margin-left: 10%;
+    margin: 0.1% !important;
 }
 hr.solid{
     border-top: 2px solid #fff;
