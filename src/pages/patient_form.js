@@ -118,7 +118,9 @@ class Patient_Form extends React.Component{
               else{
                 alert("something went wrong retry please");
               }
-        }).catch(this.stopld());
+        }).catch(error => {
+          this.stopld();
+        });
     }
     stopld(){
       alert("please try again");
@@ -161,7 +163,7 @@ class Patient_Form extends React.Component{
                 <div className="invalidtxt">{this.state.descfl}</div>
                 {this.state.load?
                 <button className="submit" onClick={this.verify}>
-                  <span className="spinner-border"></span></button>:
+                  <span className="spinner-border spin-white"></span></button>:
                   <button className="submit" onClick={this.verify}>submit</button>
                 }
             </div>

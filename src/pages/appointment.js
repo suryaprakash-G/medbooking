@@ -255,6 +255,7 @@ import Docsel from '../components/doc_select'
             bookdate.setDate(bookdate.getDate()+parseInt(bkval[2]));
             switch(data[parseInt(bkval[0])+2][parseInt(bkval[2])]){
                 case 0:
+                    console.log("booking curdate: "+ this.state.curdate);
                     //new booking function
                     this.props.history.push({pathname:'/form',
                     state: {bookdate:bookdate,
@@ -326,7 +327,7 @@ import Docsel from '../components/doc_select'
                 <div>
                     <Back/>
                     {this.state.dclist_load?
-                        <span className="spinner-border"></span>
+                        <span className="spinner-border spin-white"></span>
                         :<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/>
                     }
                 </div>
@@ -335,7 +336,7 @@ import Docsel from '../components/doc_select'
                     <div className="dp"></div>
                     <div className="doc">{doc[0]}</div>
                 </div>{
-                this.state.desc_load? <span className="spinner-border"></span>:
+                this.state.desc_load? <span className="spinner-border spin-white"></span>:
                     <div className="description">{doc[1]}</div>
                 }
                 <div className="container-fluid"></div>

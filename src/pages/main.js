@@ -27,7 +27,9 @@ class Main extends React.Component{
         this.signup = this.signup.bind(this)
         this.showlg = this.showlg.bind(this)
         this.showsgp = this.showsgp.bind(this)
-        this.hidebox = this.hidebox.bind(this)
+        this.stoplg = this.stoplg.bind(this);
+        this.stopsg = this.stopsg.bind(this);
+        this.hidebox  = this.hidebox.bind(this)
         this.c_mail = this.c_mail.bind(this)
         this.c_pass = this.c_pass.bind(this)
         this.c_pass2 = this.c_pass2.bind(this)
@@ -52,13 +54,25 @@ class Main extends React.Component{
         }
         else{this.hidebox();}
         e.preventDefault();
+    } 
+    stoplg(){
+        console.log("stopped loading");
+        this.setState({lg_loading:false});
+    }stopsg(){
+        this.setState({sg_loading:false});
     }
     login(e){
+        var valid=true;
+        if(this.state.pass===""){valid=false;
+            this.setState({invalid:"please enter password"})}
+        if(this.state.mail===""){valid=false;
+            this.setState({invalid:"mail empty"})}
+        if(valid===true){
         this.setState({lg_loading:true});
         const user = {
             mail: this.state.mail,
             pass: this.state.pass
-          };try{
+          };
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/login`,  user )
         .then(res => {
             this.setState({lg_loading:false});
@@ -68,14 +82,27 @@ class Main extends React.Component{
           }else{
               this.setState({invalid:"invalid credentials"});
           }
-        })
-    }catch(e){
-        console.log("login screwup "+e);
-        this.setState({lg_loading:false});
+        }).catch(error => {
+            this.stoplg();
+          });
     }
-        e.preventDefault();
+    e.preventDefault();
     }
     signup(e){
+        var valid=true;
+        if(this.state.addr===""){valid=false;
+            this.setState({invalid:"address empty"})}
+        if(this.state.phno===""){valid=false;
+            this.setState({invalid:"phone number empty"})}
+        if(this.state.pass2===""){valid=false;
+            this.setState({invalid:"re-type password"})}
+        if(this.state.pass===""){valid=false;
+            this.setState({invalid:"please enter password"})}
+        if(this.state.mail===""){valid=false;
+            this.setState({invalid:"mail empty"})}
+        if(this.state.mail===""){valid=false;
+            this.setState({invalid:"mail empty"})}
+        if(valid===true){
         this.setState({sg_loading:true});
         axios.post(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{
             mail: this.state.mail,
@@ -90,8 +117,8 @@ class Main extends React.Component{
           if(res.data["result"]==="signed up"){
               alert("signed up check mail to verify account");
           }
-        })
-        
+        }).catch(this.stopsg());
+    }
         e.preventDefault();
     }
 

@@ -10,12 +10,13 @@
     padding: 4%;
     padding-left: 20%;
 }
-.spinner-border{
-    margin-top: 10%;
-    margin-left: 50%;
-    padding: 3%;
-    color: #ff62ab;
+
+.spin-pink{
+    margin: auto !important;
+    color: #ff62ab !important;
 }
+.spin-cont{
+    margin-left: 50% !important;}
 .x{
     font-size: 20px;
 }

@@ -63,13 +63,17 @@ class View_Appointment extends React.Component{
                     this.setState({load:false});
                 }
             }
-        })
+        }).catch(error => {
+            alert("eroor loading appointment");
+            this.props.history.push("/book");
+          });
     }
     render(){
         return(
         <div className="viewappt">
         <div className="header">Appointment</div>
-        {this.state.load?<span className="spinner-border"></span>:
+        {this.state.load?
+            <div className="spin-cont"><span className="spinner-border spin-pink"></span></div>:
             <div className="textbox">
                 <div className="x">date: </div><div className="y">{this.state.date+"-"+this.state.year}</div>
                 <div className="x">time: </div><div className="y">{this.state.timed}</div>

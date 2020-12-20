@@ -11,7 +11,7 @@
     background-color: rgb(151, 146, 146); /* Fallback color */
   }
   /* Modal Content/Box */
-  .modal-content {
+  .modal-content{
     transition-delay: 500ms;
     background-color: #fefefe;
     margin: auto;
@@ -19,11 +19,12 @@
     margin-bottom: 10%;
     padding: 30px;
     border: 1px solid #888;
-    width: 50%;
+    width: 50% !important;
     min-width: 290px;
-    max-width: 650px; 
+    max-width: 50% !important; 
     /* Could be more or less, depending on screen size */
   }
+  .flex-container{width: 100%;}
   .inputbox{
       margin: 20px;
       margin-top: 20px;
@@ -81,6 +82,8 @@
   }
  
   .submit{
+    margin:0 !important;
+    margin-top: 5% ! important;
     font-size: 30px;
       align-self: center;
       background: #f570ae;
@@ -112,3 +115,18 @@
     border-style: solid;
     border-color: #f570ae;
   }
+
+@media only screen and (max-width: 690px) {
+  .modal-content{
+    transition-delay: 500ms;
+    background-color: #fefefe;
+    margin: 10%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80% !important;
+    min-width: 290px;
+    max-width: 80% !important; 
+  }
+}

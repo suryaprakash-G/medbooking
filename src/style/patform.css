@@ -75,10 +75,12 @@
     padding: 10px;
     min-width: 150px;
 }
-.spinner-border{
-    color: whitesmoke !important;
-    margin: 0% !important; 
+.spin-pink{
+    margin: auto !important;
+    color: #ff62ab !important;
 }
+.spin-cont{
+    margin-left: 50% !important;}
 @media only screen and (min-width: 800px) {
     form{
         margin: auto;

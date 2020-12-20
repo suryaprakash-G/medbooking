@@ -22,9 +22,9 @@
 }
 .doc{
     color: white;
-    font-size: 30px;
-    padding: 15px;
-    align-self: center;
+    font-size: 27px;
+    margin: auto;
+    text-align: center;
 }
 .dp{
     background-color: skyblue;
@@ -38,7 +38,7 @@
     padding: 20px;
     overflow-y: scroll;
     position: absolute;
-    height: 45%;
+    height: 40%;
 }
 .description::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
@@ -119,6 +119,7 @@ td{
     border-radius: 20px;
     margin: 15px;
     margin-left: 0;
+    margin-bottom: 50px;
     min-width: 94px;
     min-height: 10px;
     position: absolute;
@@ -126,9 +127,10 @@ td{
 }
 .mailid{
     background-color: #ff62ab;
+    color: rgb(39, 39, 39);
     margin-bottom: 0%;
     margin: 20px;
-    margin-left: 100px;
+    margin-left: 10px;
     min-width: 94px;
     min-height: 10px;
     position: absolute;
@@ -149,9 +151,11 @@ hr.solid{
     border-top: 2px solid #fff;
     border-radius: 2px;
 }
-.spinner-border{
-    color: #ff62ab !important;
+.spin-white{
+    color: whitesmoke !important;
+    margin: 0% !important; 
 }
+
 .buttoninv{
 border: 0px;
 }
