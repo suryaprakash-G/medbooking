@@ -1,6 +1,7 @@
 import React from 'react';
 import Calendar from 'react-calendar';
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import '../style/patform.css';
 var dob=new Date();//date of birth
 const date=new Date();//current date
@@ -21,10 +22,14 @@ class Patient_Form extends React.Component{
             descfl:"",
             showModal: false,
             bookdate:this.props.location.state.bookdate,
-            booktime:this.props.location.state.booktime
+            booktime:this.props.location.state.booktime,
+            load:false
         };
+        axiosRetry(axios, { retries: 2 });
         this.check_login =this.check_login.bind(this);
         this.check_login();
+        this.stopld=this.stopld.bind(this);
+        this.send_form= this.send_form.bind(this);
         this.c_fname = this.c_fname.bind(this);
         this.c_lname = this.c_lname.bind(this);
         this.c_desc = this.c_desc.bind(this);
@@ -85,6 +90,7 @@ class Patient_Form extends React.Component{
 
     //send form
     send_form(){
+      this.setState({load:true});
       const loggedin = localStorage.getItem("user");
       const info = {
         btime:timings[this.props.location.state.booktime],
@@ -110,11 +116,14 @@ class Patient_Form extends React.Component{
                     }
                   }
               else{
-                alert("something went wrnog retry please");
+                alert("something went wrong retry please");
               }
-        })
+        }).catch(this.stopld());
     }
-
+    stopld(){
+      alert("please try again");
+      this.setState({load:false});
+  }
     render(){
         return(
         <div>
@@ -150,7 +159,11 @@ class Patient_Form extends React.Component{
                 </select>
                 <input value={this.state.desc} onChange={this.c_desc} className="desc" placeholder="description" />
                 <div className="invalidtxt">{this.state.descfl}</div>
-                <button className="submit" onClick={this.verify}>submit</button>
+                {this.state.load?
+                <button className="submit" onClick={this.verify}>
+                  <span className="spinner-border"></span></button>:
+                  <button className="submit" onClick={this.verify}>submit</button>
+                }
             </div>
         </div>)
     }

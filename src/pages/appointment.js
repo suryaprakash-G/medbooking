@@ -59,8 +59,8 @@ import Docsel from '../components/doc_select'
     }
     check_login(){
         const loggedin = localStorage.getItem("user");
-        mail=JSON.parse(loggedin)["mail"];
         if (loggedin!=null) {
+            mail=JSON.parse(loggedin)["mail"];
             this.setState({user:JSON.parse(loggedin)});
         }
         else{
@@ -83,7 +83,7 @@ import Docsel from '../components/doc_select'
     }
     //get vertical timimngs per day and put on the matrix in a given column in data matrix
     get_date(lpdate,i){
-        if(lpdate<this.state.curdate){
+        if(lpdate<=this.state.curdate){
             for(var y=2;y<=11;y++)//10 time values
                 {data[y][i]=5;}
             gdatechk[i]=1;
@@ -96,10 +96,8 @@ import Docsel from '../components/doc_select'
         var dateyear=String(lpdate.getFullYear());
         var doc=this.state.docselect;
         console.log("getdate ds : "+this.state.docselect);
-        const loggedin = localStorage.getItem("user");
-        var mymail=JSON.parse(loggedin)["mail"];
         console.log("------"+doc+" "+dateyear+" "+getdate);
-            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdate`,{date:getdate,year:dateyear,doc:doc,mail:mymail}).then(res => {   
+            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdate`,{date:getdate,year:dateyear,doc:doc,mail:mail}).then(res => {   
                 if(res.data["message"]!=="Internal server error"){
                     console.log("response: "+i+"  "+JSON.stringify(res.data));
                     for(var x in res.data) {
@@ -138,8 +136,9 @@ import Docsel from '../components/doc_select'
                 break;
             }
         }
-        if(allchk===true)
+        if(allchk===true){
             this.setState({calen_load:false});
+            for(i=0;i<=6;i++){gdatechk[i]=0;}}
     }
     get_doc(e){
         axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{}).then(res => {

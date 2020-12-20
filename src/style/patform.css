@@ -20,8 +20,21 @@
     height: 200px;
     margin-top: 5%;}
 .submit{
+    font-size: 30px;
+    align-self: center;
+    background: #f570ae;
+    color: #fff;
+    border: none;
+    border-radius: 20px 20px;
+    width: 30%;
+    height: 45px;
+    min-width: 120px;
     margin-left: 30%;
     margin-top: 5%;}
+.datepiktxt{
+    color: #ff62ab;
+    padding: 10px;
+}
 .modal-calendar{
     margin: 0px;
     left:20%;
@@ -61,6 +74,10 @@
     max-width: 800px;
     padding: 10px;
     min-width: 150px;
+}
+.spinner-border{
+    color: whitesmoke !important;
+    margin: 0% !important; 
 }
 @media only screen and (min-width: 800px) {
     form{

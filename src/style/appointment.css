@@ -150,7 +150,7 @@ hr.solid{
     border-radius: 2px;
 }
 .spinner-border{
-    color: whitesmoke;
+    color: #ff62ab !important;
 }
 .buttoninv{
 border: 0px;
