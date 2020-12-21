@@ -26,6 +26,7 @@ import Docsel from '../components/doc_select'
   const timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
   var doclist=[];//doctor json list with name and id and possible mor in future
   var date=new Date();//current/selected date throughout this file
+  date.setHours(0,0,0,0);
   var gdatechk=[0,0,0,0,0,0,0];//get date all 7 date return check list
   //var datpop=false;
   var doc=["loading . . .   ",""];
@@ -83,20 +84,26 @@ import Docsel from '../components/doc_select'
     }
     //get vertical timimngs per day and put on the matrix in a given column in data matrix
     get_date(lpdate,i){
-        if(lpdate<=this.state.curdate){
+        if(lpdate<this.state.curdate){
             for(var y=2;y<=11;y++)//10 time values
                 {data[y][i]=5;}
             gdatechk[i]=1;
             this.getdatechk()
             }
         else{
+            console.log("lp "+lpdate+" "+this.state.curdate+"ival "+i+" cond "+(lpdate.toDateString()==(this.state.curdate).toDateString()));
+            //make unbookable for today
+            if(lpdate.toDateString()==(this.state.curdate).toDateString()){
+            console.log("lp "+lpdate+" "+this.state.curdate+"ival "+i);
+                for(y=2;y<=11;y++)//10 time values
+                    {data[y][i]=5;}
+                gdatechk[i]=1;
+                } 
         //post values
         var month=lpdate.getMonth()+1
         var getdate=lpdate.getDate()+'-'+month;
         var dateyear=String(lpdate.getFullYear());
         var doc=this.state.docselect;
-        console.log("getdate ds : "+this.state.docselect);
-        console.log("------"+doc+" "+dateyear+" "+getdate);
             axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdate`,{date:getdate,year:dateyear,doc:doc,mail:mail}).then(res => {   
                 if(res.data["message"]!=="Internal server error"){
                     console.log("response: "+i+"  "+JSON.stringify(res.data));
@@ -307,6 +314,7 @@ import Docsel from '../components/doc_select'
         data[iks][jks]=0;
         //setting week firstday
        var lpdate=new Date();
+       lpdate.setHours(0,0,0,0);
        lpdate.setDate(datec.getDate()-3);
         //vertical date fetching and parsing on data variable matrix
        for(var i=0;i<=6;i++){
