@@ -91,10 +91,9 @@ import Docsel from '../components/doc_select'
             this.getdatechk()
             }
         else{
-            console.log("lp "+lpdate+" "+this.state.curdate+"ival "+i+" cond "+(lpdate.toDateString()==(this.state.curdate).toDateString()));
+            console.log("lp "+lpdate+" "+this.state.curdate+"ival "+i+" cond "+(lpdate.toDateString()===(this.state.curdate).toDateString()));
             //make unbookable for today
-            if(lpdate.toDateString()==(this.state.curdate).toDateString()){
-            console.log("lp "+lpdate+" "+this.state.curdate+"ival "+i);
+            if(lpdate.toDateString()===(this.state.curdate).toDateString()){
                 for(y=2;y<=11;y++)//10 time values
                     {data[y][i]=5;}
                 gdatechk[i]=1;
@@ -271,6 +270,7 @@ import Docsel from '../components/doc_select'
                         docname:this.state.docname}});
                     break;
                 case 4:
+                    console.log("apptview curdate: "+ this.state.curdate);
                     //already booked details 
                     this.props.history.push({pathname:'/appointment',
                     state: {

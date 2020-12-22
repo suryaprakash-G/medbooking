@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
+import Calendar from 'react-calendar';
 import '../style/adminlogin.css';
 class adminmain extends React.Component{
     constructor(props) {
@@ -10,7 +11,7 @@ class adminmain extends React.Component{
         };
         this.check_login =this.check_login.bind(this);
         this.check_login();
-        axiosRetry(axios, { retries: 2 });
+        axiosRetry(axios, { retries: 3 });
       }
       //login check
       check_login(){
@@ -24,7 +25,10 @@ class adminmain extends React.Component{
     render(){
         return(
         <div>
-            
+            <div>
+            <Calendar/>
+            <div className="chart"></div>
+            </div>
         </div>)
     }
 }

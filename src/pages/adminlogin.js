@@ -6,6 +6,8 @@ class adminlogin extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            user:"",
+            pass:"",
             load:false
         };
         axiosRetry(axios, { retries: 2 });
@@ -25,7 +27,33 @@ class adminlogin extends React.Component{
         else{this.hidebox();}
         e.preventDefault();
     }
-
+    login(e){
+        var valid=true;
+        if(this.state.pass===""){valid=false;
+            this.setState({invalid:"please enter password"})}
+        if(this.state.user===""){valid=false;
+            this.setState({invalid:"username empty"})}
+        if(valid===true){
+        this.setState({lg_loading:true});
+        const admin = {
+            mail: this.state.user,
+            pass: this.state.pass
+          };
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/adminlogin`, admin )
+        .then(res => {
+            this.setState({lg_loading:false});
+          if(res.data==="loged in"){
+            localStorage.setItem('admin',JSON.stringify(admin));
+            this.props.history.push('/book');
+          }else{
+              this.setState({invalid:"invalid credentials"});
+          }
+        }).catch(error => {
+            this.stoplg();
+          });
+    }
+    e.preventDefault();
+    }
     render(){
         return(
         <div>

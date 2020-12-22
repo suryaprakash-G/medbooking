@@ -151,10 +151,10 @@ class Main extends React.Component{
                     </div>
                     {(this.state.show==='login')?
                     <form className='flex-container'>
-                            <row>
+                            <div className="row">
                                 <img src={gl} className="icons" alt="google"/>
                                 <img src={fb} className="icons" alt="facebook"/>
-                            </row>
+                            </div>
                             <input value={this.state.mail} onChange={this.c_mail} className="mail inputbox" placeholder="Email" />
                                 <div/>
                             <input value={this.state.pass} onChange={this.c_pass} type="password" className="pass inputbox" placeholder="Password" />
@@ -165,10 +165,10 @@ class Main extends React.Component{
                             }
                             </form>:
                     <form className='flex-container'>
-                            <row>
+                            <div className="row">
                                 <img src={gl} className="icons" alt="google"/>
                                 <img src={fb} className="icons" alt="facebook"/>
-                            </row>
+                            </div>
                             <input value={this.state.mail} onChange={this.c_mail}  className="mail inputbox" placeholder="Email" />
                                 <div/>
                             <input value={this.state.pass} onChange={this.c_pass}  className="pass inputbox" type="password" placeholder="Password" />
