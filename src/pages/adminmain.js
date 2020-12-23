@@ -3,7 +3,7 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import Calendar from 'react-calendar';
 import '../style/adminlogin.css';
-class adminmain extends React.Component{
+class AdminMain extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -33,4 +33,4 @@ class adminmain extends React.Component{
     }
 }
 
-export default adminmain;
+export default AdminMain;

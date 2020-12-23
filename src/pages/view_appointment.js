@@ -64,7 +64,7 @@ class View_Appointment extends React.Component{
                 }
             }
         }).catch(error => {
-            alert("eroor loading appointment");
+            alert("error loading appointment");
             this.props.history.push("/book");
           });
     }

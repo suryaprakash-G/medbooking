@@ -26,6 +26,7 @@ import Docsel from '../components/doc_select'
   const timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
   var doclist=[];//doctor json list with name and id and possible mor in future
   var date=new Date();//current/selected date throughout this file
+  const mindate=date;
   date.setHours(0,0,0,0);
   var gdatechk=[0,0,0,0,0,0,0];//get date all 7 date return check list
   //var datpop=false;
@@ -362,7 +363,7 @@ import Docsel from '../components/doc_select'
                     <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
-                        <Calendar className="modal-calendar" minDate={this.state.curdate} onChange={this.onChange} value={date} />
+                        <Calendar className="modal-calendar" minDate={mindate} onChange={this.onChange} value={date} />
                     )}
                 </div>
                 </div>
