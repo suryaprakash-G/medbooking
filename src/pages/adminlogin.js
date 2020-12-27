@@ -14,6 +14,7 @@ class AdminLogin extends React.Component{
             load:false
         };
         axiosRetry(axios, { retries: 2 });
+        this.stoplg=this.stoplg.bind(this);
         this.loginchk=this.loginchk.bind(this);
         this.login=this.login.bind(this);
         this.c_uname=this.c_uname.bind(this);
@@ -34,6 +35,7 @@ class AdminLogin extends React.Component{
         else{this.hidebox();}
         e.preventDefault();
     }
+    stoplg(){this.setState({lg_loading:false});console.log("aapu");}
     login(e){
         var valid=true;
         if(this.state.pass===""){valid=false;
@@ -43,16 +45,17 @@ class AdminLogin extends React.Component{
         if(valid===true){
         this.setState({lg_loading:true});
         const admin = {
-            mail: this.state.user,
+            uname: this.state.user,
             pass: this.state.pass
           };
-        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/adminlogin`, admin )
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/login`, admin )
         .then(res => {
             this.setState({lg_loading:false});
           if(res.data==="loged in"){
             localStorage.setItem('admin',JSON.stringify(admin));
-            this.props.history.push('/book');
-          }else{
+            this.props.history.push('/admin/main');
+          }
+          else{
               this.setState({invalid:"invalid credentials"});
           }
         }).catch(error => {
@@ -74,11 +77,12 @@ class AdminLogin extends React.Component{
             <input value={this.state.uname} onChange={this.c_uname} className="inputbox" placeholder="User Name" />
             <input value={this.state.pass} onChange={this.c_pass} type="password" className="pass inputbox" placeholder="Password" />
             <div className="invalidtxt">{this.state.invalid}</div>
-        </div>
+        
             {this.state.lg_loading?<button className="submit" onClick={this.login} disabled>
                                     <span className="spinner-border"></span></button>
                                 :<button className="submit" onClick={this.login}>Login</button>
             }
+        </div>
         </form>
         </div>)
     }

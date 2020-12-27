@@ -26,7 +26,9 @@ import Docsel from '../components/doc_select'
   const timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
   var doclist=[];//doctor json list with name and id and possible mor in future
   var date=new Date();//current/selected date throughout this file
-  const mindate=date;
+  const mindate=new Date(date);
+  var maxdate=new Date(date)
+  maxdate.setDate(maxdate.getDate()+180);
   date.setHours(0,0,0,0);
   var gdatechk=[0,0,0,0,0,0,0];//get date all 7 date return check list
   //var datpop=false;
@@ -38,12 +40,13 @@ import Docsel from '../components/doc_select'
           loading: true,
           docselect:0,
           docname:" ",//doctor name
-          curdate:date,//system date
+          curdate:mindate,//system date
           showModal: false,//datepicker toggle
           desc_load:true,//description loading flag
           dclist_load:true,//doc list loading flag
           calen_load:true//appointment calendar loading flag
         };
+        console.log("first curdate: "+this.state.curdate);
         this.check_login =this.check_login.bind(this);
         this.check_login();
         this.get_doc = this.get_doc.bind(this);
@@ -85,6 +88,7 @@ import Docsel from '../components/doc_select'
     }
     //get vertical timimngs per day and put on the matrix in a given column in data matrix
     get_date(lpdate,i){
+        console.log("curdate: "+this.state.curdate);
         if(lpdate<this.state.curdate){
             for(var y=2;y<=11;y++)//10 time values
                 {data[y][i]=5;}
@@ -92,7 +96,7 @@ import Docsel from '../components/doc_select'
             this.getdatechk()
             }
         else{
-            console.log("lp "+lpdate+" "+this.state.curdate+"ival "+i+" cond "+(lpdate.toDateString()===(this.state.curdate).toDateString()));
+            //console.log("lp "+lpdate+" "+this.state.curdate+"ival "+i+" cond "+(lpdate.toDateString()===(this.state.curdate).toDateString()));
             //make unbookable for today
             if(lpdate.toDateString()===(this.state.curdate).toDateString()){
                 for(y=2;y<=11;y++)//10 time values
@@ -110,21 +114,28 @@ import Docsel from '../components/doc_select'
                     for(var x in res.data) {
                         var slot=res.data[x];
                         console.log("res body "+slot);
-                        for(var y in timings){
-                            if(String(timings[y]) in slot){
-                                console.log(String(timings[y])+" oclock is "+ slot[timings[y]]);
-                                console.log("y value"+y);   
-                                //[ a- available ]  [ b- booked ]   [ c- cancelled ] [ h- holiday/doc leave]
-                                if(slot[timings[y]]==='a'){
-                                    data[parseInt(y)+2][i]=0;
-                                }else if(slot[timings[y]]==='t'){//taken
-                                    data[parseInt(y)+2][i]=1;
-                                }else if(slot[timings[y]]==='c'){//cancelled
-                                    data[parseInt(y)+2][i]=2;
-                                }else if(slot[timings[y]]==='h'){//holiday
-                                    data[parseInt(y)+2][i]=3;
-                                }else if(slot[timings[y]]==='b'){//my booked
-                                    data[parseInt(y)+2][i]=4;
+                        //if day value is h- holiday lock all timings on that thing
+                        if(slot["day"]==="h"){
+                            for(var y=2;y<=11;y++)//10 time values
+                                {data[y][i]=5;}
+                                gdatechk[i]=1;
+                        }else{//if not holiday or spl day parse timing slots
+                            for(y in timings){
+                                if(String(timings[y]) in slot){
+                                    console.log(String(timings[y])+" oclock is "+ slot[timings[y]]);
+                                    console.log("y value"+y);   
+                                    //[ a- available ]  [ b- booked ]   [ c- cancelled ] [ h- holiday/doc leave]
+                                    if(slot[timings[y]]==='a'){
+                                        data[parseInt(y)+2][i]=0;
+                                    }else if(slot[timings[y]]==='t'){//taken
+                                        data[parseInt(y)+2][i]=1;
+                                    }else if(slot[timings[y]]==='c'){//cancelled
+                                        data[parseInt(y)+2][i]=2;
+                                    }else if(slot[timings[y]]==='u'){//doc unavailable
+                                        data[parseInt(y)+2][i]=3;
+                                    }else if(slot[timings[y]]==='b'){//my booked
+                                        data[parseInt(y)+2][i]=4;
+                                    }
                                 }
                             }
                         }
@@ -219,8 +230,8 @@ import Docsel from '../components/doc_select'
                             dis.push(1);
                             break;
                         case 3:
-                            cln.push("appt-h");//holiday
-                            txt.push("leave");
+                            cln.push("appt-u");//doc unavailable
+                            txt.push("unavailable");
                             dis.push(1);
                             break;
                         case 4:
@@ -230,7 +241,7 @@ import Docsel from '../components/doc_select'
                             break;
                         case 5:
                             cln.push("appt-l");//locked
-                            txt.push(time[index-2]+"\n --- ");//locked date as its not today
+                            txt.push(time[index-2]+"\n --- ");//locked date as its not today or holiday
                             dis.push(0);
                             break;
                         default:
@@ -307,19 +318,24 @@ import Docsel from '../components/doc_select'
       };
 //date picker clicked calendar dates change function
     onChange = (datec) => {
-        date=datec;
+        console.log("date picker : "+datec);
         this.setState({calen_load:true});
        //resetting table
-       for(var iks=1;iks<=11;iks++)
+       for(var iks=0;iks<=10;iks++)
        for(var jks=0;jks<=6;jks++)
         data[iks][jks]=0;
         //setting week firstday
-       var lpdate=new Date();
+       datec.setDate(datec.getDate()-3);
+       var lpdate=new Date(datec);
        lpdate.setHours(0,0,0,0);
-       lpdate.setDate(datec.getDate()-3);
+       console.log("datec: "+datec);
+       console.log("assigned value"+lpdate)
+       /*lpdate.setDate(datec);
+       lpdate.setDate(lpdate.getDate()-3);*/
         //vertical date fetching and parsing on data variable matrix
        for(var i=0;i<=6;i++){
            data[0][i]=lpdate.getDate()+'-'+(lpdate.getMonth()+1)+'-'+lpdate.getFullYear();//first row date
+           console.log("lpdate gdate: "+lpdate);
            data[1][i]=day[lpdate.getDay()];//second row day
            //get timings per day
             this.get_date(lpdate,i);//rest of all vertical time per day getting and parsing on data matrix
@@ -363,7 +379,7 @@ import Docsel from '../components/doc_select'
                     <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
-                        <Calendar className="modal-calendar" minDate={mindate} onChange={this.onChange} value={date} />
+                        <Calendar className="modal-calendar" minDate={mindate} maxDate={maxdate} onChange={this.onChange} value={date} />
                     )}
                 </div>
                 </div>
