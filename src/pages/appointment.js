@@ -26,7 +26,7 @@ import Docsel from '../components/doc_select'
   const timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
   var doclist=[];//doctor json list with name and id and possible mor in future
   var date=new Date();//current/selected date throughout this file
-  const mindate=new Date(date);
+  const today=new Date(date);
   var maxdate=new Date(date)
   maxdate.setDate(maxdate.getDate()+180);
   date.setHours(0,0,0,0);
@@ -40,7 +40,7 @@ import Docsel from '../components/doc_select'
           loading: true,
           docselect:0,
           docname:" ",//doctor name
-          curdate:mindate,//system date
+          curdate:today,//system date
           showModal: false,//datepicker toggle
           desc_load:true,//description loading flag
           dclist_load:true,//doc list loading flag
@@ -88,17 +88,15 @@ import Docsel from '../components/doc_select'
     }
     //get vertical timimngs per day and put on the matrix in a given column in data matrix
     get_date(lpdate,i){
-        console.log("curdate: "+this.state.curdate);
-        if(lpdate<this.state.curdate){
+        if(lpdate<today){
             for(var y=2;y<=11;y++)//10 time values
                 {data[y][i]=5;}
             gdatechk[i]=1;
             this.getdatechk()
             }
         else{
-            //console.log("lp "+lpdate+" "+this.state.curdate+"ival "+i+" cond "+(lpdate.toDateString()===(this.state.curdate).toDateString()));
             //make unbookable for today
-            if(lpdate.toDateString()===(this.state.curdate).toDateString()){
+            if(lpdate.toDateString()===(today).toDateString()){
                 for(y=2;y<=11;y++)//10 time values
                     {data[y][i]=5;}
                 gdatechk[i]=1;
@@ -268,8 +266,8 @@ import Docsel from '../components/doc_select'
      bookapt(e){//params =  [0 -time slot index value ,  2 -day index (sratr week day is 0) ]
         if(this.state.calen_load===false){
             var bkval=e.currentTarget.value;
-            var bookdate=new Date();
-            bookdate.setDate(date.getDate()-(3));
+            var bookdate=new Date(this.state.curdate);
+            bookdate.setDate(bookdate.getDate()-(3));
             bookdate.setDate(bookdate.getDate()+parseInt(bkval[2]));
             switch(data[parseInt(bkval[0])+2][parseInt(bkval[2])]){
                 case 0:
@@ -317,21 +315,20 @@ import Docsel from '../components/doc_select'
         if (!this.nodebook.contains(e.target)) this.handleClickbook();
       };
 //date picker clicked calendar dates change function
-    onChange = (datec) => {
-        console.log("date picker : "+datec);
+    onChange = (dateco) => {
         this.setState({calen_load:true});
        //resetting table
        for(var iks=0;iks<=10;iks++)
        for(var jks=0;jks<=6;jks++)
         data[iks][jks]=0;
         //setting week firstday
+        var datec=new Date(dateco);
+        console.log("date picker : "+datec);
        datec.setDate(datec.getDate()-3);
        var lpdate=new Date(datec);
        lpdate.setHours(0,0,0,0);
        console.log("datec: "+datec);
        console.log("assigned value"+lpdate)
-       /*lpdate.setDate(datec);
-       lpdate.setDate(lpdate.getDate()-3);*/
         //vertical date fetching and parsing on data variable matrix
        for(var i=0;i<=6;i++){
            data[0][i]=lpdate.getDate()+'-'+(lpdate.getMonth()+1)+'-'+lpdate.getFullYear();//first row date
@@ -379,7 +376,7 @@ import Docsel from '../components/doc_select'
                     <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
-                        <Calendar className="modal-calendar" minDate={mindate} maxDate={maxdate} onChange={this.onChange} value={date} />
+                        <Calendar className="modal-calendar" minDate={today} maxDate={maxdate} onChange={this.onChange} value={date} />
                     )}
                 </div>
                 </div>

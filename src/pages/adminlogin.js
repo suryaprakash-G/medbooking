@@ -45,10 +45,10 @@ class AdminLogin extends React.Component{
         if(valid===true){
         this.setState({lg_loading:true});
         const admin = {
-            uname: this.state.user,
+            uname: this.state.uname,
             pass: this.state.pass
           };
-        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/login`, admin )
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/login`,admin)
         .then(res => {
             this.setState({lg_loading:false});
           if(res.data==="loged in"){
