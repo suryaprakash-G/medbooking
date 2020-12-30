@@ -22,12 +22,17 @@ class AdminMain extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            calen_load:false
+            calen_load:false,
+            dclist_load:true,//doc list loading flag
         };
         this.check_login =this.check_login.bind(this);
         this.check_login();
+        this.logout=this.logout.bind(this);
         axiosRetry(axios, { retries: 3 });
       }
+      componentDidMount() {
+        this.get_doc();
+    }
       //login check
       check_login(){
         const loggedin = localStorage.getItem("admin");
@@ -38,7 +43,20 @@ class AdminMain extends React.Component{
             uname=JSON.parse(loggedin)["uname"];
             pass=JSON.parse(loggedin)["pass"];}
       }
-    
+      get_doc(e){
+        axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{}).then(res => {
+            //console.log(res.data);
+          if(res.data["message"]!=="Internal server error"){
+              doclist=res.data;
+              doc[0]=doclist[0]['n'];
+              this.get_desc(doclist[0]['id']);
+              this.setState({docselect:doclist[0]['id']});
+              this.setState({docname:doclist[0]['n']});
+              this.onChange(date);
+              this.setState({dclist_load:false});
+          }
+        })
+    }
       get_date(lpdate){
             console.log("lp "+lpdate);
         //post values
@@ -111,7 +129,6 @@ class AdminMain extends React.Component{
             this.onChange(date);
             this.setState({calen_load:true});});
         this.setState({docname:doclist[childData]})
-
         this.setState({docname:doclist[parseInt(childData)]['n']});
         doc[0]=doclist[parseInt(childData)]['n'];
         this.get_desc(doclist[childData]['id']);
@@ -182,21 +199,19 @@ class AdminMain extends React.Component{
     render(){
         return(
         <div>
-            {this.state.dclist_load?
-                <span className="spinner-border spin-white"></span>
-                :<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/>
-            }
-            <div className="row">
-                <div className="dp"></div>
-                <div className="doc">{doc[0]}</div>
-                <button className="logout-btn" onClick={this.logout}>Logout</button>
-            </div>
+            <div className="row main">
+            <div className="dp"></div>
             {
-                this.state.desc_load? <span className="spinner-border spin-white"></span>:
-                    <div className="description">{doc[1]}</div>
+                uname==="admin"?this.state.dclist_load?
+                    <span className="spinner-border spin-white"></span>
+                    :<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/>
+                :<div className="uname">{uname}</div>
             }
+            </div>
             <div className="flexbox">
-                    <div className="datepiktxt">{data[0][3]}</div>
+
+            <button className="logout-btna flexbox" onClick={this.logout}>Logout</button>
+                    <div className="datepiktxt">{data[0][0]}</div>
                     <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                         {this.state.showModal && (
@@ -204,8 +219,8 @@ class AdminMain extends React.Component{
                         )}
                     </div>
             </div>
-                <div className= {this.state.calen_load?"blur":null}>
-                        <table className="table">
+                <div className= {this.state.calen_load?"blur":null} >
+                        <table className="table chart">
                             <tbody>
                                 {this.renderTable()}
                             </tbody>
