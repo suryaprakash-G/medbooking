@@ -15,7 +15,7 @@ const day=["sun","mon","tue","wed","thu","fri","sat"];
 var data =  [
     ["01-02-2020"],
     ["mon"],
-    [0,0,0,0,0,0,0,0,0,0,0,0],];
+    [1,0,0,0,0,0,0,0,0,0,0,0],["","","","","","","","","","",]];
 maxdate.setDate(maxdate.getDate()+180);
 var uname,pass;
 class AdminMain extends React.Component{
@@ -64,35 +64,34 @@ class AdminMain extends React.Component{
         var getdate=lpdate.getDate()+'-'+month;
         var dateyear=String(lpdate.getFullYear());
         var doc=uname;
+        if(uname==="admin")
+            doc=this.state.docselect;
         var send={date:getdate,year:dateyear,doc:doc};
         console.log(send);
             axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/view`,{date:getdate,year:dateyear,doc:doc}).then(res => {   
                 if(res.data["message"]!=="Internal server error"){
                     console.log("admin gdateresponse: "+JSON.stringify(res.data));
-                    for(var x in res.data) {
-                        var slot=res.data[x];
-                        console.log("res body "+slot);
                         //if day value is h- holiday lock all timings on that thing
-                        if(slot["day"]==="h"){
+                        if(res.data["day"]==="h"){
                             for(var y=2;y<=11;y++)//10 time values
                                 {data[2][y]=5;}
                         }else{//if not holiday or spl day parse timing slots
                             for(y in timings){
-                                if(String(timings[y]) in slot){
-                                    console.log(String(timings[y])+" oclock is "+ slot[timings[y]]);
+                                if(String(timings[y]) in res.data){
+                                    console.log(String(timings[y])+" oclock is "+ JSON.stringify(res.data[timings[y]]));
                                     console.log("y value"+y);   
                                     //[ a- available ] [t- taken] [ c- cancelled ] [ h- holiday/doc leave]
-                                    if(slot[timings[y]]==='a'){
-                                        data[2][parseInt(y)+2]=0;
-                                    }else if(slot[timings[y]]==='t'){//taken(appointment fixed)
-                                        data[2][parseInt(y)+2]=1;
-                                    }else if(slot[timings[y]]==='u'){//doc unavailable
-                                        data[2][parseInt(y)+2]=3;
+                                    if(res.data[timings[y]]['S']==='a'){
+                                        data[2][parseInt(y)]=0;
+                                    }else if(res.data[timings[y]]['S']==='t'){//taken(appointment fixed)
+                                        data[2][parseInt(y)]=1;
+                                    }else if(res.data[timings[y]['S']]==='u'){//doc unavailable
+                                        data[2][parseInt(y)]=3;
                                     }
                                 }
                             }
                         }
-                    }
+                    
             this.setState({calen_load:false});
                 }
                 })
@@ -116,6 +115,20 @@ class AdminMain extends React.Component{
         localStorage.clear();
         this.props.history.push('/admin');
       }
+    get_details(e,i){
+        var det={date:e.getDay+"-"+e.getMonth,
+        time:timings[i],
+        year:e.getFullYear,
+        pass:pass,
+        uname:uname,
+        doc:this.state.docselect}
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/details`,det).then(res => { 
+            if(res.data["message"]!=="Internal server error"){
+            doc[1]=res.data;
+            this.setState({desc_load:false});
+            }
+    })
+    }
     get_desc(e){
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{id:e}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
@@ -138,13 +151,14 @@ class AdminMain extends React.Component{
             var cln,txt,dis;// arrays of -  classname , display text , button disable flag
                 switch(dat){
                     case 0:
+                        console.log(dat+"free");
                         cln="appt-a";//available
                         txt=time[index];
                         dis=0;
                         break;
                     case 1:
-                        cln="appt-t";
-                        txt=time[index]+"\n taken ";//already booked taken
+                        cln="appt-b";
+                        txt=time[index]+"\n fixed ";//already booked taken
                         dis=1;
                         break;
                     case 2:
