@@ -15,7 +15,7 @@ const day=["sun","mon","tue","wed","thu","fri","sat"];
 var data =  [
     ["01-02-2020"],
     ["mon"],
-    [1,0,0,0,0,0,0,0,0,0,0,0],["","","","","","","","","","",]];
+    [0,0,0,0,0,0,0,0,0,0,0,0],["","","","","","","","","",""],["","","","","","","","","",""],["","","","","","","","","",""],];
 maxdate.setDate(maxdate.getDate()+180);
 var uname,pass;
 class AdminMain extends React.Component{
@@ -67,7 +67,6 @@ class AdminMain extends React.Component{
         if(uname==="admin")
             doc=this.state.docselect;
         var send={date:getdate,year:dateyear,doc:doc};
-        console.log(send);
             axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/view`,{date:getdate,year:dateyear,doc:doc}).then(res => {   
                 if(res.data["message"]!=="Internal server error"){
                     console.log("admin gdateresponse: "+JSON.stringify(res.data));
@@ -85,6 +84,7 @@ class AdminMain extends React.Component{
                                         data[2][parseInt(y)]=0;
                                     }else if(res.data[timings[y]]['S']==='t'){//taken(appointment fixed)
                                         data[2][parseInt(y)]=1;
+                                        this.get_details(lpdate,y);
                                     }else if(res.data[timings[y]['S']]==='u'){//doc unavailable
                                         data[2][parseInt(y)]=3;
                                     }
@@ -116,15 +116,21 @@ class AdminMain extends React.Component{
         this.props.history.push('/admin');
       }
     get_details(e,i){
-        var det={date:e.getDay+"-"+e.getMonth,
+        console.log(e);
+        var month=e.getMonth()+1
+        var getdate=e.getDate()+'-'+month;
+        var year=e.getFullYear();
+        var det={
+        date:getdate,
         time:timings[i],
-        year:e.getFullYear,
+        year:year,
         pass:pass,
         uname:uname,
         doc:this.state.docselect}
+        console.log(det);
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/details`,det).then(res => { 
             if(res.data["message"]!=="Internal server error"){
-            doc[1]=res.data;
+            console.log(res.data);
             this.setState({desc_load:false});
             }
     })

@@ -318,7 +318,7 @@ import Docsel from '../components/doc_select'
     onChange = (dateco) => {
         this.setState({calen_load:true});
        //resetting table
-       for(var iks=0;iks<=10;iks++)
+       for(var iks=0;iks<=11;iks++)
        for(var jks=0;jks<=6;jks++)
         data[iks][jks]=0;
         //setting week firstday
