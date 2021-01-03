@@ -31,6 +31,9 @@
     min-width: 120px;
     margin-left: 30%;
     margin-top: 5%;}
+.patsub{
+    margin-left: 33% !important;
+}
 .datepiktxt{
     color: #ff62ab;
     padding: 10px;

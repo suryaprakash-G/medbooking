@@ -75,10 +75,10 @@ class AdminLogin extends React.Component{
         <form className='flex'>
         <div className="flex">
             <input value={this.state.uname} onChange={this.c_uname} className="inputbox admininp" placeholder="User Name" />
-            <input value={this.state.pass} onChange={this.c_pass} type="password" className="pass inputbox" placeholder="Password" />
+            <input value={this.state.pass} onChange={this.c_pass} type="password" className="inputbox admininp" placeholder="Password" />
             <div className="invalidtxt">{this.state.invalid}</div>
         
-            {this.state.lg_loading?<button className="submit" onClick={this.login} disabled>
+            {this.state.lg_loading?<button className="submit admsub" onClick={this.login} disabled>
                                     <span className="spinner-border"></span></button>
                                 :<button className="submit admsub" onClick={this.login}>Login</button>
             }

@@ -8,31 +8,37 @@ const timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","1
 var doclist=[];//doctor json list with name and id and possible mor in future
 var doc=["loading . . .   ",""];
 var date=new Date();//current/selected date throughout this file
-const today=new Date(date);
 var maxdate=new Date(date);
 const time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
 const day=["sun","mon","tue","wed","thu","fri","sat"];
 var data =  [
     ["01-02-2020"],
     ["mon"],
-    [0,0,0,0,0,0,0,0,0,0,0,0],["","","","","","","","","",""],["","","","","","","","","",""],["","","","","","","","","",""],];
+    [0,0,0,0,0,0,0,0,0,0,0,0],[" "," "," "," "," "," "," "," "," "," "],
+    [" "," "," "," "," "," "," "," "," "," "],[" "," "," "," "," "," "," "," "," "," "],
+    [" "," "," "," "," "," "," "," "," "," "],[" "," "," "," "," "," "," "," "," "," "],[" "," "," "," "," "," "," "," "," "," "],
+];
 maxdate.setDate(maxdate.getDate()+180);
 var uname,pass;
 class AdminMain extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {
-            calen_load:false,
-            dclist_load:true,//doc list loading flag
-        };
+
         this.check_login =this.check_login.bind(this);
         this.check_login();
+        if(uname==="admin")
+            this.get_doc();
+        else
+            this.get_date(date);
+        this.state = {
+            docselect:uname,
+            calen_load:true,
+            dclist_load:true,//doc list loading flag
+        };
         this.logout=this.logout.bind(this);
+        this.reset_table=this.reset_table.bind(this);
         axiosRetry(axios, { retries: 3 });
       }
-      componentDidMount() {
-        this.get_doc();
-    }
       //login check
       check_login(){
         const loggedin = localStorage.getItem("admin");
@@ -44,6 +50,7 @@ class AdminMain extends React.Component{
             pass=JSON.parse(loggedin)["pass"];}
       }
       get_doc(e){
+          this.reset_table();
         axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{}).then(res => {
             //console.log(res.data);
           if(res.data["message"]!=="Internal server error"){
@@ -58,7 +65,6 @@ class AdminMain extends React.Component{
         })
     }
       get_date(lpdate){
-            console.log("lp "+lpdate);
         //post values
         var month=lpdate.getMonth()+1
         var getdate=lpdate.getDate()+'-'+month;
@@ -67,7 +73,9 @@ class AdminMain extends React.Component{
         if(uname==="admin")
             doc=this.state.docselect;
         var send={date:getdate,year:dateyear,doc:doc};
-            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/view`,{date:getdate,year:dateyear,doc:doc}).then(res => {   
+        if(uname==="admin")
+            doc=this.state.docselect;
+            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/view`,send).then(res => {   
                 if(res.data["message"]!=="Internal server error"){
                     console.log("admin gdateresponse: "+JSON.stringify(res.data));
                         //if day value is h- holiday lock all timings on that thing
@@ -97,6 +105,7 @@ class AdminMain extends React.Component{
                 })
     }
     onChange = (datec) => {
+        this.reset_table();
         console.log("date picker : "+datec);
         this.setState({calen_load:true});
        //resetting table
@@ -119,7 +128,7 @@ class AdminMain extends React.Component{
         console.log(e);
         var month=e.getMonth()+1
         var getdate=e.getDate()+'-'+month;
-        var year=e.getFullYear();
+        var year=String(e.getFullYear());
         var det={
         date:getdate,
         time:timings[i],
@@ -129,8 +138,13 @@ class AdminMain extends React.Component{
         doc:this.state.docselect}
         console.log(det);
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/details`,det).then(res => { 
-            if(res.data["message"]!=="Internal server error"){
+            if(res.data!=="error"&&res.data!=="no app"){
             console.log(res.data);
+            data[4][i]=res.data["first name"].S+" "+res.data["last name"].S;
+            data[5][i]=res.data.gen.S;
+            data[6][i]=res.data.dob.S;
+            data[7][i]=res.data.desc.S;
+            data[8][i]=res.data.mail.S;
             this.setState({desc_load:false});
             }
     })
@@ -157,7 +171,6 @@ class AdminMain extends React.Component{
             var cln,txt,dis;// arrays of -  classname , display text , button disable flag
                 switch(dat){
                     case 0:
-                        console.log(dat+"free");
                         cln="appt-a";//available
                         txt=time[index];
                         dis=0;
@@ -192,11 +205,26 @@ class AdminMain extends React.Component{
                         txt=time[index-2];
                         dis=1;
                 }
-               return(<tr>
-                    <td><button disabled={dis} className={cln} onClick={this.openappt} value={index}>{txt}</button></td>
-                </tr>)
+               return(<tbody>
+                    <tr>
+                        <td><button disabled={dis} className={cln} onClick={this.openappt} value={index}>{txt}</button></td>
+                        <td className="textblk">{data[4][index]}</td>
+                        <td className="textblk">{data[5][index]}</td>
+                        <td className="textblk">{data[6][index]}</td>
+                        <td className="textblk">{data[7][index]}</td>
+                        <td className="textblk">{data[8][index]}</td>
+                    </tr>
+                    </tbody>)
            })
         
+    }
+    reset_table(){
+        for(var i=0;i<=11;i++)
+            data[2][i]=0;
+        for(i=3;i<=8;i++)
+        for(var j=0;j<=10;j++){
+            data[i][j]=" ";
+        }
     }
     openappt(e){
         console.log(e.currentTarget.value);
@@ -235,15 +263,13 @@ class AdminMain extends React.Component{
                     <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                         {this.state.showModal && (
-                            <Calendar className="modal-calendar" minDate={today} maxDate={maxdate} onChange={this.onChange} value={date} />
+                            <Calendar className="modal-calendar" maxDate={maxdate} onChange={this.onChange} value={date} />
                         )}
                     </div>
             </div>
                 <div className= {this.state.calen_load?"blur":null} >
                         <table className="table chart">
-                            <tbody>
                                 {this.renderTable()}
-                            </tbody>
                         </table>
                 </div>
         </div>)

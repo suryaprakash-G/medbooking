@@ -164,7 +164,7 @@ class Patient_Form extends React.Component{
                 {this.state.load?
                 <button className="submit" onClick={this.verify}>
                   <span className="spinner-border spin-white"></span></button>:
-                  <button className="submit" onClick={this.verify}>submit</button>
+                  <button className="submit patsub" onClick={this.verify}>submit</button>
                 }
             </div>
         </div>)

@@ -32,4 +32,8 @@
 .doc{
     margin-left: 30% !important;
 }
+.textblk{
+    color: black;
+    text-align: center;
+}
 .modal-calendar{z-index: 1;}
