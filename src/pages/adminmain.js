@@ -32,10 +32,12 @@ class AdminMain extends React.Component{
             this.get_date(date);
         this.state = {
             docselect:uname,
+            modload:false,
             calen_load:true,
             dclist_load:true,//doc list loading flag
         };
         this.logout=this.logout.bind(this);
+        this.openappt=this.openappt.bind(this);
         this.reset_table=this.reset_table.bind(this);
         axiosRetry(axios, { retries: 3 });
       }
@@ -106,6 +108,7 @@ class AdminMain extends React.Component{
     }
     onChange = (datec) => {
         this.reset_table();
+        date=datec;
         console.log("date picker : "+datec);
         this.setState({calen_load:true});
        //resetting table
@@ -159,8 +162,8 @@ class AdminMain extends React.Component{
     selectcallback = (childData) => {
         this.setState({desc_load:true});
         this.setState({docselect:doclist[parseInt(childData)]['id']},()=>{
-            this.onChange(date);
-            this.setState({calen_load:true});});
+        this.onChange(date);
+        this.setState({calen_load:true});});
         this.setState({docname:doclist[childData]})
         this.setState({docname:doclist[parseInt(childData)]['n']});
         doc[0]=doclist[parseInt(childData)]['n'];
@@ -168,46 +171,35 @@ class AdminMain extends React.Component{
     }
     renderTable() {
         return data[2].map((dat,index)=>{
-            var cln,txt,dis;// arrays of -  classname , display text , button disable flag
+            var cln,txt;// arrays of -  classname , display text , button disable flag
                 switch(dat){
                     case 0:
                         cln="appt-a";//available
                         txt=time[index];
-                        dis=0;
                         break;
                     case 1:
                         cln="appt-b";
                         txt=time[index]+"\n fixed ";//already booked taken
-                        dis=1;
-                        break;
-                    case 2:
-                        cln="appt-c";
-                        txt=time[index]+"\n appointment cancelled ";// ur booked appointment cancelled
-                        dis=1;
                         break;
                     case 3:
                         cln="appt-u";//doc unavailable
                         txt="unavailable";
-                        dis=1;
                         break;
                     case 4:
                         cln="appt-b";//booked
                         txt=time[index]+"\n your appointment ";//your upcomming appointment
-                        dis=0;
                         break;
                     case 5:
                         cln="appt-l";//locked
                         txt=time[index]+"\n --- ";//locked date as its not today or holiday
-                        dis=0;
                         break;
                     default:
                         cln="appt-a";
                         txt=time[index-2];
-                        dis=1;
                 }
                return(<tbody>
-                    <tr>
-                        <td><button disabled={dis} className={cln} onClick={this.openappt} value={index}>{txt}</button></td>
+                    <tr key={index} className={"row"+index}>
+                        <td><button className={cln} onClick={this.openappt} value={[index]}>{txt}</button></td>
                         <td className="textblk">{data[4][index]}</td>
                         <td className="textblk">{data[5][index]}</td>
                         <td className="textblk">{data[6][index]}</td>
@@ -228,6 +220,44 @@ class AdminMain extends React.Component{
     }
     openappt(e){
         console.log(e.currentTarget.value);
+        if(this.state.calen_load===false){
+            var bkval=e.currentTarget.value;
+            console.log(data[2][bkval]);
+            //params setting
+            var month=date.getMonth()+1;
+            var getdate=date.getDate()+'-'+month;
+            var params={
+                doc:this.state.docselect,
+                uname:uname,
+                upass:pass,
+                mod:"can",
+                time:timings[bkval],
+                year:String(date.getFullYear()),
+                date:getdate
+            }
+            switch(data[2][bkval]){
+                case 0:
+                    console.log("doctor uv /hol curdate: "+ date);
+                    params["mod"]="hol";
+                    this.adminmod(params)
+                    break;
+                case 1:
+                    console.log("book cancel curdate: "+ date);
+                    params["mod"]="can";
+                    this.adminmod(params)
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    adminmod(params){
+        axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/mod`,params).then(res => {
+            //console.log(res.data);
+          if(res.data["message"]!=="Internal server error"){
+              
+          }
+        })
     }
     handleClickbook = () => {
         if (!this.state.showModal) {
