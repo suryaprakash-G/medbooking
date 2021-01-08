@@ -35,6 +35,7 @@ class AdminMain extends React.Component{
             modload:false,
             calen_load:true,
             dclist_load:true,//doc list loading flag
+            confirm_box:false
         };
         this.logout=this.logout.bind(this);
         this.openappt=this.openappt.bind(this);
@@ -171,23 +172,22 @@ class AdminMain extends React.Component{
     }
     renderTable() {
         return data[2].map((dat,index)=>{
-            var cln,txt;// arrays of -  classname , display text , button disable flag
+            var cln,txt,con;// arrays of -  classname , display text , button disable flag
                 switch(dat){
                     case 0:
                         cln="appt-a";//available
+                        con="mark doctor unavailable ?";
                         txt=time[index];
                         break;
                     case 1:
                         cln="appt-b";
+                        con="cancel appointment ?";
                         txt=time[index]+"\n fixed ";//already booked taken
                         break;
                     case 3:
                         cln="appt-u";//doc unavailable
+                        con="mark doctor available ?";
                         txt="unavailable";
-                        break;
-                    case 4:
-                        cln="appt-b";//booked
-                        txt=time[index]+"\n your appointment ";//your upcomming appointment
                         break;
                     case 5:
                         cln="appt-l";//locked
@@ -199,7 +199,10 @@ class AdminMain extends React.Component{
                 }
                return(<tbody>
                     <tr key={index} className={"row"+index}>
-                        <td><button className={cln} onClick={this.openappt} value={[index]}>{txt}</button></td>
+                        {uname==="admin"?
+                        <td><button className={cln} onClick={() => { if (window.confirm(con))console.log("adminmod-"+dat) }} value={[index]}>{txt}</button></td>:
+                        <td><button className={cln}  value={[index]}>{txt}</button></td>
+                    }
                         <td className="textblk">{data[4][index]}</td>
                         <td className="textblk">{data[5][index]}</td>
                         <td className="textblk">{data[6][index]}</td>
@@ -218,6 +221,7 @@ class AdminMain extends React.Component{
             data[i][j]=" ";
         }
     }
+
     openappt(e){
         console.log(e.currentTarget.value);
         if(this.state.calen_load===false){
@@ -238,12 +242,17 @@ class AdminMain extends React.Component{
             switch(data[2][bkval]){
                 case 0:
                     console.log("doctor uv /hol curdate: "+ date);
-                    params["mod"]="hol";
+                    params["mod"]="uv";
                     this.adminmod(params)
                     break;
                 case 1:
                     console.log("book cancel curdate: "+ date);
                     params["mod"]="can";
+                    this.adminmod(params)
+                    break;
+                case 3:
+                    console.log("holiday curdate: "+ date);
+                    params["mod"]="hol";
                     this.adminmod(params)
                     break;
                 default:
@@ -298,6 +307,7 @@ class AdminMain extends React.Component{
                     </div>
             </div>
                 <div className= {this.state.calen_load?"blur":null} >
+                    <button className="t2" onClick={() => { if (window.confirm("toggle holiday"))console.log("adminmod-hol") }}>{day[date.getDay()]} </button>
                         <table className="table chart">
                                 {this.renderTable()}
                         </table>

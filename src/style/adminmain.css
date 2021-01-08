@@ -36,4 +36,8 @@
     color: black;
     text-align: center;
 }
+.t2{
+    padding-left: 3%;
+    padding-right: 3%;
+}
 .modal-calendar{z-index: 1;}
