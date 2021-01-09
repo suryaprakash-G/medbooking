@@ -32,6 +32,7 @@ class AdminMain extends React.Component{
             this.get_date(date);
         this.state = {
             docselect:uname,
+            holiday:"",
             modload:false,
             calen_load:true,
             dclist_load:true,//doc list loading flag
@@ -55,7 +56,6 @@ class AdminMain extends React.Component{
       get_doc(e){
           this.reset_table();
         axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{}).then(res => {
-            //console.log(res.data);
           if(res.data["message"]!=="Internal server error"){
               doclist=res.data;
               doc[0]=doclist[0]['n'];
@@ -73,39 +73,40 @@ class AdminMain extends React.Component{
         var getdate=lpdate.getDate()+'-'+month;
         var dateyear=String(lpdate.getFullYear());
         var doc=uname;
+        this.setState({holiday:""});
         if(uname==="admin")
             doc=this.state.docselect;
         var send={date:getdate,year:dateyear,doc:doc};
-        if(uname==="admin")
-            doc=this.state.docselect;
-            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/view`,send).then(res => {   
-                if(res.data["message"]!=="Internal server error"){
-                    console.log("admin gdateresponse: "+JSON.stringify(res.data));
-                        //if day value is h- holiday lock all timings on that thing
-                        if(res.data["day"]==="h"){
-                            for(var y=2;y<=11;y++)//10 time values
-                                {data[2][y]=5;}
-                        }else{//if not holiday or spl day parse timing slots
-                            for(y in timings){
-                                if(String(timings[y]) in res.data){
-                                    console.log(String(timings[y])+" oclock is "+ JSON.stringify(res.data[timings[y]]));
-                                    console.log("y value"+y);   
-                                    //[ a- available ] [t- taken] [ c- cancelled ] [ h- holiday/doc leave]
-                                    if(res.data[timings[y]]['S']==='a'){
-                                        data[2][parseInt(y)]=0;
-                                    }else if(res.data[timings[y]]['S']==='t'){//taken(appointment fixed)
-                                        data[2][parseInt(y)]=1;
-                                        this.get_details(lpdate,y);
-                                    }else if(res.data[timings[y]['S']]==='u'){//doc unavailable
-                                        data[2][parseInt(y)]=3;
-                                    }
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/view`,send).then(res => {   
+            if(res.data["message"]!=="Internal server error"){
+                console.log("admin gdateresponse: "+JSON.stringify(res.data));
+                    //if day value is h- holiday lock all timings on that thing
+                    if(JSON.stringify(res.data["day"])==='{"S":"h"}'){
+                        console.log("admin gdateresponse: "+JSON.stringify(res.data["day"]));
+                        this.setState({holiday:" (holiday)"});
+                        for(var y=0;y<=9;y++)//10 time values
+                            {data[2][y]=5;}
+                    }else{//if not holiday or spl day parse timing slots
+                        for(y in timings){
+                            if(String(timings[y]) in res.data){
+                                console.log(String(timings[y])+" oclock is "+ JSON.stringify(res.data[timings[y]]));
+                                console.log("y value"+y);   
+                                //[ a- available ] [t- taken] [ c- cancelled ] [ h- holiday/doc leave]
+                                if(res.data[timings[y]]['S']==='a'){
+                                    data[2][parseInt(y)]=0;
+                                }else if(res.data[timings[y]]['S']==='t'){//taken(appointment fixed)
+                                    data[2][parseInt(y)]=1;
+                                    this.get_details(lpdate,y);
+                                }else if(res.data[timings[y]]['S']==='u'){//doc unavailable
+                                    data[2][parseInt(y)]=3;
                                 }
                             }
                         }
-                    
-            this.setState({calen_load:false});
-                }
-                })
+                    }
+                
+        this.setState({calen_load:false});
+            }
+            })
     }
     onChange = (datec) => {
         this.reset_table();
@@ -200,7 +201,7 @@ class AdminMain extends React.Component{
                return(<tbody>
                     <tr key={index} className={"row"+index}>
                         {uname==="admin"?
-                        <td><button className={cln} onClick={() => { if (window.confirm(con))console.log("adminmod-"+dat) }} value={[index]}>{txt}</button></td>:
+                        <td><button className={cln} disabled={dat===5?1:0} onClick={() => { if(uname==="admin"){if (window.confirm(con)){console.log("adminmod-"+dat);this.openappt(index)}} }} value={[index]}>{txt}</button></td>:
                         <td><button className={cln}  value={[index]}>{txt}</button></td>
                     }
                         <td className="textblk">{data[4][index]}</td>
@@ -222,11 +223,9 @@ class AdminMain extends React.Component{
         }
     }
 
-    openappt(e){
-        console.log(e.currentTarget.value);
+    openappt(bkval){
+        console.log(bkval);
         if(this.state.calen_load===false){
-            var bkval=e.currentTarget.value;
-            console.log(data[2][bkval]);
             //params setting
             var month=date.getMonth()+1;
             var getdate=date.getDate()+'-'+month;
@@ -234,39 +233,54 @@ class AdminMain extends React.Component{
                 doc:this.state.docselect,
                 uname:uname,
                 upass:pass,
-                mod:"can",
-                time:timings[bkval],
+                mod:"",
+                time:"",
                 year:String(date.getFullYear()),
                 date:getdate
             }
-            switch(data[2][bkval]){
-                case 0:
-                    console.log("doctor uv /hol curdate: "+ date);
-                    params["mod"]="uv";
-                    this.adminmod(params)
-                    break;
-                case 1:
-                    console.log("book cancel curdate: "+ date);
-                    params["mod"]="can";
-                    this.adminmod(params)
-                    break;
-                case 3:
-                    console.log("holiday curdate: "+ date);
+            if(bkval==="hol"){
+                console.log("holiday curdate: "+ date);
+                if(this.state.holiday==="")
                     params["mod"]="hol";
-                    this.adminmod(params)
-                    break;
-                default:
-                    break;
+                else
+                    params["mod"]="wor";
+                this.adminmod(params)
+            }
+            else{
+                switch(data[2][bkval]){
+                    case 0:
+                        params["mod"]="ua";
+                        params["time"]=timings[bkval]
+                        this.adminmod(params)
+                        break;
+                    case 1:
+                        params["mod"]="can";
+                        params["time"]=timings[bkval]
+                        this.adminmod(params)
+                        break;
+                    case 3:
+                        params["mod"]="a";
+                        params["time"]=timings[bkval]
+                        this.adminmod(params)
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
     adminmod(params){
-        axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/mod`,params).then(res => {
+        this.setState({calen_load:true});
+        console.log(params);
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/admin/mod`,params).then(res => {
             //console.log(res.data);
-          if(res.data["message"]!=="Internal server error"){
-              
+          if(res.data==="success"){
+            this.onChange(date);
           }
-        })
+        }).catch(error => {
+            this.setState({calen_load:false});
+            alert("please try again");
+          });
     }
     handleClickbook = () => {
         if (!this.state.showModal) {
@@ -307,7 +321,8 @@ class AdminMain extends React.Component{
                     </div>
             </div>
                 <div className= {this.state.calen_load?"blur":null} >
-                    <button className="t2" onClick={() => { if (window.confirm("toggle holiday"))console.log("adminmod-hol") }}>{day[date.getDay()]} </button>
+                    <button className="t2" onClick={() => { if (window.confirm("toggle holiday"))this.openappt("hol") }}>
+                        {day[date.getDay()]+this.state.holiday} </button>
                         <table className="table chart">
                                 {this.renderTable()}
                         </table>
