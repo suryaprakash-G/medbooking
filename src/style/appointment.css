@@ -5,6 +5,12 @@
     padding: 0% !important;
     margin: 0 !important;
 }
+img{
+    border-radius: 50%;
+    width: 110px !important;
+    height: 110px !important;
+    background-image:white;
+}
 .sidepan{
     background-color: #ff62ab;
     height: 100%;

@@ -104,7 +104,7 @@ class Main extends React.Component{
             this.setState({invalid:"mail empty"})}
         if(valid===true){
         this.setState({sg_loading:true});
-        axios.post(`https://sd51wgc7kb.execute-api.ap-south-1.amazonaws.com/test`,{
+        axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/signup`,{
             mail: this.state.mail,
             pass: this.state.pass,
             phno: this.state.phno,
@@ -151,10 +151,6 @@ class Main extends React.Component{
                     </div>
                     {(this.state.show==='login')?
                     <form className='flex-container'>
-                            <div className="row">
-                                <img src={gl} className="icons" alt="google"/>
-                                <img src={fb} className="icons" alt="facebook"/>
-                            </div>
                             <input value={this.state.mail} onChange={this.c_mail} className="mail inputbox" placeholder="Email" />
                                 <div/>
                             <input value={this.state.pass} onChange={this.c_pass} type="password" className="pass inputbox" placeholder="Password" />

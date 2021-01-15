@@ -355,7 +355,7 @@ import Docsel from '../components/doc_select'
                 </div>
                 <hr className="solid"></hr>
                 <div className="row">
-                    <div className="dp"></div>
+                <img className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.docselect+".jpg"}/>
                     <div className="doc">{doc[0]}</div>
                 </div>{
                 this.state.desc_load? <span className="spinner-border spin-white"></span>:

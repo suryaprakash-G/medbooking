@@ -162,7 +162,7 @@ class Patient_Form extends React.Component{
                 <input value={this.state.desc} onChange={this.c_desc} className="desc" placeholder="description" />
                 <div className="invalidtxt">{this.state.descfl}</div>
                 {this.state.load?
-                <button className="submit" onClick={this.verify}>
+                <button className="submit patsub" onClick={this.verify}>
                   <span className="spinner-border spin-white"></span></button>:
                   <button className="submit patsub" onClick={this.verify}>submit</button>
                 }

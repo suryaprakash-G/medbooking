@@ -1,0 +1,9 @@
+org: suryap
+app: surya
+name: medbook
+component: website
+
+inputs:
+  src:
+    hook: npm run build
+    src: ./build

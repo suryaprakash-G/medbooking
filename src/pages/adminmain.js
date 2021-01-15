@@ -301,7 +301,7 @@ class AdminMain extends React.Component{
         return(
         <div>
             <div className="row main">
-            <div className="dp"></div>
+            <img className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.docselect+".jpg"}/>
             {
                 uname==="admin"?this.state.dclist_load?
                     <span className="spinner-border spin-white"></span>
