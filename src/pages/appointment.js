@@ -350,7 +350,7 @@ import Docsel from '../components/doc_select'
                     <Back/>
                     {this.state.dclist_load?
                         <span className="spinner-border spin-white"></span>
-                        :<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/>
+                        :<div>select doctor<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/></div>
                     }
                 </div>
                 <hr className="solid"></hr>

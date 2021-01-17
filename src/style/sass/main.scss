@@ -1,0 +1,133 @@
+@import './vars.scss';
+.modal-login{
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    top: 0;
+    align-self: center;
+    align-content: center;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(151, 146, 146); /* Fallback color */
+  }
+  /* Modal Content/Box */
+  .modal-content{
+    transition-delay: 500ms;
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 30% !important;
+    min-width: 290px;
+    max-width: 50% !important; 
+    /* Could be more or less, depending on screen size */
+  }
+  .flex-container{width: 100%;}
+  .inputbox{
+      margin: 20px;
+      margin-top: 20px;
+      padding: 10px;
+      min-width: 195px;
+      border-width: 3px;
+      border-style: solid;
+      border-color:$primary;
+  }
+
+  .submit:focus,select:focus{
+      outline:$primary;
+      scale: 150%;
+      
+  }
+  .buttons:focus,.submit:focus,.inputbox:focus {
+    outline: none;
+  }
+  .submit:hover{
+    background-color: #ff62ab;
+    transition-duration: 10ms;
+  }
+  .buttons{
+      padding-left: 10%;
+      padding-right: 10%;
+      padding-bottom: 5%;
+      font-size: 30px;
+      min-width: 130px;
+      color: #888;
+      width: 50%;;
+      background: transparent;
+      border:$primary;
+      outline: none;
+      text-align: center;
+  }
+  /* The Close Button */
+  .close {
+    color: #ff62ab;
+    float: right;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    height: 150%;
+    width: 150%;
+    color:$primary;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .boxform{
+    grid-gap: 10px;
+    display: grid;
+  }
+ 
+  .submit{
+    margin:0 !important;
+    margin-top: 5% ! important;
+    font-size: 30px;
+      align-self: center;
+      background:$primary;
+      color: #fff;
+      border: none;
+      border-radius: 20px 20px;
+      width: 30%;
+      height: 45px;
+      min-width: 120px;
+  }
+  .invalidtxt{color:  rgb(209, 70, 70);}
+  .selected{
+    color: #333;
+      border-bottom: 10px solid$primary;
+  }
+  .icons{
+    height: 40px;
+    width: 40px;
+    margin: 3%;
+  }
+    select{
+    background-color:$primary;
+    color: #fff;
+    margin: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    min-width: 195px;
+    border-width: 3px;
+    border-style: solid;
+    border-color:$primary;
+  }
+
+@media only screen and (max-width: 690px) {
+  .modal-content{
+    transition-delay: 500ms;
+    background-color: #fefefe;
+    margin: 10%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80% !important;
+    min-width: 290px;
+    max-width: 80% !important; 
+  }
+}

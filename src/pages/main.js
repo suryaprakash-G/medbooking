@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import '../style/main.css';
-import gl from '../img/google.png';
-import fb from '../img/facebook.png';
+//import '../style/main.css';
+import '../style/sass/main.scss';
 import axiosRetry from 'axios-retry';
 
 class Main extends React.Component{
