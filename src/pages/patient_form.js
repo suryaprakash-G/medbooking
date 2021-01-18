@@ -2,7 +2,8 @@ import React from 'react';
 import Calendar from 'react-calendar';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
-import '../style/patform.css';
+import '../style/patform.scss';
+import '../style/react_calendar.scss';
 var dob=new Date();//date of birth
 const date=new Date();//current date
 var timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format

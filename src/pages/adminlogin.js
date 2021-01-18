@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
-import '../style/adminlogin.css';
+import '../style/adminlogin.scss';
 
 class AdminLogin extends React.Component{
     constructor(props) {

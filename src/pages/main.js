@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 //import '../style/main.css';
-import '../style/sass/main.scss';
+import '../style/main.scss';
 import axiosRetry from 'axios-retry';
 
 class Main extends React.Component{
@@ -160,10 +160,6 @@ class Main extends React.Component{
                             }
                             </form>:
                     <form className='flex-container'>
-                            <div className="row">
-                                <img src={gl} className="icons" alt="google"/>
-                                <img src={fb} className="icons" alt="facebook"/>
-                            </div>
                             <input value={this.state.mail} onChange={this.c_mail}  className="mail inputbox" placeholder="Email" />
                                 <div/>
                             <input value={this.state.pass} onChange={this.c_pass}  className="pass inputbox" type="password" placeholder="Password" />

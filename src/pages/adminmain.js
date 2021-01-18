@@ -3,7 +3,7 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import Docsel from '../components/doc_select'
 import Calendar from 'react-calendar';
-import '../style/adminmain.css';
+import '../style/adminmain.scss';
 const timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
 var doclist=[];//doctor json list with name and id and possible mor in future
 var doc=["loading . . .   ",""];

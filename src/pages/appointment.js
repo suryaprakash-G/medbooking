@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import Calendar from 'react-calendar';
-import '../style/appointment.css';
-import '../style/react_calendar.css';
+import '../style/appointment.scss';
+import '../style/react_calendar.scss';
 import Back from '../components/back_btn'
 import Docsel from '../components/doc_select'
   const time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
@@ -350,7 +350,7 @@ import Docsel from '../components/doc_select'
                     <Back/>
                     {this.state.dclist_load?
                         <span className="spinner-border spin-white"></span>
-                        :<div>select doctor<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/></div>
+                        :<div className="label">select doctor:<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/></div>
                     }
                 </div>
                 <hr className="solid"></hr>

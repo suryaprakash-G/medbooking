@@ -1,4 +1,5 @@
-
+@import './vars.scss';
+@import './global.scss';
 .fname{
     min-width: 150px;
     width: 100%;
@@ -22,7 +23,7 @@
 .submit{
     font-size: 30px;
     align-self: center;
-    background: #f570ae;
+    background:$primary;
     color: #fff;
     border: none;
     border-radius: 20px 20px;
@@ -35,7 +36,7 @@
     margin-left: 33% !important;
 }
 .datepiktxt{
-    color: #ff62ab;
+    color:$primary;
     padding: 10px;
 }
 .modal-calendar{
@@ -52,7 +53,7 @@
     padding: 1%;
     font-size: 40px;
     color: whitesmoke;
-    background-color: #ff62ab;
+    background-color:$primary;
     text-align: center;
 }
 .row{
@@ -68,7 +69,7 @@
     font-size: 20px;
 }
 .hint{
-    padding: 1%;
+    padding: 15px;
     text-align: left;
     color: gray;
 }
@@ -80,10 +81,14 @@
 }
 .spin-pink{
     margin: auto !important;
-    color: #ff62ab !important;
+    color: $primary !important;
 }
 .spin-cont{
     margin-left: 50% !important;}
+    .react-calendar {
+        height: 300px;
+        width: 600px;
+        }
 @media only screen and (min-width: 800px) {
     form{
         margin: auto;
@@ -92,4 +97,12 @@
         padding-top: 5%;
         min-width: 150px;
     }
+    
   }
+
+  @media only screen and (max-width: 450px) {
+  .react-calendar {
+    height: 300px;
+    width: 350px;
+    }
+}
