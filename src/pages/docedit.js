@@ -44,7 +44,7 @@ class Doc_edit extends React.Component{
     //rendering list of doctors for editing
     listview(){
         return doclist.map((dat, index) => {
-
+            return <div>{}</div>
         })
     }
     render(){
