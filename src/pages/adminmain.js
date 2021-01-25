@@ -310,7 +310,8 @@ class AdminMain extends React.Component{
             }
             </div>
             <div className="flexbox">
-
+            <button onClick={
+                this.props.history.push('/admin/doc')}>doctor management</button>
             <button className="logout-btna flexbox" onClick={this.logout}>Logout</button>
                     <div className="datepiktxt">{data[0][0]}</div>
                     <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>

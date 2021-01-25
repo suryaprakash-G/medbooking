@@ -9,6 +9,7 @@ import Patient_Form from './pages/patient_form';
 import View_Appointment from './pages/view_appointment';
 import AdminLogin from './pages/adminlogin';
 import AdminMain from './pages/adminmain';
+import Doc_edit from './pages/docedit.js';
 //import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -20,6 +21,7 @@ ReactDOM.render(
         <Route path="/appointment" component={View_Appointment} exact={true}/>
         <Route path="/admin" component={AdminLogin} exact={true}/>
         <Route path="/admin/main" component={AdminMain} exact={true}/>
+        <Route path="/admin/doc" component={Doc_edit} exact={true}/>
         </Switch>
       </Router>,
   document.getElementById('rootc')
