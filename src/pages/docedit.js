@@ -1,11 +1,8 @@
 import React from 'react';
-import Calendar from 'react-calendar';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import '../style/doc_edit.scss';
-import '../style/react_calendar.scss';
 var uname,pass;
-var date=new Date();//current/selected date throughout this file
 var doclist=[];//doctor json list with name and id and possible mor in future
 class Doc_edit extends React.Component{
     constructor(props) {
@@ -16,6 +13,8 @@ class Doc_edit extends React.Component{
         this.check_login=this.check_login.bind(this);
         this.get_doc=this.get_doc.bind(this);
         this.listview=this.listview.bind(this);
+        this.edit_men=this.edit_men.bind(this);
+        this.get_doc();
         axiosRetry(axios, { retries: 2 });
       }
       //login check
@@ -28,6 +27,9 @@ class Doc_edit extends React.Component{
             uname=JSON.parse(loggedin)["uname"];
             pass=JSON.parse(loggedin)["pass"];}
       }
+      edit_men(id){
+        console.log("id = "+id.target.value);
+      }
       get_doc(e){
           this.setState({load:true})
         axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{}).then(res => {
@@ -36,7 +38,6 @@ class Doc_edit extends React.Component{
               doclist=res.data;
               this.setState({docselect:doclist[0]['id']});
               this.setState({docname:doclist[0]['n']});
-              this.onChange(date);
               this.setState({dclist_load:false});
           }
         })
@@ -44,7 +45,7 @@ class Doc_edit extends React.Component{
     //rendering list of doctors for editing
     listview(){
         return doclist.map((dat, index) => {
-            return <div>{dat['n']}</div>
+            return <tr className="row"><button className="edit" onClick={this.edit_men} value={dat['id']}>{dat['n']}</button></tr>
         })
     }get_desc(e){
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{id:e}).then(res => { 
@@ -59,8 +60,10 @@ class Doc_edit extends React.Component{
         <div>
             <div className="header row">
               doctor management
-              {this.listview()}
             </div>
+            <table className="doclst">
+            {this.listview()}
+            </table>
         </div>)
     }
 }

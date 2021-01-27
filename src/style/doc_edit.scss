@@ -1,0 +1,13 @@
+@import './vars.scss';
+@import './global.scss';
+.edit{
+    color: $primary;
+    border:none;
+}
+.row{
+    border-color:rgb(190, 190, 190);
+    border-width: 3px;
+    border-radius: 20px;}
+.doclst{
+    align-self: center;
+}
