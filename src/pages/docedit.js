@@ -8,6 +8,7 @@ class Doc_edit extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            editbox:false,
             load:true
         };
         this.check_login=this.check_login.bind(this);
@@ -29,6 +30,7 @@ class Doc_edit extends React.Component{
       }
       edit_men(id){
         console.log("id = "+id.target.value);
+        this.setState({editbox:true})
       }
       get_doc(e){
           this.setState({load:true})
@@ -55,11 +57,31 @@ class Doc_edit extends React.Component{
             }
     })
     }
+    handleClickbook = () => {
+        if (!this.state.showModal) {
+          document.addEventListener("click", this.handleOutsideClickbook, false);
+        } else {
+          document.removeEventListener("click", this.handleOutsideClickbook, false);
+        }
+    
+        this.setState(prevState => ({
+          showModal: !prevState.showModal
+        }));
+      };
+    
+      handleOutsideClickbook = e => {
+        if (!this.nodebook.contains(e.target)) this.handleClickbook();
+      };
     render(){
         return(
         <div>
             <div className="header row">
               doctor management
+            </div>
+            <div ref={nodebook => {this.nodebook = nodebook;}}>
+            {this.state.showModal && (
+                <div/>
+            )}
             </div>
             <table className="doclst">
             {this.listview()}
