@@ -5,6 +5,12 @@ import '../style/doc_edit.scss';
 var uname,pass;
 var doclist=[];//doctor json list with name and id and possible mor in future
 class Doc_edit extends React.Component{
+  eb=<div>
+  <div>{this.state.id}</div>
+  <img onClick={} className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.id+".jpg"}/>
+  <input value={this.state.uname} onChange={this.c_} className="inputbox " placeholder="User Name" />
+  <input value="**changeme**" onChange={this.c_} className="inputbox " placeholder="pass" />
+  </div>;
     constructor(props) {
         super(props);
         this.state = {
