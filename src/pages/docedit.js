@@ -3,17 +3,15 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import '../style/doc_edit.scss';
 var uname,pass;
-var doclist=[];//doctor json list with name and id and possible mor in future
+var doclist=[{id:"",n:""}];//doctor json list with name and id and possible mor in future
 class Doc_edit extends React.Component{
-  eb=<div>
-  <div>{this.state.id}</div>
-  <img onClick={} className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.id+".jpg"}/>
-  <input value={this.state.uname} onChange={this.c_} className="inputbox " placeholder="User Name" />
-  <input value="**changeme**" onChange={this.c_} className="inputbox " placeholder="pass" />
-  </div>;
     constructor(props) {
         super(props);
         this.state = {
+            id:"",
+            uname:"",
+            pass:"",
+            changed:false,
             editbox:false,
             load:true
         };
@@ -21,9 +19,13 @@ class Doc_edit extends React.Component{
         this.get_doc=this.get_doc.bind(this);
         this.listview=this.listview.bind(this);
         this.edit_men=this.edit_men.bind(this);
+        this.c_uname=this.c_uname.bind(this);
+        this.c_pass=this.c_pass.bind(this); 
         this.get_doc();
         axiosRetry(axios, { retries: 2 });
       }
+      c_uname(e){this.setState({uname: e.currentTarget.value});this.setState({changed:true});}
+      c_pass(e){this.setState({pass: e.currentTarget.value});this.setState({changed:true});}
       //login check
       check_login(){
         const loggedin = localStorage.getItem("admin");
@@ -35,8 +37,11 @@ class Doc_edit extends React.Component{
             pass=JSON.parse(loggedin)["pass"];}
       }
       edit_men(id){
-        console.log("id = "+id.target.value);
-        this.setState({editbox:true})
+        this.setState({changed:false});
+        this.setState({pass:""});
+        this.setState({id:doclist[id.target.value]['id']})
+        this.setState({uname:doclist[id.target.value]['n']})
+        this.setState({showModal:true})
       }
       get_doc(e){
           this.setState({load:true})
@@ -53,7 +58,7 @@ class Doc_edit extends React.Component{
     //rendering list of doctors for editing
     listview(){
         return doclist.map((dat, index) => {
-            return <tr className="row"><button className="edit" onClick={this.edit_men} value={dat['id']}>{dat['n']}</button></tr>
+            return <tr className="row"><button className="edit" onClick={this.edit_men} value={index}>{dat['n']}</button></tr>
         })
     }get_desc(e){
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{id:e}).then(res => { 
@@ -86,7 +91,13 @@ class Doc_edit extends React.Component{
             </div>
             <div ref={nodebook => {this.nodebook = nodebook;}}>
             {this.state.showModal && (
-                <div/>
+              <div>
+              <div>{this.state.id}</div>
+              <img onClick={console.log("dp edit")} className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.id+".jpg"}/>
+              <input value={this.state.uname} onChange={this.c_uname} className="inputbox " placeholder="User Name" />
+              <input value={this.state.pass} onChange={this.c_pass} className="inputbox " placeholder="pass" />
+              <button disabled={!this.state.changed} onClick>save changes</button>
+              </div>
             )}
             </div>
             <table className="doclst">
