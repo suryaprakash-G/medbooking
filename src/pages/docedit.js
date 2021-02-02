@@ -55,6 +55,17 @@ class Doc_edit extends React.Component{
           }
         })
     }
+    sendchanges(e){
+      var id=e.target.value;
+      console.log("id sending: "+id);
+      /*
+      axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/editdoc`,{id:}).then(res => { 
+            if(res.data["message"]!=="Internal server error"){
+            //doc[1]=res.data;
+            this.setState({desc_load:false});
+            }
+    })*/
+    }
     //rendering list of doctors for editing
     listview(){
         return doclist.map((dat, index) => {
@@ -96,7 +107,7 @@ class Doc_edit extends React.Component{
               <img onClick={console.log("dp edit")} className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.id+".jpg"}/>
               <input value={this.state.uname} onChange={this.c_uname} className="inputbox " placeholder="User Name" />
               <input value={this.state.pass} onChange={this.c_pass} className="inputbox " placeholder="pass" />
-              <button disabled={!this.state.changed} onClick>save changes</button>
+              <button disabled={!this.state.changed} onClick={this.sendchanges} value={this.state.id}>save changes</button>
               </div>
             )}
             </div>
