@@ -55,11 +55,23 @@ class Doc_edit extends React.Component{
           }
         })
     }
+    deldoc(e){
+      console.log("delete doc "+e.currentTarget.value);
+      axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/deldoc`,{}).then(res => {
+            //console.log(res.data);
+          if(res.data["message"]!=="Internal server error"){
+              doclist=res.data;
+              this.setState({docselect:doclist[0]['id']});
+              this.setState({docname:doclist[0]['n']});
+              this.setState({dclist_load:false});
+          }
+        })
+    }
     sendchanges(e){
       var id=e.target.value;
-      console.log("id sending: "+id);
+      console.log("save");
       /*
-      axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/editdoc`,{id:}).then(res => { 
+      axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/editdoc`,{id:id}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
             //doc[1]=res.data;
             this.setState({desc_load:false});
@@ -74,8 +86,7 @@ class Doc_edit extends React.Component{
     }get_desc(e){
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{id:e}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
-            //doc[1]=res.data;
-            this.setState({desc_load:false});
+
             }
     })
     }
@@ -107,6 +118,7 @@ class Doc_edit extends React.Component{
               <img onClick={console.log("dp edit")} className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.id+".jpg"}/>
               <input value={this.state.uname} onChange={this.c_uname} className="inputbox " placeholder="User Name" />
               <input value={this.state.pass} onChange={this.c_pass} className="inputbox " placeholder="pass" />
+              <button onClick={this.deldoc} value={this.state.id}>delete</button>
               <button disabled={!this.state.changed} onClick={this.sendchanges} value={this.state.id}>save changes</button>
               </div>
             )}
