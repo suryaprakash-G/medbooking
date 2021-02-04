@@ -73,7 +73,7 @@ class Doc_edit extends React.Component{
       /*
       axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/editdoc`,{id:id}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
-            //doc[1]=res.data;
+            alert("changes saved");
             this.setState({desc_load:false});
             }
     })*/
@@ -86,7 +86,7 @@ class Doc_edit extends React.Component{
     }get_desc(e){
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{id:e}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
-
+              
             }
     })
     }
