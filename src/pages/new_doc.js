@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import '../style/new_doc.scss';
+var uname,pass;
 class New_doc extends React.Component{
     constructor(props) {
         super(props);
@@ -26,6 +27,46 @@ class New_doc extends React.Component{
         uname=JSON.parse(loggedin)["uname"];
         pass=JSON.parse(loggedin)["pass"];}
     }
+    //value changing function
+    c_fname(e){this.setState({ fname: e.currentTarget.value});
+    this.setState({fnamefl:""})}
+    c_lname(e){this.setState({ lname: e.currentTarget.value});
+    this.setState({lnamefl:""})}
+    c_desc(e){this.setState({ desc: e.currentTarget.value});
+    this.setState({descfl:""})}
+    c_gen(e){this.setState({gen:e.currentTarget.value});}
+    //adding new doctor
+    adddoc(){
+        this.setState({load:true});
+        const info = {
+            first_name:this.state.fname,
+            last_name:this.state.lname,
+            gen:this.state.gen,
+            desc:this.state.desc,
+            umail: uname,
+            upass: pass,
+        };
+        console.log(info);
+            axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/newdoc`,info).then(res => {
+                if(res.data["message"]!=="Internal server error"){
+                        console.log("response: "+JSON.stringify(res.data));
+                        if(res.data==="booked"){
+                        alert("doctor added");
+                        this.props.history.push("/admin/doc");
+                        }
+                    }
+                else{
+                    alert("something went wrong retry please");
+                }
+            }).catch(error => {
+            this.stopld();
+            });
+        }
+    stopld(){
+        alert("please try again");
+        this.setState({load:false});
+    }
+    
     render(){
         return(
         <div>
