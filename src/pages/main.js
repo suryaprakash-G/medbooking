@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-//import '../style/main.css';
 import '../style/main.scss';
 import axiosRetry from 'axios-retry';
 
@@ -20,7 +19,7 @@ class Main extends React.Component{
         sg_loading:false,
         invalid:""
         }
-        //cant even autobind itself lazy crap
+        //cant autobind so manually doing it
         this.loginchk = this.loginchk.bind(this)
         this.login = this.login.bind(this)
         this.signup = this.signup.bind(this)
@@ -54,13 +53,13 @@ class Main extends React.Component{
         else{this.hidebox();}
         e.preventDefault();
     } 
-    stoplg(){
-        console.log("stopped loading");
+    stoplg(){//stop login button load
         this.setState({lg_loading:false});
-    }stopsg(){
+    }stopsg(){//stop signup button load
         this.setState({sg_loading:false});
     }
     login(e){
+        //validating text boxes
         var valid=true;
         if(this.state.pass===""){valid=false;
             this.setState({invalid:"please enter password"})}
@@ -72,6 +71,7 @@ class Main extends React.Component{
             mail: this.state.mail,
             pass: this.state.pass
           };
+          //sending creds to login
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/login`,  user )
         .then(res => {
             this.setState({lg_loading:false});
@@ -112,7 +112,6 @@ class Main extends React.Component{
           })
         .then(res => {
             this.setState({sg_loading:false});
-          //console.log(res.data["result"]);
           if(res.data["result"]==="signed up"){
               alert("signed up check mail to verify account");
           }

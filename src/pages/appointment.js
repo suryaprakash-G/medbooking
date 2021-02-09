@@ -31,7 +31,6 @@ import Docsel from '../components/doc_select'
   maxdate.setDate(maxdate.getDate()+180);
   date.setHours(0,0,0,0);
   var gdatechk=[0,0,0,0,0,0,0];//get date all 7 date return check list
-  //var datpop=false;
   var doc=["loading . . .   ",""];
   class Appointment extends React.Component{
     constructor(props) {
@@ -46,7 +45,6 @@ import Docsel from '../components/doc_select'
           dclist_load:true,//doc list loading flag
           calen_load:true//appointment calendar loading flag
         };
-        console.log("first curdate: "+this.state.curdate);
         this.check_login =this.check_login.bind(this);
         this.check_login();
         this.get_doc = this.get_doc.bind(this);
@@ -108,10 +106,8 @@ import Docsel from '../components/doc_select'
         var doc=this.state.docselect;
             axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdate`,{date:getdate,year:dateyear,doc:doc,mail:mail}).then(res => {   
                 if(res.data["message"]!=="Internal server error"){
-                    console.log("response: "+i+"  "+JSON.stringify(res.data));
                     for(var x in res.data) {
                         var slot=res.data[x];
-                        console.log("res body "+slot);
                         //if day value is h- holiday lock all timings on that thing
                         if(slot["day"]==="h"){
                             for(var y=2;y<=11;y++)//10 time values
@@ -120,8 +116,6 @@ import Docsel from '../components/doc_select'
                         }else{//if not holiday or spl day parse timing slots
                             for(y in timings){
                                 if(String(timings[y]) in slot){
-                                    console.log(String(timings[y])+" oclock is "+ slot[timings[y]]);
-                                    console.log("y value"+y);   
                                     //[ a- available ]  [ b- booked ]   [ c- cancelled ] [ h- holiday/doc leave]
                                     if(slot[timings[y]]==='a'){
                                         data[parseInt(y)+2][i]=0;
@@ -158,7 +152,6 @@ import Docsel from '../components/doc_select'
     }
     get_doc(e){
         axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/getdoc`,{}).then(res => {
-            //console.log(res.data);
           if(res.data["message"]!=="Internal server error"){
               doclist=res.data;
               doc[0]=doclist[0]['n'];
@@ -271,7 +264,6 @@ import Docsel from '../components/doc_select'
             bookdate.setDate(bookdate.getDate()+parseInt(bkval[2]));
             switch(data[parseInt(bkval[0])+2][parseInt(bkval[2])]){
                 case 0:
-                    console.log("booking curdate: "+ this.state.curdate);
                     //new booking function
                     this.props.history.push({pathname:'/form',
                     state: {bookdate:bookdate,
@@ -280,7 +272,6 @@ import Docsel from '../components/doc_select'
                         docname:this.state.docname}});
                     break;
                 case 4:
-                    console.log("apptview curdate: "+ this.state.curdate);
                     //already booked details 
                     this.props.history.push({pathname:'/appointment',
                     state: {
@@ -292,7 +283,6 @@ import Docsel from '../components/doc_select'
                         timed:timings[bkval[0]],
 
                     }});
-                    console.log("year : "+bookdate.getFullYear());
                     break;
                 default:
                     break;
@@ -323,16 +313,12 @@ import Docsel from '../components/doc_select'
         data[iks][jks]=0;
         //setting week firstday
         var datec=new Date(dateco);
-        console.log("date picker : "+datec);
        datec.setDate(datec.getDate()-3);
        var lpdate=new Date(datec);
        lpdate.setHours(0,0,0,0);
-       console.log("datec: "+datec);
-       console.log("assigned value"+lpdate)
         //vertical date fetching and parsing on data variable matrix
        for(var i=0;i<=6;i++){
            data[0][i]=lpdate.getDate()+'-'+(lpdate.getMonth()+1)+'-'+lpdate.getFullYear();//first row date
-           console.log("lpdate gdate: "+lpdate);
            data[1][i]=day[lpdate.getDay()];//second row day
            //get timings per day
             this.get_date(lpdate,i);//rest of all vertical time per day getting and parsing on data matrix
