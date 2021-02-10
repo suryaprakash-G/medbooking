@@ -58,7 +58,6 @@ class Doc_edit extends React.Component{
     deldoc(e){
       console.log("delete doc "+e.currentTarget.value);
       axios.get(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/deldoc`,{}).then(res => {
-            //console.log(res.data);
           if(res.data["message"]!=="Internal server error"){
               doclist=res.data;
               this.setState({docselect:doclist[0]['id']});
@@ -69,14 +68,12 @@ class Doc_edit extends React.Component{
     }
     sendchanges(e){
       var id=e.target.value;
-      console.log("save");
-      /*
       axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/editdoc`,{id:id}).then(res => { 
             if(res.data["message"]!=="Internal server error"){
             alert("changes saved");
             this.setState({desc_load:false});
             }
-    })*/
+    })
     }
     //rendering list of doctors for editing
     listview(){

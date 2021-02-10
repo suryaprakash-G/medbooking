@@ -61,7 +61,7 @@ class Patient_Form extends React.Component{
       this.setState({showModal:false});
     }
     c_gen(e){this.setState({gen:e.currentTarget.value});}
-   
+    //calander show on click
     handleClick = () => {
       if (!this.state.showModal) {
         document.addEventListener("click", this.handleOutsideClick, false);
@@ -85,8 +85,6 @@ class Patient_Form extends React.Component{
         if(this.state.dob==="dd-mm-yy"){valid=false;
           this.setState({dobfl:"please select date of birth"})}
         if(valid===true){this.send_form()}
-        //else{alert("invalid form")};
-
     }
 
     //send form
@@ -107,10 +105,8 @@ class Patient_Form extends React.Component{
         umail: JSON.parse(loggedin)["mail"],
         upass: JSON.parse(loggedin)["pass"],
       };
-      console.log(info);
         axios.post(`https://bqhdj6kx2j.execute-api.ap-south-1.amazonaws.com/test/book`,info).then(res => {
            if(res.data["message"]!=="Internal server error"){
-                    console.log("response: "+JSON.stringify(res.data));
                     if(res.data==="booked"){
                       alert("appointment booked");
                       this.props.history.push("/book");
@@ -123,6 +119,7 @@ class Patient_Form extends React.Component{
           this.stopld();
         });
     }
+    //stop loading and alert
     stopld(){
       alert("please try again");
       this.setState({load:false});
