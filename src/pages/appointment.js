@@ -54,6 +54,7 @@ import Docsel from '../components/doc_select'
         this.bookapt=this.bookapt.bind(this)
         this.onChange = this.onChange.bind(this);
         this.getdatechk = this.getdatechk.bind(this);
+        this.c_search=this.c_search.bind(this);
         axiosRetry(axios, { retries: 3 });
         this.selectcallback= this.selectcallback.bind(this);
       }
@@ -174,7 +175,11 @@ import Docsel from '../components/doc_select'
         doc[0]=doclist[parseInt(childData)]['n'];
         this.get_desc(doclist[childData]['id']);
     }
-
+    //search update
+    c_search(e){
+        s=e.currentTarget.value;
+        console.log(s);
+    }
     renderTable() {
         return data.map((dat, index) => {
             var td="ta";
@@ -336,7 +341,9 @@ import Docsel from '../components/doc_select'
                     <Back/>
                     {this.state.dclist_load?
                         <span className="spinner-border spin-white"></span>
-                        :<div className="label">select doctor:<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/></div>
+                        :<div className="label">
+                            <input value={this.state.search} onChange={this.c_search}  className="" placeholder="search" ></input>
+                            select doctor:<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/></div>
                     }
                 </div>
                 <hr className="solid"></hr>
