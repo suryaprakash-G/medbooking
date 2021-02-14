@@ -175,11 +175,6 @@ import Docsel from '../components/doc_select'
         doc[0]=doclist[parseInt(childData)]['n'];
         this.get_desc(doclist[childData]['id']);
     }
-    //search update
-    c_search(e){
-        s=e.currentTarget.value;
-        console.log(s);
-    }
     renderTable() {
         return data.map((dat, index) => {
             var td="ta";
@@ -342,7 +337,6 @@ import Docsel from '../components/doc_select'
                     {this.state.dclist_load?
                         <span className="spinner-border spin-white"></span>
                         :<div className="label">
-                            <input value={this.state.search} onChange={this.c_search}  className="" placeholder="search" ></input>
                             select doctor:<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/></div>
                     }
                 </div>
