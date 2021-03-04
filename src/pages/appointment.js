@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import Calendar from 'react-calendar';
-import '../style/appointment.scss';
-import '../style/react_calendar.scss';
+import styles from '../style/appointment.module.css';
+import '../style/react_calendar.module.scss';
 import Back from '../components/back_btn'
 import Docsel from '../components/doc_select'
   const time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
@@ -54,7 +54,6 @@ import Docsel from '../components/doc_select'
         this.bookapt=this.bookapt.bind(this)
         this.onChange = this.onChange.bind(this);
         this.getdatechk = this.getdatechk.bind(this);
-        this.c_search=this.c_search.bind(this);
         axiosRetry(axios, { retries: 3 });
         this.selectcallback= this.selectcallback.bind(this);
       }

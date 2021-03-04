@@ -108,16 +108,16 @@
     width: 40px;
     margin: 3%;
   }
-    select{
-    background-color:$primary;
-    color: #fff;
-    margin: 20px;
-    margin-top: 20px;
-    padding: 10px;
-    min-width: 195px;
-    border-width: 3px;
-    border-style: solid;
-    border-color:$primary;
+  select{
+  background-color:$primary;
+  color: #fff;
+  margin: 20px;
+  margin-top: 20px;
+  padding: 10px;
+  min-width: 195px;
+  border-width: 3px;
+  border-style: solid;
+  border-color:$primary;
   }
 
 @media only screen and (max-width: 690px) {

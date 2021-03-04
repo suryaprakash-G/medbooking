@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
-import '../style/doc_edit.scss';
+import '../style/doc_edit.module.scss';
 var uname,pass;
 var doclist=[{id:"",n:""}];//doctor json list with name and id and possible mor in future
 class Doc_edit extends React.Component{

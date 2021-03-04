@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import '../style/view_appointment.scss';
+import '../style/view_appointment.module.scss';
 class View_Appointment extends React.Component{
     constructor(props) {
         super(props);
