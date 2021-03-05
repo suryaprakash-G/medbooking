@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import '../style/main.module.scss';
+import styles from '../style/main.module.scss';
 import axiosRetry from 'axios-retry';
 
 class Main extends React.Component{

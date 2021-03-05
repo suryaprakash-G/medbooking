@@ -1,3 +1,5 @@
+@import './vars.scss';
+@import './global.scss';
 .appointment{
     height: 100%;
     width: 100%;
@@ -11,7 +13,7 @@ img{
     background-image:white;
 }
 .sidepan{
-    background-color:#f570ae;
+    background-color:$primary;
     height: 100%;
     min-height: 740px;
 }
@@ -55,7 +57,7 @@ img{
     border-bottom: black;
     border-width: 1px;
     border-style: solid;
-    color:#f570ae;
+    color:$primary;
 }
 .ta{
     text-align: center;
@@ -91,7 +93,7 @@ td{
 }
 .col
 .datepiktxt{
-    color:#f570ae;
+    color:$primary;
     padding: 10px;
 
 }
@@ -99,9 +101,9 @@ td{
     border-radius: 25px;
     height: 35px;
     color: whitesmoke;
-    background-color:#f570ae;
+    background-color:$primary;
 }
-.modal-calendar{
+.modal_calendar{
     margin-top: 10%;
     left:20%;
     position: absolute;
@@ -125,7 +127,7 @@ td{
     bottom: 0;
 }
 .mailid{
-    background-color:#f570ae;
+    background-color:$primary;
     color: rgb(39, 39, 39);
     margin-bottom: 0%;
     margin: 20px;
@@ -141,9 +143,9 @@ td{
     width: 100%;
     border: 1px solid black;
 }
-header{
+.header{
     font-size: 40px;
-    color:#f570ae;
+    color:$primary;
     margin: 0.1% !important;
 }
 hr.solid{
@@ -167,7 +169,7 @@ border: 0px;
 }
 
 @media only screen and (max-width: 690px) {
-    .logout-btn{
+    .logoutbtn{
         color: white;
         margin-bottom: 0%;
         background-color: rgb(209, 70, 70);
@@ -182,7 +184,7 @@ border: 0px;
         bottom: 0;
     }
     .mailid{
-        background-color:#f570ae;
+        background-color:$primary;
         color: rgb(39, 39, 39);
         margin-bottom: 0%;
         margin: 20px;

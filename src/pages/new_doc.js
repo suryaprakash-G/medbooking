@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
-import '../style/new_doc.module.scss';
+import styles from '../style/new_doc.module.scss';
 var uname,pass;
 class New_doc extends React.Component{
     constructor(props) {

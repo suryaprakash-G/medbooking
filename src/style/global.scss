@@ -14,3 +14,16 @@
     border-style: solid;
     border-color:$primary;
 }
+.buttons{
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 5%;
+    font-size: 30px;
+    min-width: 130px;
+    color: #888;
+    width: 50%;;
+    background: transparent;
+    border:$primary;
+    outline: none;
+    text-align: center;
+}

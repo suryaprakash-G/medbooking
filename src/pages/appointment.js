@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import Calendar from 'react-calendar';
-import styles from '../style/appointment.module.css';
-import '../style/react_calendar.module.scss';
+import styles from '../style/appointment.module.scss';
+import calen from '../style/react_calendar.module.scss';
 import Back from '../components/back_btn'
 import Docsel from '../components/doc_select'
   const time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
@@ -329,47 +329,47 @@ import Docsel from '../components/doc_select'
       
     render(){
         return(
-        <div className="row appointment">
-            <div className="sidepan col-lg-3">
+        <div className={styles.row,styles.appointment}>
+            <div className={'styles.sidepan','styles.col-lg-3'}>
                 <div>
                     <Back/>
                     {this.state.dclist_load?
                         <span className="spinner-border spin-white"></span>
-                        :<div className="label">
+                        :<div className={styles.label}>
                             select doctor:<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/></div>
                     }
                 </div>
                 <hr className="solid"></hr>
                 <div className="row">
                 <img className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.docselect+".jpg"}/>
-                    <div className="doc">{doc[0]}</div>
+                    <div className={styles.doc}>{doc[0]}</div>
                 </div>{
                 this.state.desc_load? <span className="spinner-border spin-white"></span>:
-                    <div className="description">{doc[1]}</div>
+                    <div className={styles.description}>{doc[1]}</div>
                 }
                 <div className="container-fluid"></div>
-                <button className="logout-btn" onClick={this.logout}>Logout</button>
-                <div className="mailid">{mail}</div>
+                <button className={styles.logoutbtn} onClick={this.logout}>Logout</button>
+                <div className={styles.mailid}>{mail}</div>
                 
                 
             </div>
             <div className="main col-lg-9">
-                <div className="header">
+                <div className={styles.header}>
                 Appointment
                 </div>
                 <div className="flexbox">
-                    <div className="datepiktxt">{data[0][3]}</div>
-                    <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
+                    <div className={styles.datepiktxt}>{data[0][3]}</div>
+                    <button className={styles.datepikbtn} onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
-                        <Calendar className="modal-calendar" minDate={today} maxDate={maxdate} onChange={this.onChange} value={date} />
+                        <Calendar className={styles.modal_calendar} minDate={today} maxDate={maxdate} onChange={this.onChange} value={date} />
                     )}
                 </div>
                 </div>
                 
-                <div className="appointments">
+                <div className={styles.appointments}>
                         <div className= {this.state.calen_load?"blur":null}>
-                        <table className="table">
+                        <table className={styles.table}>
                             <tbody>
                                 {this.renderTable()}
                             </tbody>
