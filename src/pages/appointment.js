@@ -4,6 +4,8 @@ import axiosRetry from 'axios-retry';
 import Calendar from 'react-calendar';
 import styles from '../style/appointment.module.scss';
 import calen from '../style/react_calendar.module.scss';
+import bs from '../style/bootstrap.min.module.css';
+import cx from 'classnames';
 import Back from '../components/back_btn'
 import Docsel from '../components/doc_select'
   const time=["09:00 am","10:00 am","11:00 am","12:00 pm","01:00 pm","02:00 pm","03:00 pm","04:00 pm","05:00 pm","06:00 pm"];//12 hr format for displaying
@@ -329,17 +331,17 @@ import Docsel from '../components/doc_select'
       
     render(){
         return(
-        <div className={styles.row,styles.appointment}>
-            <div className={'styles.sidepan','styles.col-lg-3'}>
+        <div className={cx(bs.row,styles.appointment)}>
+            <div className={cx(styles.sidepan,bs.col-lg-3)}>
                 <div>
                     <Back/>
                     {this.state.dclist_load?
-                        <span className="spinner-border spin-white"></span>
+                        <span className={cx(bs['spinner-border'],bs['spin-white'])}></span>
                         :<div className={styles.label}>
-                            select doctor:<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/></div>
+                            select doctor:<Docsel className={cx(bs['container-fluid'])} parentCallback = {this.selectcallback} doc={doclist}/></div>
                     }
                 </div>
-                <hr className="solid"></hr>
+                <hr className={styles.solid}></hr>
                 <div className="row">
                 <img className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.docselect+".jpg"}/>
                     <div className={styles.doc}>{doc[0]}</div>
@@ -353,7 +355,7 @@ import Docsel from '../components/doc_select'
                 
                 
             </div>
-            <div className="main col-lg-9">
+            <div className={cx(styles.main,bs.col-lg-9)}>
                 <div className={styles.header}>
                 Appointment
                 </div>
