@@ -3,6 +3,8 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import Docsel from '../components/doc_select'
 import Calendar from 'react-calendar';
+import bs from '../style/bootstrap.min.module.css';
+import cx from 'classnames';
 import styles from '../style/adminmain.module.scss';
 const timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
 var doclist=[];//doctor json list with name and id and possible mor in future
@@ -300,21 +302,21 @@ class AdminMain extends React.Component{
     render(){
         return(
         <div>
-            <div className="row main">
+            <div className={cx(styles.row,styles.main)}>
             <img className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.docselect+".jpg"}/>
             {
                 uname==="admin"?this.state.dclist_load?
-                    <span className="spinner-border spin-white"></span>
-                    :<Docsel className="container-fluid" parentCallback = {this.selectcallback} doc={doclist}/>
-                :<div className="uname">{uname}</div>
+                    <span className={cx(bs.spinner-border,bs.spin-white)}></span>
+                    :<Docsel className={bs['container-fluid']} parentCallback = {this.selectcallback} doc={doclist}/>
+                :<div className={styles.uname}>{uname}</div>
             }
             </div>
-            <div className="flexbox">
+            <div className={bs.flexbox}>
             <button onClick={
                 this.props.history.push('/admin/doc')}>doctor management</button>
-            <button className="logout-btna flexbox" onClick={this.logout}>Logout</button>
-                    <div className="datepiktxt">{data[0][0]}</div>
-                    <button className="datepikbtn" onClick={this.handleClickbook}>change date</button>
+            <button className={cx(styles[logout-btna],bs.flexbox)} onClick={this.logout}>Logout</button>
+                    <div className={styles.datepiktxt}>{data[0][0]}</div>
+                    <button className={styles.datepikbtn} onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                         {this.state.showModal && (
                             <Calendar className="modal-calendar" maxDate={maxdate} onChange={this.onChange} value={date} />
@@ -324,7 +326,7 @@ class AdminMain extends React.Component{
                 <div className= {this.state.calen_load?"blur":null} >
                     <button className="t2" onClick={() => { if (window.confirm("toggle holiday"))this.openappt("hol") }}>
                         {day[date.getDay()]+this.state.holiday} </button>
-                        <table className="table chart">
+                        <table className={cx(styles.table,styles.chart)}>
                                 {this.renderTable()}
                         </table>
                 </div>

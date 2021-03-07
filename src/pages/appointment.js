@@ -332,7 +332,7 @@ import Docsel from '../components/doc_select'
     render(){
         return(
         <div className={cx(bs.row,styles.appointment)}>
-            <div className={cx(styles.sidepan,bs.col-lg-3)}>
+            <div className={cx(styles.sidepan,bs['col-lg-3'])}>
                 <div>
                     <Back/>
                     {this.state.dclist_load?
@@ -342,24 +342,24 @@ import Docsel from '../components/doc_select'
                     }
                 </div>
                 <hr className={styles.solid}></hr>
-                <div className="row">
-                <img className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.docselect+".jpg"}/>
+                <div className={bs.row}>
+                <img className={cx(bs.img,styles.dp)} src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.docselect+".jpg"}/>
                     <div className={styles.doc}>{doc[0]}</div>
                 </div>{
                 this.state.desc_load? <span className="spinner-border spin-white"></span>:
                     <div className={styles.description}>{doc[1]}</div>
                 }
-                <div className="container-fluid"></div>
+                <div className={bs['container-fluid']}></div>
                 <button className={styles.logoutbtn} onClick={this.logout}>Logout</button>
                 <div className={styles.mailid}>{mail}</div>
                 
                 
             </div>
-            <div className={cx(styles.main,bs.col-lg-9)}>
+            <div className={cx(styles.main,bs['col-lg-9'])}>
                 <div className={styles.header}>
                 Appointment
                 </div>
-                <div className="flexbox">
+                <div className={bs.flexbox}>
                     <div className={styles.datepiktxt}>{data[0][3]}</div>
                     <button className={styles.datepikbtn} onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
@@ -370,7 +370,7 @@ import Docsel from '../components/doc_select'
                 </div>
                 
                 <div className={styles.appointments}>
-                        <div className= {this.state.calen_load?"blur":null}>
+                        <div className= {this.state.calen_load?styles.blur:null}>
                         <table className={styles.table}>
                             <tbody>
                                 {this.renderTable()}

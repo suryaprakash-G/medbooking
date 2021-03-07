@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
+import bs from '../style/bootstrap.min.module.css';
+import cx from 'classnames';
 import styles from '../style/adminlogin.module.scss';
 
 class AdminLogin extends React.Component{
@@ -72,15 +74,15 @@ class AdminLogin extends React.Component{
         return(
         <div>
         <div className="header">Admin login</div>
-        <form className='flex'>
-        <div className="flex">
-            <input value={this.state.uname} onChange={this.c_uname} className="inputbox admininp" placeholder="User Name" />
-            <input value={this.state.pass} onChange={this.c_pass} type="password" className="inputbox admininp" placeholder="Password" />
+        <form className={bs.flex}>
+        <div className={bs.flex}>
+            <input value={this.state.uname} onChange={this.c_uname} className={styles.inputbox,styles.admininp} placeholder="User Name" />
+            <input value={this.state.pass} onChange={this.c_pass} type="password" className={styles.inputbox,styles.admininp} placeholder="Password" />
             <div className="invalidtxt">{this.state.invalid}</div>
         
-            {this.state.lg_loading?<button className="submit admsub" onClick={this.login} disabled>
-                                    <span className="spinner-border"></span></button>
-                                :<button className="submit admsub" onClick={this.login}>Login</button>
+            {this.state.lg_loading?<button className={styles.submit,styles.admsub} onClick={this.login} disabled>
+                                    <span className={bs['spinner-border']}></span></button>
+                                :<button className={styles.submit,styles.admsub} onClick={this.login}>Login</button>
             }
         </div>
         </form>
