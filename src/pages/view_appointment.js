@@ -75,13 +75,13 @@ class View_Appointment extends React.Component{
         {this.state.load?
             <div className="spin-cont"><span className="spinner-border spin-pink"></span></div>:
             <div className="textbox">
-                <div className="x">date: </div><div className="y">{this.state.date+"-"+this.state.year}</div>
-                <div className="x">time: </div><div className="y">{this.state.timed}</div>
-                <div className="x">doctor: </div><div className="y">{this.state.docname}</div>
-                <div className="x">patient name: </div><div className="y">{this.state.fname+" "+this.state.lname}</div>
-                <div className="x">gender: </div><div className="y">{this.state.gen}</div>
-                <div className="x">patient d.o.b: </div><div className="y">{this.state.dob}</div>
-                <div className="x">description: </div><div className="y">{this.state.desc}</div>
+                <div className={styles.x}>date: </div><div className={styles.y}>{this.state.date+"-"+this.state.year}</div>
+                <div className={styles.x}>time: </div><div className={styles.y}>{this.state.timed}</div>
+                <div className={styles.x}>doctor: </div><div className={styles.y}>{this.state.docname}</div>
+                <div className={styles.x}>patient name: </div><div className={styles.y}>{this.state.fname+" "+this.state.lname}</div>
+                <div className={styles.x}>gender: </div><div className={styles.y}>{this.state.gen}</div>
+                <div className={styles.x}>patient d.o.b: </div><div className={styles.y}>{this.state.dob}</div>
+                <div className={styles.x}>description: </div><div className={styles.y}>{this.state.desc}</div>
             </div>
         }
         </div>

@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import styles from '../style/doc_edit.module.scss';
+import bs from '../style/bootstrap.min.module.css';
+import cx from 'classnames';
 var uname,pass;
 var doclist=[{id:"",n:""}];//doctor json list with name and id and possible mor in future
 class Doc_edit extends React.Component{
@@ -105,22 +107,22 @@ class Doc_edit extends React.Component{
     render(){
         return(
         <div>
-            <div className="header row">
+            <div className={cx(styles.header,styles.row)}>
               doctor management
             </div>
             <div ref={nodebook => {this.nodebook = nodebook;}}>
             {this.state.showModal && (
               <div>
               <div>{this.state.id}</div>
-              <img onClick={console.log("dp edit")} className="img dp" src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.id+".jpg"}/>
-              <input value={this.state.uname} onChange={this.c_uname} className="inputbox " placeholder="User Name" />
-              <input value={this.state.pass} onChange={this.c_pass} className="inputbox " placeholder="pass" />
+              <img onClick={console.log("dp edit")} className={cx(bs.img,styles.dp)} src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.id+".jpg"}/>
+              <input value={this.state.uname} onChange={this.c_uname} className={styles.inputbox} placeholder="User Name" />
+              <input value={this.state.pass} onChange={this.c_pass} className={styles.inputbox} placeholder="pass" />
               <button onClick={this.deldoc} value={this.state.id}>delete</button>
               <button disabled={!this.state.changed} onClick={this.sendchanges} value={this.state.id}>save changes</button>
               </div>
             )}
             </div>
-            <table className="doclst">
+            <table className={styles.doclst}>
             {this.listview()}
             </table>
         </div>)

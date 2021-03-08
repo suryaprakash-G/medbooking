@@ -3,6 +3,8 @@ import Calendar from 'react-calendar';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import styles from '../style/patform.module.scss';
+import bs from '../style/bootstrap.min.module.css';
+import cx from 'classnames';
 import calen from '../style/react_calendar.module.scss';
 var dob=new Date();//date of birth
 const date=new Date();//current date
@@ -127,42 +129,42 @@ class Patient_Form extends React.Component{
     render(){
         return(
         <div>
-            <div className="header row">
+            <div className={cx(styles.header,bs.row)}>
               Patient form
             </div>
             <div className="bookfor">{"booking for "+this.state.bookdate.getDate()+'-'+(this.state.bookdate.getMonth()+1)+'-'+this.state.bookdate.getFullYear()
               +"   ("+time[parseInt(this.state.booktime)]+") for doctor "+this.props.location.state.docname}</div>
-            <div className="form">
-                <input value={this.state.fname} onChange={this.c_fname} className="fname" placeholder="first name" />
-                <div className="invalidtxt">{this.state.fnamefl}</div>
-                <input value={this.state.lname} onChange={this.c_lname} className="lname" placeholder="last name" />
-                <div className="invalidtxt">{this.state.lnamefl}</div>
-                  <div className="row">
-                    <div className="datepiktxt">{this.state.dob}</div>
-                    <button className="datepikbtn" onClick={this.handleClick}>change D.O.B</button>
+            <div className={styles.form}>
+                <input value={this.state.fname} onChange={this.c_fname} className={styles.fname} placeholder="first name" />
+                <div className={styles.invalidtxt}>{this.state.fnamefl}</div>
+                <input value={this.state.lname} onChange={this.c_lname} className={styles.lname} placeholder="last name" />
+                <div className={styles.invalidtxt}>{this.state.lnamefl}</div>
+                  <div className={styles.row}>
+                    <div className={styles.datepiktxt}>{this.state.dob}</div>
+                    <button className={styles.datepikbtn} onClick={this.handleClick}>change D.O.B</button>
                     <div ref={node => {this.node = node;}}>
                       {this.state.showModal && (
                           <Calendar
-                            className="cal"
+                            className={styles.cal}
                             value={dob}
                             maxDate={date}
                             onChange={this.c_dob}/>
                       )}</div>
                       
-                      <div className="hint">(hint : click calendar title twice to change year)</div>
+                      <div className={styles.hint}>(hint : click calendar title twice to change year)</div>
                 </div>
-                <div className="invalidtxt">{this.state.dobfl}</div>
-                <select className="gen" value={this.state.gen} onChange={this.c_gen}>
+                <div className={styles.invalidtxt}>{this.state.dobfl}</div>
+                <select className={styles.gen} value={this.state.gen} onChange={this.c_gen}>
                     <option value="female">female</option>
                     <option value="male">male</option>
                     <option value="other">other</option>
                 </select>
                 <input value={this.state.desc} onChange={this.c_desc} className="desc" placeholder="description" />
-                <div className="invalidtxt">{this.state.descfl}</div>
+                <div className={styles.invalidtxt}>{this.state.descfl}</div>
                 {this.state.load?
-                <button className="submit patsub" onClick={this.verify}>
-                  <span className="spinner-border spin-white"></span></button>:
-                  <button className="submit patsub" onClick={this.verify}>submit</button>
+                <button className={cx(styles.submit,styles.patsub)} onClick={this.verify}>
+                  <span className={cx(bs["spinner-border"],bs["spin-white"])}></span></button>:
+                  <button className={cs(styles.submit,styles.patsub)} onClick={this.verify}>submit</button>
                 }
             </div>
         </div>)

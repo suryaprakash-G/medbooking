@@ -243,13 +243,13 @@ import Docsel from '../components/doc_select'
                     }
                 }
                 ret=<tr key={index} className={td}>
-                        <td><button disabled={dis[0]} className={cln[0]} onClick={this.bookapt} value={[index-2,0]}>{txt[0]}</button></td>
-                        <td><button disabled={dis[1]} className={cln[1]} onClick={this.bookapt} value={[index-2,1]}>{txt[1]}</button></td>
-                        <td><button disabled={dis[2]} className={cln[2]} onClick={this.bookapt} value={[index-2,2]}>{txt[2]}</button></td>
-                        <td><button disabled={dis[3]} className={cln[3]} onClick={this.bookapt} value={[index-2,3]}>{txt[3]}</button></td>
-                        <td><button disabled={dis[4]} className={cln[4]} onClick={this.bookapt} value={[index-2,4]}>{txt[4]}</button></td>
-                        <td><button disabled={dis[5]} className={cln[5]} onClick={this.bookapt} value={[index-2,5]}>{txt[5]}</button></td>
-                        <td><button disabled={dis[6]} className={cln[6]} onClick={this.bookapt} value={[index-2,6]}>{txt[6]}</button></td>
+                        <td><button disabled={dis[0]} className={styles[cln[0]]} onClick={this.bookapt} value={[index-2,0]}>{txt[0]}</button></td>
+                        <td><button disabled={dis[1]} className={styles[cln[1]]} onClick={this.bookapt} value={[index-2,1]}>{txt[1]}</button></td>
+                        <td><button disabled={dis[2]} className={styles[cln[2]]} onClick={this.bookapt} value={[index-2,2]}>{txt[2]}</button></td>
+                        <td><button disabled={dis[3]} className={styles[cln[3]]} onClick={this.bookapt} value={[index-2,3]}>{txt[3]}</button></td>
+                        <td><button disabled={dis[4]} className={styles[cln[4]]} onClick={this.bookapt} value={[index-2,4]}>{txt[4]}</button></td>
+                        <td><button disabled={dis[5]} className={styles[cln[5]]} onClick={this.bookapt} value={[index-2,5]}>{txt[5]}</button></td>
+                        <td><button disabled={dis[6]} className={styles[cln[6]]} onClick={this.bookapt} value={[index-2,6]}>{txt[6]}</button></td>
                     </tr>;
                    
             }

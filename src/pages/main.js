@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import styles from '../style/main.module.scss';
+import bs from '../style/bootstrap.min.module.css';
+import cx from 'classnames';
 import axiosRetry from 'axios-retry';
 
 class Main extends React.Component{
@@ -133,48 +135,48 @@ class Main extends React.Component{
     c_gen(e){this.setState({gen:e.currentTarget.value});this.setState({invalid:""});}
     render(){
         return(
-        <div className="main-page container-fluid">
+        <div className={cx(styles['main-page'],bs['container-fluid'])}>
             surya<br/> 
             
            {(this.state.show!=='false')?
-            <div id="myModal" className="modal modal-login">
-                <div className="modal-content">
-                    <span className="close" onClick={this.hidebox}>&times;</span>
+            <div id="myModal" className={cx(styles.modal,styles["modal-login"])}>
+                <div className={styles["modal-content"]}>
+                    <span className={styles.close} onClick={this.hidebox}>&times;</span>
                         
-                    <div className="con">
-                        <button  onClick={this.showlg} className="buttons ">
-                            <div className={(this.state.show==="login")?"selected container":""}>Login</div></button>
+                    <div className={styles.con}>
+                        <button  onClick={this.showlg} className={styles.buttons}>
+                            <div className={(this.state.show==="login")?cx(styles.selected,styles.container):""}>Login</div></button>
                         <button  onClick={this.showsgp} className="buttons">
-                            <div className={(this.state.show==="signup")?"selected container":""}>Signup</div></button>
+                            <div className={(this.state.show==="signup")?cx(styles.selected,styles.container):""}>Signup</div></button>
                     </div>
                     {(this.state.show==='login')?
-                    <form className='flex-container'>
-                            <input value={this.state.mail} onChange={this.c_mail} className="mail inputbox" placeholder="Email" />
+                    <form className={bs['flex-container']}>
+                            <input value={this.state.mail} onChange={this.c_mail} className={cx(styles.mail,styles.inputbox)} placeholder="Email" />
                                 <div/>
-                            <input value={this.state.pass} onChange={this.c_pass} type="password" className="pass inputbox" placeholder="Password" />
+                            <input value={this.state.pass} onChange={this.c_pass} type="password" className={cx(styles.pass,styles.inputbox)} placeholder="Password" />
                             <div className="invalidtxt">{this.state.invalid}</div>
-                            {this.state.lg_loading?<button className="submit" onClick={this.login} disabled>
-                                                    <span className="spinner-border"></span></button>
-                                                :<button className="submit" onClick={this.login}>Login</button>
+                            {this.state.lg_loading?<button className={styles.submit} onClick={this.login} disabled>
+                                                    <span className={bs["spinner-border"]}></span></button>
+                                                :<button className={styles.submit} onClick={this.login}>Login</button>
                             }
                             </form>:
                     <form className='flex-container'>
-                            <input value={this.state.mail} onChange={this.c_mail}  className="mail inputbox" placeholder="Email" />
+                            <input value={this.state.mail} onChange={this.c_mail}  className={cx(styles.mail,styles.inputbox)} placeholder="Email" />
                                 <div/>
-                            <input value={this.state.pass} onChange={this.c_pass}  className="pass inputbox" type="password" placeholder="Password" />
+                            <input value={this.state.pass} onChange={this.c_pass}  className={cx(styles.pass,styles.inputbox)} type="password" placeholder="Password" />
                                 <div/>
-                            <input value={this.state.pass2} onChange={this.c_pass2}  className="pass2 inputbox" type="password" placeholder="Retype Password" />
+                            <input value={this.state.pass2} onChange={this.c_pass2}  className={cx(styles.pass2,styles.inputbox)} type="password" placeholder="Retype Password" />
                                 <div/>
-                            <input value={this.state.phno} onChange={this.c_phone} className="phno inputbox" placeholder="Phone Number" />
-                            <input value={this.state.addr} onChange={this.c_addr} className="addr inputbox" placeholder="Address" />
-                            <select ClassName="Gen"  value={this.state.gen} onChange={this.c_gen}>
+                            <input value={this.state.phno} onChange={this.c_phone} className={cx(styles.phno,styles.inputbox)} placeholder="Phone Number" />
+                            <input value={this.state.addr} onChange={this.c_addr} className={cx(styles.addr,styles.inputbox)} placeholder="Address" />
+                            <select ClassName={styles.Gen}  value={this.state.gen} onChange={this.c_gen}>
                                     <option value="Female">Female</option>
                                     <option value="Male">Male</option>
                                     <option value="Other">Other</option>
                             </select>
-                            {this.state.sg_loading?<button className="submit" onClick={this.login} disabled>
-                            <span className="spinner-border"></span></button>
-                            :<button className="submit" onClick={this.signup}>Signup</button>}
+                            {this.state.sg_loading?<button className={styles.submit} onClick={this.login} disabled>
+                            <span className={bs["spinner-border"]}></span></button>
+                            :<button className={styles.submit} onClick={this.signup}>Signup</button>}
                             </form>
                 }
                 </div>

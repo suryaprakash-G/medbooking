@@ -70,27 +70,27 @@ class New_doc extends React.Component{
     render(){
         return(
         <div>
-            <div className="header row">
+            <div className={cx(styles.header,styles.row)}>
               Patient form
             </div>
-            <div className="form">
-                <input value={this.state.fname} onChange={this.c_fname} className="fname" placeholder="first name" />
-                <div className="invalidtxt">{this.state.fnamefl}</div>
-                <input value={this.state.lname} onChange={this.c_lname} className="lname" placeholder="last name" />
-                <div className="invalidtxt">{this.state.lnamefl}</div>
-                <select className="gen" value={this.state.gen} onChange={this.c_gen}>
+            <div className={styles.form}>
+                <input value={this.state.fname} onChange={this.c_fname} className={styles.fname} placeholder="first name" />
+                <div className={styles.invalidtxt}>{this.state.fnamefl}</div>
+                <input value={this.state.lname} onChange={this.c_lname} className={styles.lname} placeholder="last name" />
+                <div className={styles.invalidtxt}>{this.state.lnamefl}</div>
+                <select className={styles.gen} value={this.state.gen} onChange={this.c_gen}>
                     <option value="female">female</option>
                     <option value="male">male</option>
                     <option value="other">other</option>
                 </select>
-                <input value={this.state.lname} onChange={this.c_lname} className="dep" placeholder="department" />
-                <div className="invalidtxt">{this.state.depfl}</div>
-                <input value={this.state.desc} onChange={this.c_desc} className="desc" placeholder="description" />
-                <div className="invalidtxt">{this.state.descfl}</div>
+                <input value={this.state.lname} onChange={this.c_lname} className={styles.dep} placeholder="department" />
+                <div className={styles.invalidtxt}>{this.state.depfl}</div>
+                <input value={this.state.desc} onChange={this.c_desc} className={styles.desc} placeholder="description" />
+                <div className={styles.invalidtxt}>{this.state.descfl}</div>
                 {this.state.load?
-                <button className="submit patsub" onClick={this.verify}>
-                  <span className="spinner-border spin-white"></span></button>:
-                  <button className="submit patsub" onClick={this.verify}>add</button>
+                <button className={cx(styles.submit,styles.patsub)} onClick={this.verify}>
+                  <span className={cx(bs['spinner-border'],bs['spin-white'])}></span></button>:
+                  <button className={cx(styles.submit,styles.patsub)} onClick={this.verify}>add</button>
                 }
             </div>
         </div>)
