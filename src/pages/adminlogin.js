@@ -76,13 +76,13 @@ class AdminLogin extends React.Component{
         <div className="header">Admin login</div>
         <form className={bs.flex}>
         <div className={bs.flex}>
-            <input value={this.state.uname} onChange={this.c_uname} className={styles.inputbox,styles.admininp} placeholder="User Name" />
-            <input value={this.state.pass} onChange={this.c_pass} type="password" className={styles.inputbox,styles.admininp} placeholder="Password" />
+            <input value={this.state.uname} onChange={this.c_uname} className={cx(styles.inputbox,styles.admininp)} placeholder="User Name" />
+            <input value={this.state.pass} onChange={this.c_pass} type="password" className={cx(styles.inputbox,styles.admininp)} placeholder="Password" />
             <div className="invalidtxt">{this.state.invalid}</div>
         
-            {this.state.lg_loading?<button className={styles.submit,styles.admsub} onClick={this.login} disabled>
+            {this.state.lg_loading?<button className={cx(styles.submit,styles.admsub)} onClick={this.login} disabled>
                                     <span className={bs['spinner-border']}></span></button>
-                                :<button className={styles.submit,styles.admsub} onClick={this.login}>Login</button>
+                                :<button className={cx(styles.submit,styles.admsub)} onClick={this.login}>Login</button>
             }
         </div>
         </form>

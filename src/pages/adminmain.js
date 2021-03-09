@@ -306,7 +306,7 @@ class AdminMain extends React.Component{
             <img className={cx(styles.img,styles.dp)} src={"https://d23yysxhlq0p5m.cloudfront.net/dp/"+this.state.docselect+".jpg"}/>
             {
                 uname==="admin"?this.state.dclist_load?
-                    <span className={cx(bs["spinner-border"],bs["spin-white"])}></span>
+                    <span className={cx(bs['spinner-border'],bs['spin-white'])}></span>
                     :<Docsel className={bs['container-fluid']} parentCallback = {this.selectcallback} doc={doclist}/>
                 :<div className={styles.uname}>{uname}</div>
             }
@@ -314,7 +314,7 @@ class AdminMain extends React.Component{
             <div className={bs.flexbox}>
             <button onClick={
                 this.props.history.push('/admin/doc')}>doctor management</button>
-            <button className={cx(styles[logout-btna],bs.flexbox)} onClick={this.logout}>Logout</button>
+            <button className={cx(styles['logout-btn'],bs.flexbox)} onClick={this.logout}>Logout</button>
                     <div className={styles.datepiktxt}>{data[0][0]}</div>
                     <button className={styles.datepikbtn} onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
@@ -326,7 +326,7 @@ class AdminMain extends React.Component{
                 <div className= {this.state.calen_load?"blur":null} >
                     <button className="t2" onClick={() => { if (window.confirm("toggle holiday"))this.openappt("hol") }}>
                         {day[date.getDay()]+this.state.holiday} </button>
-                        <table className={cx(styles.table,styles5.chart)}>
+                        <table className={cx(styles.table,styles.chart)}>
                                 {this.renderTable()}
                         </table>
                 </div>

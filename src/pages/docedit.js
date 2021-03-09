@@ -107,7 +107,7 @@ class Doc_edit extends React.Component{
     render(){
         return(
         <div>
-            <div className={cx(styles.header,styles.row)}>
+            <div className={cx(bs.header,bs.row)}>
               doctor management
             </div>
             <div ref={nodebook => {this.nodebook = nodebook;}}>

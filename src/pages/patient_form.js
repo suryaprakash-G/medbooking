@@ -129,7 +129,7 @@ class Patient_Form extends React.Component{
     render(){
         return(
         <div>
-            <div className={cx(styles.header,bs.row)}>
+            <div className={cx(bs.header,bs.row)}>
               Patient form
             </div>
             <div className="bookfor">{"booking for "+this.state.bookdate.getDate()+'-'+(this.state.bookdate.getMonth()+1)+'-'+this.state.bookdate.getFullYear()
@@ -164,7 +164,7 @@ class Patient_Form extends React.Component{
                 {this.state.load?
                 <button className={cx(styles.submit,styles.patsub)} onClick={this.verify}>
                   <span className={cx(bs["spinner-border"],bs["spin-white"])}></span></button>:
-                  <button className={cs(styles.submit,styles.patsub)} onClick={this.verify}>submit</button>
+                  <button className={cx(styles.submit,styles.patsub)} onClick={this.verify}>submit</button>
                 }
             </div>
         </div>)
