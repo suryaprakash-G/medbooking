@@ -1,3 +1,4 @@
+@import './vars.scss';
 .dp{
     background-color: skyblue;
     height: 110px;
@@ -26,4 +27,13 @@
     border:$primary;
     outline: none;
     text-align: center;
+}
+.bck{color: white;
+    background-color: #ff62ab;
+    border-color: white;
+    border-width: 3px;
+    border-radius: 0px 20px 0%;
+    margin: 20px;
+    min-width: 94px;
+    min-height: 10px;
 }
