@@ -150,7 +150,7 @@ class Main extends React.Component{
                             <div className={(this.state.show==="signup")?cx(styles.selected,styles.container):""}>Signup</div></button>
                     </div>
                     {(this.state.show==='login')?
-                    <form className={bs['flex-container']}>
+                    <form className={styles['formm']}>
                             <input value={this.state.mail} onChange={this.c_mail} className={cx(styles.mail,styles.inputbox)} placeholder="Email" />
                                 <div/>
                             <input value={this.state.pass} onChange={this.c_pass} type="password" className={cx(styles.pass,styles.inputbox)} placeholder="Password" />
@@ -160,7 +160,7 @@ class Main extends React.Component{
                                                 :<button className={styles.submit} onClick={this.login}>Login</button>
                             }
                             </form>:
-                    <form className='flex-container'>
+                    <form className={styles['formm']}>
                             <input value={this.state.mail} onChange={this.c_mail}  className={cx(styles.mail,styles.inputbox)} placeholder="Email" />
                                 <div/>
                             <input value={this.state.pass} onChange={this.c_pass}  className={cx(styles.pass,styles.inputbox)} type="password" placeholder="Password" />
