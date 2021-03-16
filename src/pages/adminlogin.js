@@ -74,7 +74,7 @@ class AdminLogin extends React.Component{
         return(
         <div>
         <div className="header">Admin login</div>
-        <form className={bs.flex}>
+        <form className={styles.form}>
         <div className={bs.flex}>
             <input value={this.state.uname} onChange={this.c_uname} className={cx(styles.inputbox,styles.admininp)} placeholder="User Name" />
             <input value={this.state.pass} onChange={this.c_pass} type="password" className={cx(styles.inputbox,styles.admininp)} placeholder="Password" />

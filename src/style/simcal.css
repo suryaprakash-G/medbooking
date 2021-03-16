@@ -1,0 +1,22 @@
+.calendar {
+    padding: 30px;
+    border-radius: 5px;
+    border: 1px solid #e4e7ea;
+    color: #303030;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 250px;
+    max-width: 250px;
+    font-family: 'PT Sans', sans-serif;
+}
+.calendar-header_button {
+    cursor: pointer;
+    background: transparent;
+    border-radius: 50%;
+    border: 1px solid #e4e7ea;
+    transition: border 0.1s ease-in, color 0.1s ease-in;
+    position: relative;
+    height: 35px;
+    width: 35px;
+}

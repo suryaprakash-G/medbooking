@@ -6,6 +6,13 @@
     margin: 5px;
     border-radius: 50%;
 }
+.header{
+    text-align: center;
+    font-size: 40px;
+    color: whitesmoke;
+    background-color:$primary;
+    margin: 0.1% !important;
+}
 .inputbox{
     margin: 20px;
     margin-top: 20px;
@@ -27,6 +34,12 @@
     border:$primary;
     outline: none;
     text-align: center;
+}
+.datepikbtn{
+    border-radius: 25px;
+    height: 35px;
+    color: whitesmoke;
+    background-color:$primary;
 }
 .bck{color: white;
     background-color: #ff62ab;

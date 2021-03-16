@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import styles from '../style/appointment.module.scss';
-import calen from '../style/react_calendar.module.scss';
+import SimpleReactCalendar from 'simple-react-calendar'
 import bs from '../style/bootstrap.min.module.css';
 import cx from 'classnames';
 import Back from '../components/back_btn'
@@ -350,21 +351,22 @@ import Docsel from '../components/doc_select'
                     <div className={styles.description}>{doc[1]}</div>
                 }
                 <div className={bs['container-fluid']}></div>
-                <button className={styles.logoutbtn} onClick={this.logout}>Logout</button>
+                <button className={styles['logout-btn']} onClick={this.logout}>Logout</button>
                 <div className={styles.mailid}>{mail}</div>
                 
                 
             </div>
             <div className={cx(styles.main,bs['col-lg-9'])}>
                 <div className={styles.header}>
-                Appointment
+                Choose Appointment
                 </div>
                 <div className={bs.flexbox}>
                     <div className={styles.datepiktxt}>{data[0][3]}</div>
-                    <button className={styles.datepikbtn} onClick={this.handleClickbook}>change date</button>
+                    <button className='datepikbtn' onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
-                        <Calendar className={styles.modal_calendar} minDate={today} maxDate={maxdate} onChange={this.onChange} value={date} />
+                        <Calendar className={styles['modal_calendar']} minDate={today} maxDate={maxdate} onChange={this.onChange} value={date} />
+                        //<SimpleReactCalendar onChange={this.onChange} activeMonth={date} />
                     )}
                 </div>
                 </div>

@@ -91,24 +91,14 @@ td{
 .row{
     padding: 0% !important;
 }
-.col
 .datepiktxt{
     color:$primary;
     padding: 10px;
 
 }
-.datepikbtn{
-    border-radius: 25px;
-    height: 35px;
-    color: whitesmoke;
-    background-color:$primary;
-}
 .modal_calendar{
-    margin-top: 10%;
     left:20%;
     position: absolute;
-    width: 50%;
-    height: 30%;
     padding: 0;
   }
 .logout-btn{
@@ -195,4 +185,9 @@ border: 0px;
         margin-left: 110px;
         bottom: 0;
     }
+    .modal_calendar{
+        left:0%;
+        position: absolute;
+        padding: 0;
+      }
 }

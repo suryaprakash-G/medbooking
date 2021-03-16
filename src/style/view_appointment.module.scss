@@ -1,8 +1,17 @@
+@import './vars.scss';
+@import './global.scss';
 .viewappt{
     height: 100%;
     width: 100%;
     padding: 0;
     margin: 0;
+}
+.header{
+    text-align: center;
+    font-size: 40px;
+    color: whitesmoke;
+    background-color:$primary;
+    margin: 0.1% !important;
 }
 .textbox{
     height: 100%;

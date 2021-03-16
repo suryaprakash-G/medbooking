@@ -4,8 +4,8 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import styles from '../style/patform.module.scss';
 import bs from '../style/bootstrap.min.module.css';
+import SimpleReactCalendar from 'simple-react-calendar'
 import cx from 'classnames';
-import calen from '../style/react_calendar.module.scss';
 var dob=new Date();//date of birth
 const date=new Date();//current date
 var timings=["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"];//server 24 hr format
@@ -129,10 +129,10 @@ class Patient_Form extends React.Component{
     render(){
         return(
         <div>
-            <div className={cx(bs.header,bs.row)}>
+            <div className={cx(styles.header,bs.row)}>
               Patient form
             </div>
-            <div className="bookfor">{"booking for "+this.state.bookdate.getDate()+'-'+(this.state.bookdate.getMonth()+1)+'-'+this.state.bookdate.getFullYear()
+            <div className={styles.bookfor}>{"booking for "+this.state.bookdate.getDate()+'-'+(this.state.bookdate.getMonth()+1)+'-'+this.state.bookdate.getFullYear()
               +"   ("+time[parseInt(this.state.booktime)]+") for doctor "+this.props.location.state.docname}</div>
             <div className={styles.form}>
                 <input value={this.state.fname} onChange={this.c_fname} className={styles.fname} placeholder="first name" />
@@ -149,6 +149,7 @@ class Patient_Form extends React.Component{
                             value={dob}
                             maxDate={date}
                             onChange={this.c_dob}/>
+
                       )}</div>
                       
                       <div className={styles.hint}>(hint : click calendar title twice to change year)</div>
@@ -159,7 +160,7 @@ class Patient_Form extends React.Component{
                     <option value="male">male</option>
                     <option value="other">other</option>
                 </select>
-                <input value={this.state.desc} onChange={this.c_desc} className="desc" placeholder="description" />
+                <input value={this.state.desc} onChange={this.c_desc} className={styles.desc} placeholder="description" />
                 <div className={styles.invalidtxt}>{this.state.descfl}</div>
                 {this.state.load?
                 <button className={cx(styles.submit,styles.patsub)} onClick={this.verify}>

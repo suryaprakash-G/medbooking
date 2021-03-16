@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import styles from '../style/view_appointment.module.scss';
+import cx from 'classnames';
+import bs from '../style/bootstrap.min.module.css';
 class View_Appointment extends React.Component{
     constructor(props) {
         super(props);
@@ -70,10 +72,10 @@ class View_Appointment extends React.Component{
     }
     render(){
         return(
-        <div className="viewappt">
-        <div className="header">Appointment</div>
+        <div className={styles.viewappt}>
+        <div className={styles.header}>Appointment</div>
         {this.state.load?
-            <div className="spin-cont"><span className="spinner-border spin-pink"></span></div>:
+            <div className={bs['spin-cont']}><span className={cx(bs['spinner-border'],bs['spin-pink'])}></span></div>:
             <div className="textbox">
                 <div className={styles.x}>date: </div><div className={styles.y}>{this.state.date+"-"+this.state.year}</div>
                 <div className={styles.x}>time: </div><div className={styles.y}>{this.state.timed}</div>
