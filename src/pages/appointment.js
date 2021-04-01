@@ -362,10 +362,12 @@ import Docsel from '../components/doc_select'
                 </div>
                 <div className={bs.flexbox}>
                     <div className={styles.datepiktxt}>{data[0][3]}</div>
+                    <input type="date" onChange={this.onChange} value={date} className={styles.datepiktxt}/>
                     <button className='datepikbtn' onClick={this.handleClickbook}>change date</button>
                     <div ref={nodebook => {this.nodebook = nodebook;}}>
                     {this.state.showModal && (
                         <Calendar className={styles['modal_calendar']} minDate={today} maxDate={maxdate} onChange={this.onChange} value={date} />
+                        
                         //<SimpleReactCalendar onChange={this.onChange} activeMonth={date} />
                     )}
                 </div>
