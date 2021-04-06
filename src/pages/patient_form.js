@@ -141,6 +141,7 @@ class Patient_Form extends React.Component{
                 <div className={styles.invalidtxt}>{this.state.lnamefl}</div>
                   <div className={styles.row}>
                     <div className={styles.datepiktxt}>{this.state.dob}</div>
+                    <input type="date" onChange={this.onChange} value={date} className={styles.datepiktxt}/>
                     <button className={styles.datepikbtn} onClick={this.handleClick}>change D.O.B</button>
                     <div ref={node => {this.node = node;}}>
                       {this.state.showModal && (
